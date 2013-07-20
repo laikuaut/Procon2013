@@ -13,7 +13,7 @@ namespace test
 		
 		TEST_METHOD(TestMethod1)
 		{
-			// TODO: テスト コードをここに挿入します
+			
 		}
 
 	};

@@ -35,12 +35,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DirException.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="FileException.h" />
     <ClInclude Include="OutOfRangeException.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DirException.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="FileException.cpp" />
     <ClCompile Include="OutOfRangeException.cpp" />

@@ -14,22 +14,22 @@ FileException::FileException(const string& aMessage,
 	name = "FileExpection";
 }
 
-FileException::FileException(const error_num aNum){
-	setErrorNum(aNum);
+FileException::FileException(const error_code aNum){
+	setErrorCode(aNum);
 	name = "FileExpection";
 }
 
-FileException::FileException(const error_num aNum,string& aOpenFName){
-	setErrorNum(aNum,aOpenFName);
+FileException::FileException(const error_code aNum,const string& aOpenFName){
+	setErrorCode(aNum,aOpenFName);
 	name = "FileExpection";
 }
 
-FileException::FileException(const error_num aNum,
+FileException::FileException(const error_code aNum,
 				const string& aOpenFName,
 				const string& aFile,
 				const string& aFunc)
 				:Exception("",aFile,aFunc){
-	setErrorNum(aNum,aOpenFName);
+	setErrorCode(aNum,aOpenFName);
 	name = "FileExpection";
 }
 
@@ -37,8 +37,9 @@ FileException::~FileException(void)
 {
 }
 
-void FileException::setErrorNum(const error_num aNum,const string aOpenFName){
-	switch(aNum){
+void FileException::setErrorCode(const error_code aCode,const string aOpenFName){
+	code = aCode;
+	switch(aCode){
 	case OPEN:
 		message = aOpenFName + "が開けませんでした。";
 		break;
@@ -57,9 +58,12 @@ void FileException::setErrorNum(const error_num aNum,const string aOpenFName){
 	}
 }
 
-void FileException::setErrorNum(const error_num aNum){
-	setErrorNum(aNum,"ファイル");
+void FileException::setErrorCode(const error_code aCode){
+	setErrorCode(aCode,"ファイル");
 }
 
+FileException::error_code FileException::getErrorCode() const{
+	return code;
+}
 
 }
