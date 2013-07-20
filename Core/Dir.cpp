@@ -1,23 +1,28 @@
 #include "Dir.h"
 
-#include<direct.h>
 #include<iostream>
+#include<cstring>
+#include<fstream>
 
 #include<boost/filesystem.hpp>
+#include <boost/range/algorithm/for_each.hpp>
+#include <cstdio>
+#include <boost/format.hpp>
+
+using namespace std;
+namespace fs = boost::filesystem;
 
 namespace pro{
 
 Dir::Dir(void)
-{/*
-	rel_path = ".";
-	char* path =new char[512];
-	path = _getcwd(NULL,512);
-	drive_name = path[0];
-	abs_path = charToString(path);*/
+{
+	path = fs::system_complete(".");
+	this->regex = "[:*?\"<>|]";
 }
 
 Dir::Dir(string path){
-
+	this->path = fs::system_complete(path);
+	this->regex = "[:*?\"<>|]";
 }
 
 Dir::~Dir(void)
@@ -25,30 +30,102 @@ Dir::~Dir(void)
 
 }
 
-bool Dir::isAbsPath(string path){
-	string drive = drive_name + ":\\";
-	string::size_type index = path.find(drive);
-	return index == string::npos;
+bool Dir::isPath() const{
+	string str = path.string();
+	if(path.is_absolute()){
+		str = path.relative_path().string();
+	}
+	return !(boost::regex_search(str.begin(), str.end(), this->regex));
 }
 
-bool Dir::isRelPath(string path){
-	return !isAbsPath(path);
+const std::string Dir::pwd() const{
+	return path.string();
 }
 
-std::string Dir::pwd(){
-	return charToString(_getcwd(NULL,512));
+bool Dir::create(){
+	return fs::create_directories(path);
 }
 
-void Dir::create(string path){
-
+bool Dir::create(string path){
+	Dir dir(this->pwd());
+	dir.cd(path);
+	return dir.create();
 }
 
-void Dir::remove(string path){
+bool Dir::remove(){
+	return fs::remove(path);
+}
 
+bool Dir::remove(string path){
+	Dir dir(this->pwd());
+	dir.cd(path);
+	return dir.remove();
+}
+
+bool Dir::remove_all(){
+	return fs::remove_all(path);
+}
+
+bool Dir::remove_all(string path){
+	Dir dir(this->pwd());
+	dir.cd(path);
+	return dir.remove_all();
 }
 
 void Dir::cd(string path){
+	fs::path pth(path);
+	pth.is_complete();
+	if(pth.is_absolute()){
+		this->path = fs::system_complete(pth);
+	}else if(pth.is_relative()){
+		this->path = fs::system_complete(this->path/pth);
+	}else{
+		throw Exception("path error");
+	}
+}
 
+const char* Dir::test(){
+	//boost::filesystem::path dir = boost::filesystem::system_complete("./"); 
+	//boost::filesystem::path file("..\\..\\test\\test\\test");
+	//boost::filesystem::path path = dir / file;
+
+	//try{
+	//	fs::create_directories(fs::path(":dir"),);
+	//}catch(...){
+	//	cout << "eee" << endl;
+	//}
+
+	fstream file;
+	file.open("test.txt",ios::in);
+
+	string ss;
+
+	getline(file,ss);
+
+	file.close();
+
+	if(boost::regex_search(ss.begin(), ss.end(), boost::regex("\n")))
+		cout << "null" << endl;
+
+	fs::path pp(ss);
+
+	Dir dir(ss);
+	dir.cd("test2");
+	dir.create("..");
+	//dir.remove();
+	dir.remove("..");
+
+	//cout << dir.pwd() << endl;
+
+	//cout << boost::filesystem::system_complete(file).relative_path().string() << endl;
+
+	//cout << dir.string() << endl;
+	//cout << boost::filesystem::system_complete(file).string() << endl;
+	//cout << path.string() << endl;
+
+	//cout << dir.parent_path().string() << endl;
+
+	return "";
 }
 
 }

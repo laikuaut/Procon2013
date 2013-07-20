@@ -6,8 +6,16 @@
 #	define PRO_EXPORTS 
 #endif
 
-#ifndef PRO_C_EXTERN
+//#ifndef PRO_C_EXTERN
+//#	define PRO_C_EXTERN extern "C"
+//#endif
+
+#ifdef NSTATIC
+#	define PRO_C_EXTERN extern "C" __declspec(dllexport)
+#else
 #	define PRO_C_EXTERN extern "C"
+//#else
+//#	define PRO_C_EXTERN 
 #endif
 
 #ifdef NSTATIC
@@ -17,6 +25,7 @@
 #include<string>
 #include<time.h>
 #include<vector>
+#include<regex>
 
 using std::vector;
 using std::string;
@@ -34,4 +43,6 @@ template class PRO_EXPORTS std::basic_string<char, std::char_traits<char>, std::
 template class PRO_EXPORTS std::vector<clock_t>;
 template class PRO_EXPORTS std::vector<std::string>; 
 template class PRO_EXPORTS std::vector<int>; 
+
+
 

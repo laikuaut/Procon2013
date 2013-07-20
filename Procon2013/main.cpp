@@ -7,12 +7,20 @@ using namespace std;
 
 int main(int argc,char* argv[]){
 
-	Camera camera;
-	try{
-		camera.autoCapture(2,60);
-	}catch(const OutOfRangeException<long>& e){
-		e.showError();
-	}
+	//Camera camera;
+	//try{
+	//	camera.autoCapture(2,60);
+	//}catch(const OutOfRangeException<long>& e){
+	//	e.showError();
+	//}
+
+	cout << Dir::test() << endl;
+
+	//Dir dir;
+
+
+	//boost::filesystem::path ppp = dir.getPath();
+	//cout << ppp.string() << endl;
 
 	//
 	//cout << _chdir("test") << endl;

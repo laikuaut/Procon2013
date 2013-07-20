@@ -3,47 +3,40 @@
 #include"Core.h"
 
 #include<string>
+#include<boost/filesystem.hpp>
+#include<boost/regex.hpp>
 
 namespace pro{
 
 class PRO_EXPORTS Dir
 {
 private:
-	
-	std::string abs_path;
-	std::string rel_path;
-	std::vector<std::string> array_path;
 
-	std::string drive_name;
+	boost::filesystem::path path;
 
-	void createArrayPath();
-	
-	// •s•K—v
-	bool isAbsPath(std::string path);
-	bool isRelPath(std::string path);
+#pragma warning(push)
+#pragma warning(disable:4251) // ‰ğŒˆ‚Å‚«‚È‚¢Œx‚ğ—}§
+	boost::regex regex;
+#pragma warning(pop)
 
-	/* func
-	_mkdir
-	_chdir
-	_fullpath
-	_getdrive
-	_getcwd
-	_getdcwd
-	_chdrive
-	_rmdir
-	*/
+	bool isPath() const;
 
 public:
 	Dir(void);
 	Dir(std::string path);
 	~Dir(void);
-
-	std::string pwd();
-	void ls();
+	
+	const std::string pwd() const;
 	void cd(std::string path);
 
-	void create(std::string path);
-	void remove(std::string path);
+	bool create();
+	bool create(std::string path);
+	bool remove();
+	bool remove(std::string path);
+	bool remove_all();
+	bool remove_all(std::string path);
+
+	static const char* test();
 
 };
 
