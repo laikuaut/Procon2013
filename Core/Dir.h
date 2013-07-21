@@ -58,16 +58,14 @@ public:
 
 	bool create(int option = NONE);
 	bool create(const boost::filesystem::path& path,int option = NONE);
-	bool remove();
-	bool remove(const boost::filesystem::path& path);
-	boost::uintmax_t remove_all();
-	boost::uintmax_t remove_all(const boost::filesystem::path& path);
+	bool remove() const;
+	bool remove(const boost::filesystem::path& path) const;
+	boost::uintmax_t remove_all() const;
+	boost::uintmax_t remove_all(const boost::filesystem::path& path) const;
 
 	static const char* test();
 
 	void setErrorShow(bool errorShow);
-	
-	
 
 };
 

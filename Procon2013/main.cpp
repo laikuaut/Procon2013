@@ -8,31 +8,32 @@ using namespace std;
 
 int main(int argc,char* argv[]){
 
-	//Camera camera;
-	//try{
-	//	camera.autoCapture(2,60);
-	//}catch(const OutOfRangeException<long>& e){
-	//	e.showError();
-	//}
+	Camera camera;
+	try{
+		camera.autoCapture(2,60);
+	}catch(const OutOfRangeException<long>& e){
+		e.showError();
+	}
 
 	//cout << Dir::test() << endl;
 
-	string ss="test";
-	boost::filesystem::path path(ss);
+	//string ss="test";
+	//boost::filesystem::path path(ss);
 
-	cout << Dir::isPath(ss) << endl;
-	cout << Dir::isPath(path) << endl;
+	//cout << Dir::isPath(ss) << endl;
+	//cout << Dir::isPath(path) << endl;
 
-	Dir dir1(path);
-	Dir dir2("test2");
-	boost::filesystem::path pp("test");
-	cout << boost::filesystem::system_complete(pp) << endl;
+	//Dir dir1("test1");
+	//{
+	//Dir dir2("test2");
 
-	cout << dir1.pwd() << endl;
-	cout << dir2.pwd() << endl;
+	//cout << dir1.pwd() << endl;
+	//cout << dir2.pwd() << endl;
 
 	//dir1 = dir2;
-
+	//cout << dir1.pwd() << endl;
+	//cout << dir2.pwd() << endl;
+	//}
 	//cout << dir1.pwd() << endl;
 	//cout << dir2.pwd() << endl;
 

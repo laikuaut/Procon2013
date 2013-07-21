@@ -11,6 +11,7 @@
 
 namespace pro{
 
+// warning C4251: 'pro::Camera::cap' : class 'cv::VideoCapture' は __export キーワードを使って class 'pro::Camera' にエクスポートしてください。
 class PRO_EXPORTS cv::VideoCapture;
 
 class PRO_EXPORTS Camera
@@ -52,28 +53,34 @@ private:
 
 	f_kind fk;		// フレームサイズの種類
 	int height;		// フレーム高さ
-	int width;		// フレーム幅
+	int width;		// フレーム幅	
+
 	int fps;		// 表示間隔時間
 
 	long interval;	// 自動キャプチャインターバル
 	long cap_time;	// 自動キャプチャ総時間
 
-	Dir a_dir;		// 自動キャプチャ先ディレクトリ
-	Dir m_dir;		// 手動キャプチャ先ディレクトリ
 	string a_name;	// 手動キャプチャ出力ファイル名
 	string m_name;	// 自動キャプチャ出力ファイル名
-	string w_name;	// Window名
+
+	int counter;
 
 	cv::VideoCapture cap;	// キャプチャ
 	vector<int> params;  // JPEG圧縮パラメータ
 
+public:
+
+	string w_name;	// Window名
+
+	Dir a_dir;		// 自動キャプチャ先ディレクトリ
+	Dir m_dir;		// 手動キャプチャ先ディレクトリ
+
 private:
 
-	void printCaptureInfo();  // キャプチャ情報を表示
-	void setCap();
+	void printCaptureInfo() const;  // キャプチャ情報を表示
+	void initCap(f_kind aFk,int aWidth,int aHeight,int fps,int jpgCR);
 
 public:
-	// フルHD、fps=30ms
 	Camera(int jpgCR=95);
 	Camera(int width,int height,int fps=30,int jpgCR=95);
 	Camera(f_kind fk,int fps=30,int jpgCR=95);
@@ -81,38 +88,36 @@ public:
 	~Camera(void);
 
 	void setFk(f_kind fk);
-	f_kind getFk();
+	f_kind getFk() const;
 
 	void setFrameSize(int width,int height);
-	void getFrameSize(int *width,int *height);
-	int getFrameWidth();
-	int getFrameHeight();
+	void getFrameSize(int *width,int *height) const;
+	int getFrameWidth() const;
+	int getFrameHeight() const;
 
 	void setFps(int fps);
-	int getFps();
+	int getFps() const;
 
+	void setJPEGCR(int jpgCR=95);
+	int getJPEGCR() const;
+
+	void setTimes(long aInterval,long aTime);
+	long getInterval() const;
+	long getTime() const;
+	
+	void setAutoCaptureFileName(const string& aFName);
+	const string getAutoCaptureFileName() const;
+
+	void setManualCaptureFileName(const string& aFName);
+	const string getManualCaptureFileName() const;
+
+	void setCounter(int aCounter);
+	int getCounter() const;
+	
 	void manualCapture();
 
 	void autoCapture();
 	void autoCapture(long interval,long time);
-
-	void setJPEGParams(int jpgCR=95);
-
-	void setWindowName(string name);
-	string getWindowName();
-
-	void setTimes(long aInterval,long aTime);
-	long getInterval();
-	long getTime();
-
-	void setAutoCapture(Dir aDir,string aFName);
-	void setAutoCapture(Dir aDir,string aFName,long aInterval,long aTime);
-	string getAutoCapName();
-	Dir getAutoCapDir();
-
-	void setManualCapture(Dir aDir,string aFName);
-	string getManualCapName();
-	Dir getManualDir();
 
 };
 

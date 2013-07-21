@@ -7,27 +7,82 @@ using namespace std;
 namespace pro{
 
 Camera::Camera(int jpgCR){
-	setFk(FULL_HD);
-	setFps(30);
-	setCap();
-	setJPEGParams(jpgCR);
+	initCap(FULL_HD,0,0,30,jpgCR);
 }
 
 Camera::Camera(int width,int height,int fps,int jpgCR){
-	setFrameSize(width,height);
-	setFps(fps);
-	setCap();
-	setJPEGParams(jpgCR);
+	initCap(FULL_HD,width,height,fps,jpgCR);
 }
 
 Camera::Camera(Camera::f_kind fk,int fps,int jpgCR){
-	setFk(fk);
-	setFps(fps);
-	setCap();
-	setJPEGParams(jpgCR);
+	initCap(fk,0,0,fps,jpgCR);
 }
 
 Camera::~Camera(void){
+
+}
+
+void Camera::printCaptureInfo() const{
+	string fk_str;
+	switch(fk){
+	case QVGA:
+		fk_str = "QVGA";
+		break;
+	case VGA:
+		fk_str = "VGA";
+		break;
+	case XGA:
+		fk_str = "XGA";
+		break;
+	case HD:
+		fk_str = "HD";
+		break;
+	case UXGA:
+		fk_str = "UVGA";
+		break;
+	case FULL_HD:
+		fk_str = "FULL_HD";
+		break;
+	case FREE:
+		fk_str = "FREE";
+	default:
+		break;
+	}
+	cout << "Frame_Kind : " << fk_str << "(" << width << "x" << height << ")" << endl;
+	cout << "FPS : " << fps << endl;
+	cout << "JPEG圧縮パラメータ : " << params[1] << endl;
+}
+
+void Camera::initCap(f_kind aFk,
+					 int aWidth,
+					 int aHeight,
+					 int fps,
+					 int jpgCR){
+
+	cap = cv::VideoCapture(0);
+
+	if(aFk == FREE)
+		setFrameSize(aWidth,aHeight);
+	else
+		setFk(aFk);
+
+	setJPEGCR(jpgCR);
+
+	setFps(fps);
+	setTimes(10,60);
+	
+	setAutoCaptureFileName("aCap");
+	setManualCaptureFileName("mCap");
+
+	w_name = "Capture";
+	a_dir = Dir("Auto_Cap");
+	m_dir = Dir("Manual_Cap");
+
+	setCounter(5);
+
+	// 様々な設定...
+	cap.set(CV_CAP_PROP_FRAME_WIDTH, width);
+	cap.set(CV_CAP_PROP_FRAME_HEIGHT, height);
 
 }
 
@@ -62,7 +117,8 @@ void Camera::setFk(Camera::f_kind fk){
 		break;
 	}
 }
-Camera::f_kind Camera::getFk(){
+
+Camera::f_kind Camera::getFk() const{
 	return this->fk;
 }
 
@@ -84,47 +140,86 @@ void Camera::setFrameSize(int width,int height){
 	else
 		this->fk = FREE;
 }
-void Camera::getFrameSize(int *width,int *height){
+void Camera::getFrameSize(int *width,int *height) const{
 	*width = this->width;
 	*height = this->height;
 }
 
+int Camera::getFrameWidth() const{
+	return this->width;
+}
+
+int Camera::getFrameHeight() const{
+	return this->height;
+}
+
 void Camera::setFps(int fps){
+	if(fps<1)
+		throw OutOfRangeException<int>(fps,"fps","Camera.cpp","Camera::setFps(int)");
 	this->fps = fps;
 }
-int Camera::getFps(){
+
+int Camera::getFps() const{
 	return this->fps;
 }
 
-void Camera::printCaptureInfo(){
-	string fk_str;
-	switch(fk){
-	case QVGA:
-		fk_str = "QVGA";
-		break;
-	case VGA:
-		fk_str = "VGA";
-		break;
-	case XGA:
-		fk_str = "XGA";
-		break;
-	case HD:
-		fk_str = "HD";
-		break;
-	case UXGA:
-		fk_str = "UVGA";
-		break;
-	case FULL_HD:
-		fk_str = "FULL_HD";
-		break;
-	case FREE:
-		fk_str = "FREE";
-	default:
-		break;
-	}
-	cout << "Frame_Kind : " << fk_str << "(" << width << "x" << height << ")" << endl;
-	cout << "FPS : " << fps << endl;
-	cout << "JPEG圧縮パラメータ : " << params[1] << endl;
+void Camera::setJPEGCR(int jpgCR){
+	params = vector<int>(2);
+	
+	// JPEG圧縮パラメータ
+	params[0] = CV_IMWRITE_JPEG_QUALITY;
+	params[1] = jpgCR;
+}
+
+int Camera::getJPEGCR() const{
+	return params[1];
+}
+
+void Camera::setTimes(long aInterval,long aTime){
+	if(aInterval <= 0)
+		throw OutOfRangeException<long>(aInterval,"aInterval","Camera.cpp","Camera::setTimes(long,long)");
+	else if(aTime < 0)
+		throw OutOfRangeException<long>(aTime,"aTime","Camera.cpp","Camera::setTimes(long,long)");
+	this->interval = aInterval;
+	this->cap_time = aTime;
+}
+
+long Camera::getInterval() const{
+	return this->interval;
+}
+
+long Camera::getTime() const{
+	return this->cap_time;
+}
+
+void Camera::setAutoCaptureFileName(const string& aFName){
+	if(Dir::isPath(aFName))
+		throw DirException(DirException::PATH_ERROR,aFName,"Camera.cpp","Camera::setAutoCaptureFileName(string)");
+	this->a_name = aFName;
+}
+
+const string Camera::getAutoCaptureFileName() const{
+	return this->a_name;
+}
+
+void Camera::setManualCaptureFileName(const string& aFName){
+	if(Dir::isPath(aFName))
+		throw DirException(DirException::PATH_ERROR,aFName,"Camera.cpp","Camera::setManualCaptureFileName(string)");
+	this->m_name = aFName;
+}
+
+const string Camera::getManualCaptureFileName() const{
+	return this->m_name;
+}
+
+void Camera::setCounter(int aCounter){
+	if(counter < 1)
+		throw OutOfRangeException<int>(aCounter,"aCounter","Camera.cpp","Camera::setCounter(int)");
+	this->counter = aCounter;
+}
+
+int Camera::getCounter() const{
+	return this->counter;
 }
 
 void Camera::manualCapture(){
@@ -162,8 +257,8 @@ void Camera::manualCapture(){
 		switch(cv::waitKey(fps)){
 		case 'c':  // 画像保存
 			ss << num++;
-			cv::imwrite("cap" + ss.str() + ".jpg", frame, params);
-			cout << "cap" << ss.str() << ".jpg" << endl;
+			cv::imwrite(m_dir.pwd() + m_name + ss.str() + ".jpg", frame, params);
+			cout << m_name << ss.str() << ".jpg" << endl;
 			break;
 		case 'q':  // 終了
 			cv::destroyWindow(w_name);
@@ -189,12 +284,8 @@ void Camera::autoCapture(long interval,long time){
 	// 撮影カウンター用
 	int counter;
 	int init_counter;
-	if(interval > 5)
-		counter = init_counter = 5;
-	else if(interval <= 0)
-		throw OutOfRangeException<long>(interval,"interval","Camera.cpp","autoCapture()");
-	else if(time < 0)
-		throw OutOfRangeException<long>(time,"time","Camera.cpp","autoCapture()");
+	if(interval > this->counter)
+		counter = init_counter = this->counter;
 	else
 		counter = init_counter = interval;
 
@@ -252,8 +343,8 @@ void Camera::autoCapture(long interval,long time){
 			break;
 		case 'c':  // 手動キャプチャ
 			ss_m << num_m++;
-			cv::imwrite("cap_m" + ss_m.str() + ".jpg", frame, params);
-			cout << "cap_m" << ss_m.str() << ".jpg" << endl;
+			cv::imwrite(m_dir.pwd() + m_name + ss_m.str() + ".jpg", frame, params);
+			cout << m_name << ss_m.str() << ".jpg" << endl;
 			break;
 		case 'r':  // リセット
 			timer.reset();
@@ -279,8 +370,8 @@ void Camera::autoCapture(long interval,long time){
 				throw OutOfRangeException<long>(interval,"interval","Camera.cpp","autoCapture()");
 			}
 			ss << num++;
-			cv::imwrite("cap" + ss.str() + ".jpg", frame, params);
-			cout << "cap" << ss.str() << ".jpg" << endl;
+			cv::imwrite(a_dir.pwd() + a_name + ss.str() + ".jpg", frame, params);
+			cout << a_name << ss.str() << ".jpg" << endl;
 			counter = init_counter;
 
 		// 撮影カウンタ
@@ -294,29 +385,6 @@ void Camera::autoCapture(long interval,long time){
 		}
 	}	
 }
-
-void Camera::setCap(){
-	cap = cv::VideoCapture(0);
-	
-	w_name = "Capture";
-	//a_dir = Dir("Auto_Cap");
-	//m_dir = Dir("Manual_Cap");
-
-	// 様々な設定...
-	cap.set(CV_CAP_PROP_FRAME_WIDTH, width);
-	cap.set(CV_CAP_PROP_FRAME_HEIGHT, height);
-
-}
-
-void Camera::setJPEGParams(int jpgCR){
-	params = vector<int>(2);
-	
-	// JPEG圧縮パラメータ
-	params[0] = CV_IMWRITE_JPEG_QUALITY;
-	params[1] = jpgCR;
-}
-
-
 
 }
 
