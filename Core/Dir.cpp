@@ -12,17 +12,16 @@ namespace fs = boost::filesystem;
 
 namespace pro{
 
-Dir::Dir(bool errorShow)
+Dir::Dir(void)
 {
 	path = fs::system_complete(".");
-	ErrorShow = errorShow;
+	ErrorShow = false;
 }
 
-Dir::Dir(const string& path,bool errorShow){
+Dir::Dir(const fs::path& path){
 	if(!isPath(path))
-		throw DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::Dir(string)");
+		throw DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::Dir(boost::filesystem::path&)");
 	this->path = fs::system_complete(path);
-	ErrorShow = errorShow;
 }
 
 Dir::~Dir(void)
@@ -30,17 +29,13 @@ Dir::~Dir(void)
 
 }
 
-bool Dir::isPath(const string& path){
-	fs::path pth = path;
+bool Dir::isPath(const fs::path& path){
+	fs::path pth = path.string();
 	string str_path;
 	if(pth.is_absolute()){
 		str_path = pth.relative_path().string();
 	}
-	return !(boost::regex_search(path.begin(), path.end(), boost::regex(DIR_REGEX_STR)));
-}
-
-bool Dir::isPath(const fs::path& path){
-	return isPath(path.string());
+	return !(boost::regex_search(str_path.begin(), str_path.end(), boost::regex(DIR_REGEX_STR)));
 }
 
 const std::string Dir::pwd() const{
@@ -97,10 +92,10 @@ bool Dir::create(int option){
 	return false;
 }
 
-bool Dir::create(const string& path, int option){
-	Dir dir(this->pwd(),this->ErrorShow);
+bool Dir::create(const fs::path& path, int option){
+	Dir dir(this->pwd());
 	try{
-		dir.cd(path,DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::create(string,int)"));
+		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::create(string,int)"));
 	}catch(const DirException& e){
 		if(ErrorShow) e.showError();
 		return false;
@@ -125,10 +120,10 @@ bool Dir::remove(){
 	}
 }
 
-bool Dir::remove(const string& path){
-	Dir dir(this->pwd(),this->ErrorShow);
+bool Dir::remove(const fs::path& path){
+	Dir dir(this->pwd());
 	try{
-		dir.cd(path,DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::remove(string)"));
+		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::remove(string)"));
 		return dir.remove();
 	}catch(const DirException& e){
 		if(ErrorShow) e.showError();
@@ -150,10 +145,10 @@ boost::uintmax_t Dir::remove_all(){
 	}
 }
 
-boost::uintmax_t Dir::remove_all(const string& path){
-	Dir dir(this->pwd(),this->ErrorShow);
+boost::uintmax_t Dir::remove_all(const fs::path& path){
+	Dir dir(this->pwd());
 	try{
-		dir.cd(path,DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::remove_all(string)"));
+		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::remove_all(string)"));
 		return dir.remove_all();
 	}catch(const DirException& e){
 		if(ErrorShow) e.showError();
@@ -165,10 +160,10 @@ boost::uintmax_t Dir::remove_all(const string& path){
 	}
 }
 
-void Dir::cd(const string& path){
-	fs::path pth(path);
+void Dir::cd(const fs::path& path){
+	fs::path pth(path.string());
 	if(!isPath(path))
-		throw DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::cd(string)");
+		throw DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::cd(string)");
 	if(pth.is_absolute()){
 		this->path = fs::system_complete(pth);
 	}else if(pth.is_relative()){
@@ -176,11 +171,11 @@ void Dir::cd(const string& path){
 	}
 }
 
-void Dir::cd(const string& path,DirException e){
-	fs::path pth(path);
+void Dir::cd(const fs::path& path,const DirException& e){
+	fs::path pth(path.string());
 	try{
 		if(!isPath(path))
-			throw DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::cd(string,DirException)");
+			throw DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::cd(string,DirException)");
 	}catch(const DirException& ex){
 		if(ErrorShow) ex.showError();
 		throw e;
@@ -190,6 +185,12 @@ void Dir::cd(const string& path,DirException e){
 	}else if(pth.is_relative()){
 		this->path = fs::system_complete(this->path/pth);
 	}
+}
+
+
+
+void Dir::setErrorShow(bool errorShow){
+	ErrorShow = errorShow;
 }
 
 const char* Dir::test(){
@@ -210,8 +211,6 @@ const char* Dir::test(){
 	//Dir dir(ss);
 	//dir.create(Dir::OVER_WRITE_REMOVE_ALL);
 	//dir.remove();
-
-
 
 	return "";
 }

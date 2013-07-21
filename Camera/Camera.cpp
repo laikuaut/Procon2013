@@ -299,8 +299,8 @@ void Camera::setCap(){
 	cap = cv::VideoCapture(0);
 	
 	w_name = "Capture";
-	a_dir = Dir("Auto_Cap");
-	m_dir = Dir("Manual_Cap");
+	//a_dir = Dir("Auto_Cap");
+	//m_dir = Dir("Manual_Cap");
 
 	// ólÅXÇ»ê›íË...
 	cap.set(CV_CAP_PROP_FRAME_WIDTH, width);

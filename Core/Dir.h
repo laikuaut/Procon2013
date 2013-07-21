@@ -13,6 +13,12 @@ namespace pro{
 // error C2061: 構文エラー : 識別子 'DirException'
 class DirException;
 
+/**               メモ 
+ * boost::filesystem::path と std::string は
+ * オーバーロード時あいまいな型となるため
+ * boost:filesystem::path に引数を統一する。 
+ **/
+
 class PRO_EXPORTS Dir
 {
 public:
@@ -37,25 +43,30 @@ private:
 //#pragma warning(pop)
 
 public:
-	Dir(bool errorShow = false);
-	Dir(const std::string& path,bool errorShow = false);
+
+	Dir();
+	Dir(const boost::filesystem::path& path);
+
 	~Dir(void);
 	
+	static bool isPath(const boost::filesystem::path& path);
+	
 	const std::string pwd() const;
-	void cd(const std::string& path);
-	void cd(const std::string& path,DirException e);
+	
+	void cd(const boost::filesystem::path& path);
+	void cd(const boost::filesystem::path& path,const DirException& e);
 
 	bool create(int option = NONE);
-	bool create(const std::string& path,int option = NONE);
+	bool create(const boost::filesystem::path& path,int option = NONE);
 	bool remove();
-	bool remove(const std::string& path);
+	bool remove(const boost::filesystem::path& path);
 	boost::uintmax_t remove_all();
-	boost::uintmax_t remove_all(const std::string& path);
+	boost::uintmax_t remove_all(const boost::filesystem::path& path);
 
 	static const char* test();
+
+	void setErrorShow(bool errorShow);
 	
-	static bool isPath(const std::string& path);
-	static bool isPath(const boost::filesystem::path& path);
 	
 
 };

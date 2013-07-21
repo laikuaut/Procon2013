@@ -8,12 +8,12 @@ using namespace std;
 
 int main(int argc,char* argv[]){
 
-	Camera camera;
-	try{
-		camera.autoCapture(2,60);
-	}catch(const OutOfRangeException<long>& e){
-		e.showError();
-	}
+	//Camera camera;
+	//try{
+	//	camera.autoCapture(2,60);
+	//}catch(const OutOfRangeException<long>& e){
+	//	e.showError();
+	//}
 
 	//cout << Dir::test() << endl;
 
@@ -23,11 +23,26 @@ int main(int argc,char* argv[]){
 	cout << Dir::isPath(ss) << endl;
 	cout << Dir::isPath(path) << endl;
 
-	Dir dir;
-	//cout << dir.pwd() << endl;
+	Dir dir1(path);
+	Dir dir2("test2");
+	boost::filesystem::path pp("test");
+	cout << boost::filesystem::system_complete(pp) << endl;
 
-	boost::filesystem::path p(ss);
-	cout << p.string() << endl;
+	cout << dir1.pwd() << endl;
+	cout << dir2.pwd() << endl;
+
+	//dir1 = dir2;
+
+	//cout << dir1.pwd() << endl;
+	//cout << dir2.pwd() << endl;
+
+	//dir1.cd((string)"test3");
+
+	//cout << dir1.pwd() << endl;
+	//cout << dir2.pwd() << endl;
+	//
+	//boost::filesystem::path p(ss);
+	//cout << p.string() << endl;
 
 	//cout << ss << endl;
 	//try{
