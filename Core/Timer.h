@@ -2,7 +2,8 @@
 
 #include"Core.h"
 
-#include<time.h>
+//#include<time.h>
+#include<ctime>
 #include<vector>
 
 namespace pro{

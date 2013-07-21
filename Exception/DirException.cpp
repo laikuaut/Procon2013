@@ -5,24 +5,20 @@ namespace pro{
 
 DirException::DirException(void)
 {
-	name = "DirExpection";
 }
 
 DirException::DirException(const string& aMessage,
 				const string& aFile,
 				const string& aFunc)
 			: Exception(aMessage,aFile,aFunc){
-	name = "DirExpection";
 }
 
 DirException::DirException(const error_code aCode){
 	setErrorCode(aCode);
-	name = "DirExpection";
 }
 
 DirException::DirException(const error_code aCode,const string& aPath){
 	setErrorCode(aCode,aPath);
-	name = "DirExpection";
 }
 
 DirException::DirException(const error_code aCode,
@@ -31,7 +27,6 @@ DirException::DirException(const error_code aCode,
 				const string& aFunc)
 				:Exception("",aFile,aFunc){
 	setErrorCode(aCode,aPath);
-	name = "DirExpection";
 }
 
 DirException::~DirException(void)

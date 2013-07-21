@@ -180,7 +180,6 @@ void Camera::autoCapture(){
 
 void Camera::autoCapture(long interval,long time){
 
-
 	pro::Timer timer;
 
 	// キャプチャ画像ナンバー

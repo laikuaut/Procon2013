@@ -4,24 +4,20 @@ namespace pro{
 
 FileException::FileException(void)
 {
-	name = "FileExpection";
 }
 
 FileException::FileException(const string& aMessage,
 				const string& aFile,
 				const string& aFunc)
 			: Exception(aMessage,aFile,aFunc){
-	name = "FileExpection";
 }
 
 FileException::FileException(const error_code aNum){
 	setErrorCode(aNum);
-	name = "FileExpection";
 }
 
 FileException::FileException(const error_code aNum,const string& aOpenFName){
 	setErrorCode(aNum,aOpenFName);
-	name = "FileExpection";
 }
 
 FileException::FileException(const error_code aNum,
@@ -30,7 +26,6 @@ FileException::FileException(const error_code aNum,
 				const string& aFunc)
 				:Exception("",aFile,aFunc){
 	setErrorCode(aNum,aOpenFName);
-	name = "FileExpection";
 }
 
 FileException::~FileException(void)

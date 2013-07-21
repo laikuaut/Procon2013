@@ -15,24 +15,34 @@ int main(int argc,char* argv[]){
 	//	e.showError();
 	//}
 
-	cout << Dir::test() << endl;
+	//cout << Dir::test() << endl;
 
-	string ss="test|";
-	boost::filesystem::path path(ss);
+	//string ss="test|";
+	//boost::filesystem::path path(ss);
 
-	cout << Dir::isPath(ss) << endl;
-	cout << Dir::isPath(path) << endl;
+	//cout << Dir::isPath(ss) << endl;
+	//cout << Dir::isPath(path) << endl;
 
-	Dir dir;
-	cout << ss << endl;
-	try{
-		dir.cd(ss);
-	}catch(const DirException& e){
-		e.showError();
-	}
-	cout << typeid(ss).name() << endl;
-	cout << typeid(dir).name() << endl;
+	//Dir dir;
+	//cout << ss << endl;
+	//try{
+	//	dir.cd(ss);
+	//}catch(const DirException& e){
+	//	e.showError();
+	//}
+	//cout << typeid(ss).name() << endl;
+	//cout << typeid(dir).name() << endl;
 
+	Exception e;
+	e.showError();
+	FileException ef;
+	ef.showError();
+	DirException ed;
+	ed.showError();
+	OutOfRangeException<int> ioe;
+	ioe.showError();
+	OutOfRangeException<double> doe;
+	doe.showError();
 
 	//dir.create("test");
 

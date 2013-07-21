@@ -21,14 +21,12 @@ template class OutOfRangeException<double>;
 template<typename Type> 
 OutOfRangeException<Type>::OutOfRangeException(void)
 {
-	name = "OutOfRangeException";
 }
 
 template<typename Type>
 OutOfRangeException<Type>::OutOfRangeException
 	(Type aNum)
 {
-	name = "OutOfRangeException";
 	setNum(aNum);
 }
 
@@ -36,7 +34,6 @@ template<typename Type>
 OutOfRangeException<Type>::OutOfRangeException
 	(Type aNum,const string& aAgument)
 {
-	name = "OutOfRangeException";
 	setNum(aNum,aAgument);
 }
 
@@ -44,7 +41,6 @@ template<typename Type>
 OutOfRangeException<Type>::OutOfRangeException
 	(const string& aMessage) : Exception(aMessage)
 {
-	name = "OutOfRangeException";
 	message = aMessage;
 }
 
@@ -53,7 +49,6 @@ OutOfRangeException<Type>::OutOfRangeException
 	(const string& aMessage,const string& aFile,const string& aFunc)
 	: Exception(aMessage,aFile,aFunc)
 {
-	name = "OutOfRangeException";
 }
 
 template<typename Type>
@@ -61,7 +56,6 @@ OutOfRangeException<Type>::OutOfRangeException
 	(Type aNum,const string& aFile,const string& aFunc)
 	: Exception("",aFile,aFunc)
 {
-	name = "OutOfRangeException";
 	setNum(aNum);
 }
 
@@ -70,7 +64,6 @@ OutOfRangeException<Type>::OutOfRangeException
 	(Type aNum,const string& aAgument, const string& aFile,const string& aFunc)
 	: Exception("",aFile,aFunc)
 {
-	name = "OutOfRangeException";
 	setNum(aNum,aAgument);
 }
 

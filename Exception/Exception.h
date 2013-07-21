@@ -3,6 +3,7 @@
 #include"Procon2013/Core/type_c.h"
 
 #include<string>
+#include<typeinfo>
 #include<stdexcept>
 
 namespace pro{
