@@ -8,22 +8,27 @@ using namespace std;
 
 int main(int argc,char* argv[]){
 
-	//Camera camera;
-	//try{
-	//	camera.autoCapture(2,60);
-	//}catch(const OutOfRangeException<long>& e){
-	//	e.showError();
-	//}
+	Camera camera;
+	try{
+		camera.autoCapture(2,60);
+	}catch(const OutOfRangeException<long>& e){
+		e.showError();
+	}
 
 	//cout << Dir::test() << endl;
 
-	//string ss="test|";
-	//boost::filesystem::path path(ss);
+	string ss="test";
+	boost::filesystem::path path(ss);
 
-	//cout << Dir::isPath(ss) << endl;
-	//cout << Dir::isPath(path) << endl;
+	cout << Dir::isPath(ss) << endl;
+	cout << Dir::isPath(path) << endl;
 
-	//Dir dir;
+	Dir dir;
+	//cout << dir.pwd() << endl;
+
+	boost::filesystem::path p(ss);
+	cout << p.string() << endl;
+
 	//cout << ss << endl;
 	//try{
 	//	dir.cd(ss);
@@ -33,16 +38,16 @@ int main(int argc,char* argv[]){
 	//cout << typeid(ss).name() << endl;
 	//cout << typeid(dir).name() << endl;
 
-	Exception e;
-	e.showError();
-	FileException ef;
-	ef.showError();
-	DirException ed;
-	ed.showError();
-	OutOfRangeException<int> ioe;
-	ioe.showError();
-	OutOfRangeException<double> doe;
-	doe.showError();
+	//Exception e;
+	//e.showError();
+	//FileException ef;
+	//ef.showError();
+	//DirException ed;
+	//ed.showError();
+	//OutOfRangeException<int> ioe;
+	//ioe.showError();
+	//OutOfRangeException<double> doe;
+	//doe.showError();
 
 	//dir.create("test");
 

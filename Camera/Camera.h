@@ -67,8 +67,9 @@ private:
 	cv::VideoCapture cap;	// キャプチャ
 	vector<int> params;  // JPEG圧縮パラメータ
 
-	// キャプチャ情報を表示
-	void printCaptureInfo();
+private:
+
+	void printCaptureInfo();  // キャプチャ情報を表示
 	void setCap();
 
 public:
@@ -96,7 +97,6 @@ public:
 	void autoCapture(long interval,long time);
 
 	void setJPEGParams(int jpgCR=95);
-
 
 	void setWindowName(string name);
 	string getWindowName();
