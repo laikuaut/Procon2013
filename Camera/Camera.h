@@ -30,12 +30,6 @@ public:
 		QVGA,VGA,XGA,HD,UXGA,FULL_HD,FREE
 	}f_kind;
 
-	int test;
-
-/*********************** 
- * フレームサイズ定数
- **/
-public:
 	static int const QVGA_WIDTH = 320;
 	static int const QVGA_HEIGHT = 240;
 
@@ -54,58 +48,71 @@ public:
 	static int const FULL_HD_WIDTH = 1920;
 	static int const FULL_HD_HEIGHT = 1080;
 
-/*********************** 
- *    メンバ変数 
- **/
 private:
+
 	f_kind fk;		// フレームサイズの種類
 	int height;		// フレーム高さ
 	int width;		// フレーム幅
 	int fps;		// 表示間隔時間
 
-	Dir dir;		// キャプチャ先ディレクトリ
-	string name;	// 出力ファイル名 and Window名
+	long interval;	// 自動キャプチャインターバル
+	long cap_time;	// 自動キャプチャ総時間
+
+	Dir a_dir;		// 自動キャプチャ先ディレクトリ
+	Dir m_dir;		// 手動キャプチャ先ディレクトリ
+	string a_name;	// 手動キャプチャ出力ファイル名
+	string m_name;	// 自動キャプチャ出力ファイル名
+	string w_name;	// Window名
 
 	cv::VideoCapture cap;	// キャプチャ
 	vector<int> params;  // JPEG圧縮パラメータ
 
 	// キャプチャ情報を表示
 	void printCaptureInfo();
-	
 	void setCap();
-	void setJPEGParams();
 
-
-/*********************** 
- * コンストラクタ
- **/
 public:
 	// フルHD、fps=30ms
-	Camera(void);
-	Camera(int width,int height,int fps=30);
-	Camera(f_kind fk,int fps=30);
+	Camera(int jpgCR=95);
+	Camera(int width,int height,int fps=30,int jpgCR=95);
+	Camera(f_kind fk,int fps=30,int jpgCR=95);
 
-/*********************** 
- * デストラクタ
- **/
-public:
 	~Camera(void);
 
-/*********************** 
- * プロパティ
- **/
-public:
 	void setFk(f_kind fk);
 	f_kind getFk();
 
 	void setFrameSize(int width,int height);
 	void getFrameSize(int *width,int *height);
+	int getFrameWidth();
+	int getFrameHeight();
 
 	void setFps(int fps);
 	int getFps();
 
 	void manualCapture();
+
+	void autoCapture();
 	void autoCapture(long interval,long time);
+
+	void setJPEGParams(int jpgCR=95);
+
+
+	void setWindowName(string name);
+	string getWindowName();
+
+	void setTimes(long aInterval,long aTime);
+	long getInterval();
+	long getTime();
+
+	void setAutoCapture(Dir aDir,string aFName);
+	void setAutoCapture(Dir aDir,string aFName,long aInterval,long aTime);
+	string getAutoCapName();
+	Dir getAutoCapDir();
+
+	void setManualCapture(Dir aDir,string aFName);
+	string getManualCapName();
+	Dir getManualDir();
 
 };
 

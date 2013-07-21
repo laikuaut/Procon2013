@@ -38,24 +38,24 @@ private:
 
 public:
 	Dir(bool errorShow = false);
-	Dir(std::string path,bool errorShow = false);
+	Dir(const std::string& path,bool errorShow = false);
 	~Dir(void);
 	
 	const std::string pwd() const;
-	void cd(std::string path);
-	void cd(std::string path,DirException e);
+	void cd(const std::string& path);
+	void cd(const std::string& path,DirException e);
 
 	bool create(int option = NONE);
-	bool create(std::string path,int option = NONE);
+	bool create(const std::string& path,int option = NONE);
 	bool remove();
-	bool remove(std::string path);
+	bool remove(const std::string& path);
 	boost::uintmax_t remove_all();
-	boost::uintmax_t remove_all(std::string path);
+	boost::uintmax_t remove_all(const std::string& path);
 
 	static const char* test();
 	
-	static bool isPath(string path);
-	static bool isPath(boost::filesystem::path path);
+	static bool isPath(const std::string& path);
+	static bool isPath(const boost::filesystem::path& path);
 	
 
 };

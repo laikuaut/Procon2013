@@ -1,6 +1,7 @@
 #include"Procon2013/Procon2013.h"
 
 #include<iostream>
+#include<typeinfo>
 
 using namespace pro;
 using namespace std;
@@ -16,6 +17,24 @@ int main(int argc,char* argv[]){
 
 	cout << Dir::test() << endl;
 
+	string ss="test|";
+	boost::filesystem::path path(ss);
+
+	cout << Dir::isPath(ss) << endl;
+	cout << Dir::isPath(path) << endl;
+
+	Dir dir;
+	cout << ss << endl;
+	try{
+		dir.cd(ss);
+	}catch(const DirException& e){
+		e.showError();
+	}
+	cout << typeid(ss).name() << endl;
+	cout << typeid(dir).name() << endl;
+
+
+	//dir.create("test");
 
 	//Dir dir;
 

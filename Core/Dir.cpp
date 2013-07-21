@@ -18,7 +18,7 @@ Dir::Dir(bool errorShow)
 	ErrorShow = errorShow;
 }
 
-Dir::Dir(string path,bool errorShow){
+Dir::Dir(const string& path,bool errorShow){
 	if(!isPath(path))
 		throw DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::Dir(string)");
 	this->path = fs::system_complete(path);
@@ -30,20 +30,17 @@ Dir::~Dir(void)
 
 }
 
-bool Dir::isPath(string path){
+bool Dir::isPath(const string& path){
 	fs::path pth = path;
+	string str_path;
 	if(pth.is_absolute()){
-		path = pth.relative_path().string();
+		str_path = pth.relative_path().string();
 	}
 	return !(boost::regex_search(path.begin(), path.end(), boost::regex(DIR_REGEX_STR)));
 }
 
-bool Dir::isPath(fs::path path){
-	string str = path.string();
-	if(path.is_absolute()){
-		path = path.relative_path().string();
-	}
-	return !(boost::regex_search(str.begin(), str.end(), boost::regex(DIR_REGEX_STR)));
+bool Dir::isPath(const fs::path& path){
+	return isPath(path.string());
 }
 
 const std::string Dir::pwd() const{
@@ -100,7 +97,7 @@ bool Dir::create(int option){
 	return false;
 }
 
-bool Dir::create(string path, int option){
+bool Dir::create(const string& path, int option){
 	Dir dir(this->pwd(),this->ErrorShow);
 	try{
 		dir.cd(path,DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::create(string,int)"));
@@ -128,7 +125,7 @@ bool Dir::remove(){
 	}
 }
 
-bool Dir::remove(string path){
+bool Dir::remove(const string& path){
 	Dir dir(this->pwd(),this->ErrorShow);
 	try{
 		dir.cd(path,DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::remove(string)"));
@@ -153,7 +150,7 @@ boost::uintmax_t Dir::remove_all(){
 	}
 }
 
-boost::uintmax_t Dir::remove_all(string path){
+boost::uintmax_t Dir::remove_all(const string& path){
 	Dir dir(this->pwd(),this->ErrorShow);
 	try{
 		dir.cd(path,DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::remove_all(string)"));
@@ -168,7 +165,7 @@ boost::uintmax_t Dir::remove_all(string path){
 	}
 }
 
-void Dir::cd(string path){
+void Dir::cd(const string& path){
 	fs::path pth(path);
 	if(!isPath(path))
 		throw DirException(DirException::PATH_ERROR,path,"Dir.cpp","Dir::cd(string)");
@@ -179,7 +176,7 @@ void Dir::cd(string path){
 	}
 }
 
-void Dir::cd(string path,DirException e){
+void Dir::cd(const string& path,DirException e){
 	fs::path pth(path);
 	try{
 		if(!isPath(path))
@@ -197,20 +194,24 @@ void Dir::cd(string path,DirException e){
 
 const char* Dir::test(){
 
-	fstream file;
-	file.open("test.txt",ios::in);
+	//fstream file;
+	//file.open("test.txt",ios::in);
 
-	string ss;
+	//string ss;
 
-	getline(file,ss);
+	//getline(file,ss);
 
-	file.close();
+	//file.close();
 
-	fs::path pp(ss);
+	//assert(true);
 
-	Dir dir(ss);
-	dir.create(Dir::OVER_WRITE_REMOVE_ALL);
+	//fs::path pp(ss);
+
+	//Dir dir(ss);
+	//dir.create(Dir::OVER_WRITE_REMOVE_ALL);
 	//dir.remove();
+
+
 
 	return "";
 }

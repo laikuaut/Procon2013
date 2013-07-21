@@ -6,25 +6,25 @@ using namespace std;
 
 namespace pro{
 
-Camera::Camera(void){
+Camera::Camera(int jpgCR){
 	setFk(FULL_HD);
 	setFps(30);
 	setCap();
-	setJPEGParams();
+	setJPEGParams(jpgCR);
 }
 
-Camera::Camera(int width,int height,int fps){
+Camera::Camera(int width,int height,int fps,int jpgCR){
 	setFrameSize(width,height);
 	setFps(fps);
 	setCap();
-	setJPEGParams();
+	setJPEGParams(jpgCR);
 }
 
-Camera::Camera(Camera::f_kind fk,int fps){
+Camera::Camera(Camera::f_kind fk,int fps,int jpgCR){
 	setFk(fk);
 	setFps(fps);
 	setCap();
-	setJPEGParams();
+	setJPEGParams(jpgCR);
 }
 
 Camera::~Camera(void){
@@ -124,6 +124,7 @@ void Camera::printCaptureInfo(){
 	}
 	cout << "Frame_Kind : " << fk_str << "(" << width << "x" << height << ")" << endl;
 	cout << "FPS : " << fps << endl;
+	cout << "JPEG圧縮パラメータ : " << params[1] << endl;
 }
 
 void Camera::manualCapture(){
@@ -139,7 +140,7 @@ void Camera::manualCapture(){
 	cout<<"c:キャプチャー保存"<<endl;
 	cout<<"q:終了"<<endl;
 
-	cv::namedWindow("Capture", CV_WINDOW_NORMAL|CV_WINDOW_KEEPRATIO);
+	cv::namedWindow(w_name, CV_WINDOW_NORMAL|CV_WINDOW_KEEPRATIO);
 
 	// キャプチャ画像番号
 	long num=0;	
@@ -154,23 +155,27 @@ void Camera::manualCapture(){
 		ss.clear(stringstream::goodbit);
 
 		// Windowの生存確認
-		void* life = cvGetWindowHandle("Capture");
+		void* life = cvGetWindowHandle(w_name.c_str());
 		if(life == NULL) break;
 
-		cv::imshow("Capture", frame); // 表示
-		switch(cv::waitKey(30)){
+		cv::imshow(w_name, frame); // 表示
+		switch(cv::waitKey(fps)){
 		case 'c':  // 画像保存
 			ss << num++;
 			cv::imwrite("cap" + ss.str() + ".jpg", frame, params);
 			cout << "cap" << ss.str() << ".jpg" << endl;
 			break;
 		case 'q':  // 終了
-			cv::destroyWindow("Capture");
+			cv::destroyWindow(w_name);
 			break;
 		default:			
 			break;
 		}
 	}
+}
+
+void Camera::autoCapture(){
+	autoCapture(interval,cap_time);
 }
 
 void Camera::autoCapture(long interval,long time){
@@ -208,7 +213,7 @@ void Camera::autoCapture(long interval,long time){
 	cout << "試合時間:" << time << endl;
 	cout << "間隔:" << interval << "[s]" << endl;
 
-	cv::namedWindow("Capture", CV_WINDOW_NORMAL|CV_WINDOW_KEEPRATIO);
+	cv::namedWindow(w_name, CV_WINDOW_NORMAL|CV_WINDOW_KEEPRATIO);
 	
 	// カメラループ開始
 	while(1) {
@@ -225,11 +230,11 @@ void Camera::autoCapture(long interval,long time){
 		ss_m.clear(stringstream::goodbit);
 
 		// Windowの生存確認
-		void* life = cvGetWindowHandle("Capture");
+		void* life = cvGetWindowHandle(w_name.c_str());
 		if(life == NULL) break;
 
-		cv::imshow("Capture", frame); // 表示
-		switch(cv::waitKey(30)){
+		cv::imshow(w_name, frame); // 表示
+		switch(cv::waitKey(fps)){
 		case 's':  // タイマ開始
 			timer.start();
 			num=0;	
@@ -256,7 +261,7 @@ void Camera::autoCapture(long interval,long time){
 			cout << "reset" << endl;
 			break;
 		case 'q':  // 終了
-			cv::destroyWindow("Capture");
+			cv::destroyWindow(w_name);
 			break;
 		default:	
 			break;
@@ -286,7 +291,7 @@ void Camera::autoCapture(long interval,long time){
 
 		// 撮影終了
 		if(timer.getNow() > Timer::m_sec(time) && time!=0){
-			cv::destroyWindow("Capture");		
+			cv::destroyWindow(w_name);		
 		}
 	}	
 }
@@ -294,19 +299,25 @@ void Camera::autoCapture(long interval,long time){
 void Camera::setCap(){
 	cap = cv::VideoCapture(0);
 	
+	w_name = "Capture";
+	a_dir = Dir("Auto_Cap");
+	m_dir = Dir("Manual_Cap");
+
 	// 様々な設定...
 	cap.set(CV_CAP_PROP_FRAME_WIDTH, width);
 	cap.set(CV_CAP_PROP_FRAME_HEIGHT, height);
 
 }
 
-void Camera::setJPEGParams(){
+void Camera::setJPEGParams(int jpgCR){
 	params = vector<int>(2);
 	
 	// JPEG圧縮パラメータ
 	params[0] = CV_IMWRITE_JPEG_QUALITY;
-	params[1] = 95;
+	params[1] = jpgCR;
 }
+
+
 
 }
 
