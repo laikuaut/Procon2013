@@ -63,7 +63,7 @@ private:
 	string a_name;	// 手動キャプチャ出力ファイル名
 	string m_name;	// 自動キャプチャ出力ファイル名
 
-	int counter;
+	int counter;	// キャプチャまでのカウンター
 
 	cv::VideoCapture cap;	// キャプチャ
 	vector<int> params;  // JPEG圧縮パラメータ
@@ -77,7 +77,7 @@ public:
 
 private:
 
-	void printCaptureInfo() const;  // キャプチャ情報を表示
+	void printCaptureInfo() const;
 	void initCap(f_kind aFk,int aWidth,int aHeight,int fps,int jpgCR);
 
 public:

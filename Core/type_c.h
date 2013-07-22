@@ -2,8 +2,18 @@
 
 #ifdef NSTATIC
 #	define PRO_EXPORTS __declspec(dllexport)
+#elif TEST
+#	define PRO_EXPORTS
+//#	define PRO_EXPORTS __declspec(dllimport)
 #else
-#	define PRO_EXPORTS 
+#	define PRO_EXPORTS
+#endif
+
+#ifdef TEST
+#	define T_PRO_EXPORTS
+//#	define T_PRO_EXPORTS __declspec(dllexport)
+#else
+#	define T_PRO_EXPORTS PRO_EXPORTS
 #endif
 
 //#ifndef PRO_C_EXTERN
@@ -35,14 +45,14 @@ using std::string;
  */
 
 // warning C4251 class 'std::basic_string<_Elem,_Traits,_Alloc>' は __export キーワードを使って class 'pro::Dir' にエクスポートしてください。
-template class PRO_EXPORTS std::basic_string<char, std::char_traits<char>, std::allocator<char> >;
+template class T_PRO_EXPORTS std::basic_string<char, std::char_traits<char>, std::allocator<char> >;
 
 // warning C4251 class 'std::vector<_Ty>' は __export キーワードを使って class 'pro::Timer' にエクスポートしてください。
 // http://support.microsoft.com/default.aspx?scid=kb;ja-jp;168958
 // Timer.h
-template class PRO_EXPORTS std::vector<clock_t>;
-template class PRO_EXPORTS std::vector<std::string>; 
-template class PRO_EXPORTS std::vector<int>; 
+template class T_PRO_EXPORTS std::vector<clock_t>;
+template class T_PRO_EXPORTS std::vector<std::string>; 
+template class T_PRO_EXPORTS std::vector<int>; 
 
 
 

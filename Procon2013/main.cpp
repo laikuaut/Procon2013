@@ -8,11 +8,18 @@ using namespace std;
 
 int main(int argc,char* argv[]){
 
-	Camera camera;
+	
 	try{
+		Camera camera;
 		camera.autoCapture(2,60);
 	}catch(const OutOfRangeException<long>& e){
 		e.showError();
+	}catch(const OutOfRangeException<int>& e){
+		e.showError();
+	}catch(const DirException& e){
+		e.showError();
+	}catch(const boost::filesystem::filesystem_error& e){
+		cout << e.what() <<endl;
 	}
 
 	//cout << Dir::test() << endl;

@@ -6,6 +6,8 @@ using namespace std;
 
 namespace pro{
 
+//template class OutOfRangeException<Camera::f_kind>;
+
 Camera::Camera(int jpgCR){
 	initCap(FULL_HD,0,0,30,jpgCR);
 }
@@ -87,7 +89,6 @@ void Camera::initCap(f_kind aFk,
 }
 
 void Camera::setFk(Camera::f_kind fk){
-	this->fk = fk;
 	switch(fk){
 	case QVGA:
 		this->width = QVGA_WIDTH;
@@ -113,9 +114,14 @@ void Camera::setFk(Camera::f_kind fk){
 		this->width = FULL_HD_WIDTH;
 		this->height = FULL_HD_HEIGHT;
 		break;
+	case FREE:
+		//throw OutOfRangeException<Camera::f_kind>("fk=FREEは設定できません。","Camera.cpp","Camera::setFk(Camera::f_kind)");
+		break;
 	default:
+		//throw OutOfRangeException<Camera::f_kind>("定義されていない値を使用しています。","Camera.cpp","Camera::setFk(Camera::f_kind)");
 		break;
 	}
+	this->fk = fk;
 }
 
 Camera::f_kind Camera::getFk() const{
@@ -123,8 +129,11 @@ Camera::f_kind Camera::getFk() const{
 }
 
 void Camera::setFrameSize(int width,int height){
-	this->width = width;
-	this->height = height;
+	if(width < 1 || width > FULL_HD_WIDTH)
+		throw OutOfRangeException<int>(width,"width","Camera.cpp","Camera::setFrameSize(int,int)");
+	else if(height < 1 || height > FULL_HD_HEIGHT)
+		throw OutOfRangeException<int>(height,"height","Camera.cpp","Camera::setFrameSize(int,int)");
+	
 	if(width == QVGA_WIDTH && height == QVGA_HEIGHT)
 		this->fk = QVGA;
 	else if(width == VGA_WIDTH && height == VGA_HEIGHT)
@@ -139,6 +148,10 @@ void Camera::setFrameSize(int width,int height){
 		this->fk = FULL_HD;
 	else
 		this->fk = FREE;
+	
+	this->width = width;
+	this->height = height;
+	
 }
 void Camera::getFrameSize(int *width,int *height) const{
 	*width = this->width;
@@ -164,8 +177,10 @@ int Camera::getFps() const{
 }
 
 void Camera::setJPEGCR(int jpgCR){
+	if(jpgCR < 0 || jpgCR > 100)
+		throw OutOfRangeException<int>(jpgCR,"jpgCR(0～100)","Camera.cpp","Camera::setJPEGCR(int)");
+
 	params = vector<int>(2);
-	
 	// JPEG圧縮パラメータ
 	params[0] = CV_IMWRITE_JPEG_QUALITY;
 	params[1] = jpgCR;
@@ -193,7 +208,7 @@ long Camera::getTime() const{
 }
 
 void Camera::setAutoCaptureFileName(const string& aFName){
-	if(Dir::isPath(aFName))
+	if(!Dir::isPath(aFName))
 		throw DirException(DirException::PATH_ERROR,aFName,"Camera.cpp","Camera::setAutoCaptureFileName(string)");
 	this->a_name = aFName;
 }
@@ -203,7 +218,7 @@ const string Camera::getAutoCaptureFileName() const{
 }
 
 void Camera::setManualCaptureFileName(const string& aFName){
-	if(Dir::isPath(aFName))
+	if(!Dir::isPath(aFName))
 		throw DirException(DirException::PATH_ERROR,aFName,"Camera.cpp","Camera::setManualCaptureFileName(string)");
 	this->m_name = aFName;
 }
@@ -213,7 +228,7 @@ const string Camera::getManualCaptureFileName() const{
 }
 
 void Camera::setCounter(int aCounter){
-	if(counter < 1)
+	if(aCounter < 1)
 		throw OutOfRangeException<int>(aCounter,"aCounter","Camera.cpp","Camera::setCounter(int)");
 	this->counter = aCounter;
 }
@@ -229,6 +244,8 @@ void Camera::manualCapture(){
 		cout << "not camera opened" << endl;
 		return;
 	}
+	m_dir.create(Dir::OVER_WRITE_REMOVE_ALL|Dir::CREATE_DIRS);
+
 
 	printCaptureInfo();
 
@@ -257,7 +274,7 @@ void Camera::manualCapture(){
 		switch(cv::waitKey(fps)){
 		case 'c':  // 画像保存
 			ss << num++;
-			cv::imwrite(m_dir.pwd() + m_name + ss.str() + ".jpg", frame, params);
+			cv::imwrite(m_dir.pwd() + "\\" + m_name + ss.str() + ".jpg", frame, params);
 			cout << m_name << ss.str() << ".jpg" << endl;
 			break;
 		case 'q':  // 終了
@@ -276,6 +293,9 @@ void Camera::autoCapture(){
 void Camera::autoCapture(long interval,long time){
 
 	pro::Timer timer;
+	
+	a_dir.create(Dir::OVER_WRITE_REMOVE_ALL|Dir::CREATE_DIRS);
+	m_dir.create(Dir::OVER_WRITE_REMOVE_ALL|Dir::CREATE_DIRS);
 
 	// キャプチャ画像ナンバー
 	long num;
@@ -343,7 +363,7 @@ void Camera::autoCapture(long interval,long time){
 			break;
 		case 'c':  // 手動キャプチャ
 			ss_m << num_m++;
-			cv::imwrite(m_dir.pwd() + m_name + ss_m.str() + ".jpg", frame, params);
+			cv::imwrite(m_dir.pwd() + "\\" + m_name + ss_m.str() + ".jpg", frame, params);
 			cout << m_name << ss_m.str() << ".jpg" << endl;
 			break;
 		case 'r':  // リセット
@@ -370,7 +390,7 @@ void Camera::autoCapture(long interval,long time){
 				throw OutOfRangeException<long>(interval,"interval","Camera.cpp","autoCapture()");
 			}
 			ss << num++;
-			cv::imwrite(a_dir.pwd() + a_name + ss.str() + ".jpg", frame, params);
+			cv::imwrite(a_dir.pwd() + "\\" + a_name + ss.str() + ".jpg", frame, params);
 			cout << a_name << ss.str() << ".jpg" << endl;
 			counter = init_counter;
 

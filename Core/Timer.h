@@ -1,6 +1,8 @@
 #pragma once
 
+#ifndef TEST
 #include"Core.h"
+#endif
 
 //#include<time.h>
 #include<ctime>

@@ -35,7 +35,7 @@ private:
 
 	boost::filesystem::path path;
 
-	bool ErrorShow;
+	bool ErrorShow;	// エラー表示/非表示設定
 
 //#pragma warning(push)
 //#pragma warning(disable:4251) // 解決できない警告を抑制
