@@ -70,3 +70,9 @@ public:
 };
 
 }
+
+class PRO_EXPORTS asdfg{
+public:
+	asdfg();
+	int add();
+};

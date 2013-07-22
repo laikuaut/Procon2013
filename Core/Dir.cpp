@@ -213,4 +213,12 @@ const char* Dir::test(){
 	return "";
 }
 
+
+
+}
+
+asdfg::asdfg(){}
+
+int asdfg::add(){
+	return 111;
 }
