@@ -1,10 +1,8 @@
 #pragma once
 
-#ifndef TEST
-#include"Core.h"
-#endif
+#include"type_c.h"
+#include"Procon2013/Exception/Exceptions.h"
 
-//#include<time.h>
 #include<ctime>
 #include<vector>
 
@@ -59,3 +57,9 @@ public:
 };
 
 }
+
+class PRO_EXPORTS asdfg{
+public:
+	asdfg();
+	int add();
+};

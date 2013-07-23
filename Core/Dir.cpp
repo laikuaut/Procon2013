@@ -217,8 +217,3 @@ const char* Dir::test(){
 
 }
 
-asdfg::asdfg(){}
-
-int asdfg::add(){
-	return 111;
-}

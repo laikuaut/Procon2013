@@ -8,12 +8,13 @@
 
 namespace pro{
 
-
 /**
  *  —áŠOˆ—‚Ì©ìŠî’êƒNƒ‰ƒX
  */
 class PRO_EXPORTS Exception : public std::exception
 {
+private:
+
 protected:
 	string name;
 	string message;
