@@ -1,6 +1,8 @@
 #include "OutOfRangeException.h"
 
 #include<sstream>
+//#include"Procon2013\Core\Core.h"
+//#include"Procon2013\Camera\Camera.h"
 
 namespace pro{
 

@@ -42,12 +42,12 @@ const std::string Dir::pwd() const{
 	return path.string();
 }
 
-bool Dir::create(int option){
+bool Dir::create(int flag){
 	try{
 		if(fs::exists(path)){
-			if(option == 0)
+			if(flag == 0)
 				throw DirException(DirException::EXIST,pwd(),"Dir.cpp","Dir::create()");
-			else if(option%2==1){
+			else if(flag%2==1){
 				string default_path = pwd();
 				int num=1;
 				stringstream ss;
@@ -57,7 +57,8 @@ bool Dir::create(int option){
 					ss << default_path << "_" << num++;
 					cd(ss.str());
 				}while(!fs::create_directory(pwd()));
-			}else if((option>>1)%2==1){
+				return true;
+			}else if((flag>>1)%2==1){
 				remove_all();
 				// -----------------------------------
 				// アクセス拒否対策　コード検討・・・
@@ -68,12 +69,12 @@ bool Dir::create(int option){
 				}
 				// -----------------------------------
 				return fs::create_directory(path);
-			}else if((option>>2)%2==1){
+			}else if((flag>>2)%2==1){
 				remove();
 				return fs::create_directory(path);
 			}
 		}else{
-			if((option>>3)%2==0){
+			if((flag>>3)%2==0){
 				if(fs::create_directory(path))
 					return true;
 				throw DirException(DirException::NOT_PATH,pwd(),"Dir.cpp","Dir::create()");
@@ -92,7 +93,7 @@ bool Dir::create(int option){
 	return false;
 }
 
-bool Dir::create(const fs::path& path, int option){
+bool Dir::create(const fs::path& path, int flag){
 	Dir dir(this->pwd());
 	try{
 		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::create(string,int)"));
@@ -100,7 +101,7 @@ bool Dir::create(const fs::path& path, int option){
 		if(ErrorShow) e.showError();
 		return false;
 	}
-	return dir.create(option);
+	return dir.create(flag);
 }
 
 bool Dir::remove() const{

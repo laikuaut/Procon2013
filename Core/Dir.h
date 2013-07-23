@@ -24,13 +24,13 @@ class PRO_EXPORTS Dir
 {
 public:
 
-	typedef enum CreateOption{
+	typedef enum CreateFlag{
 		NONE = 0,					// 設定なし
 		ANOTHER_CREATE = 1,			// 存在した場合ほかに作る
 		OVER_WRITE_REMOVE_ALL = 2,	// 存在した場合すべて消して作り直す
 		OVER_WRITE = 4,				// 存在し空の場合消して作り直す
 		CREATE_DIRS = 8				// 中間ディレクトリを作成する
-	}CreateOption;
+	}CreateFlag;
 
 private:
 
@@ -57,8 +57,8 @@ public:
 	void cd(const boost::filesystem::path& path);
 	void cd(const boost::filesystem::path& path,const DirException& e);
 
-	bool create(int option = NONE);
-	bool create(const boost::filesystem::path& path,int option = NONE);
+	bool create(int flag = NONE);
+	bool create(const boost::filesystem::path& path,int flag = NONE);
 	bool remove() const;
 	bool remove(const boost::filesystem::path& path) const;
 	boost::uintmax_t remove_all() const;

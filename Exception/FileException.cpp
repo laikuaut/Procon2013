@@ -6,6 +6,10 @@ FileException::FileException(void)
 {
 }
 
+FileException::FileException(const string& aMassage) : Exception(aMassage){
+
+}
+
 FileException::FileException(const string& aMessage,
 				const string& aFile,
 				const string& aFunc)

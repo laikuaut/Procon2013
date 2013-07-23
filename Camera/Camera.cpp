@@ -6,8 +6,6 @@ using namespace std;
 
 namespace pro{
 
-//template class OutOfRangeException<Camera::f_kind>;
-
 Camera::Camera(int jpgCR){
 	initCap(FULL_HD,0,0,30,jpgCR);
 }
@@ -21,7 +19,7 @@ Camera::Camera(Camera::f_kind fk,int fps,int jpgCR){
 }
 
 Camera::~Camera(void){
-
+	frame.release();
 }
 
 void Camera::printCaptureInfo() const{
@@ -63,6 +61,13 @@ void Camera::initCap(f_kind aFk,
 
 	cap = cv::VideoCapture(0);
 
+	// カメラがオープンできたかの確認
+	if(!cap.isOpened()){
+		throw CameraException(CameraException::OPEN,
+			"Camera.cpp",
+			"Camera::initCap(f_kind aFk,int,int,int,int)");
+	}
+
 	if(aFk == FREE)
 		setFrameSize(aWidth,aHeight);
 	else
@@ -77,10 +82,18 @@ void Camera::initCap(f_kind aFk,
 	setManualCaptureFileName("mCap");
 
 	w_name = "Capture";
+
 	a_dir = Dir("Auto_Cap");
 	m_dir = Dir("Manual_Cap");
+	a_dir_created = false;
+	m_dir_created = false;
 
 	setCounter(5);
+
+	setDirCreateFlag(Dir::ANOTHER_CREATE|Dir::CREATE_DIRS);
+	setCVWindowFlag(CV_WINDOW_NORMAL|CV_WINDOW_KEEPRATIO);
+
+	setManualCaptureNumber(1);
 
 	// 様々な設定...
 	cap.set(CV_CAP_PROP_FRAME_WIDTH, width);
@@ -115,10 +128,10 @@ void Camera::setFk(Camera::f_kind fk){
 		this->height = FULL_HD_HEIGHT;
 		break;
 	case FREE:
-		//throw OutOfRangeException<Camera::f_kind>("fk=FREEは設定できません。","Camera.cpp","Camera::setFk(Camera::f_kind)");
+		throw OutOfRangeException<int>("fk=FREEは設定できません。","Camera.cpp","Camera::setFk(Camera::f_kind)");
 		break;
 	default:
-		//throw OutOfRangeException<Camera::f_kind>("定義されていない値を使用しています。","Camera.cpp","Camera::setFk(Camera::f_kind)");
+		throw OutOfRangeException<int>("定義されていない値を使用しています。","Camera.cpp","Camera::setFk(Camera::f_kind)");
 		break;
 	}
 	this->fk = fk;
@@ -153,9 +166,9 @@ void Camera::setFrameSize(int width,int height){
 	this->height = height;
 	
 }
-void Camera::getFrameSize(int *width,int *height) const{
-	*width = this->width;
-	*height = this->height;
+void Camera::getFrameSize(int &width,int &height) const{
+	width = this->width;
+	height = this->height;
 }
 
 int Camera::getFrameWidth() const{
@@ -237,45 +250,120 @@ int Camera::getCounter() const{
 	return this->counter;
 }
 
+void Camera::setDirCreateFlag(int flag){
+	if(flag < 0 || flag >= Dir::CREATE_DIRS<<1)
+		throw OutOfRangeException<int>(flag,"flag","Dir.cpp","Camera::setDirCreateFlag(int)");
+	this->dirCreateFlag = flag;
+}
+
+int Camera::getDirCreateFlag() const{
+	return dirCreateFlag;
+}
+
+void Camera::setCVWindowFlag(int flag){
+	/*CV_WINDOW_AUTOSIZE;
+	CV_WINDOW_FREERATIO;
+	CV_WINDOW_FULLSCREEN;
+	CV_WINDOW_KEEPRATIO;
+	CV_WINDOW_NORMAL;
+	CV_WINDOW_OPENGL;*/
+	this->cvWindowFlag = flag;
+}
+
+int Camera::getCVWindowFlag() const{
+	return cvWindowFlag;
+}
+
+void Camera::setManualCaptureNumber(int num){
+	if(num < 0)
+		throw OutOfRangeException<int>(num,"num","Camera.cpp","Camera::setManualCaptureNumber(int)");
+	this->m_cap_num = num;
+}
+
+int Camera::getManualCaptureNumber() const{
+	return m_cap_num;
+}
+
+void Camera::a_capture(){
+	stringstream ss;
+	ss << a_cap_num++;
+	cv::imwrite(a_dir.pwd() + "\\" + a_name + ss.str() + ".jpg", frame, params);
+	cout << a_name << ss.str() << ".jpg" << endl;
+
+}
+
+void Camera::m_capture(){
+	stringstream ss;
+	ss << m_cap_num++;
+	cv::imwrite(m_dir.pwd() + "\\" + m_name + ss.str() + ".jpg", frame, params);
+	cout << m_name << ss.str() << ".jpg" << endl;
+}
+
+bool Camera::isCVWindowActive(){
+	void* life = cvGetWindowHandle(w_name.c_str());
+	if(life == NULL) {
+		frame.release();
+		return false;
+	}
+	return true;
+}
+
+void Camera::setAutoDirectoryPath(string path){
+	m_dir_created = false;
+	a_dir.cd(path);
+}
+
+string Camera::getAutoDirectoryPath() const{
+	return a_dir.pwd();
+}
+
+bool Camera::createAutoDirectory(){
+	if(a_dir_created) return false;
+	if(a_dir.create(dirCreateFlag)){
+		a_dir_created = true;
+		return true;
+	}
+	return false;
+}
+
+void Camera::setManualDirectoryPath(string path){
+	a_dir_created = false;
+	m_dir.cd(path);
+}
+
+string Camera::getManualDirectoryPath() const{
+	return m_dir.pwd();
+}
+
+bool Camera::createManualDirectory(){
+	if(m_dir_created) return false;
+	if(m_dir.create(dirCreateFlag)){
+		m_dir_created = true;
+		return true;
+	}
+	return false;
+}
+
 void Camera::manualCapture(){
 
-	// カメラがオープンできたかの確認
-	if(!cap.isOpened()){
-		cout << "not camera opened" << endl;
-		return;
-	}
-	m_dir.create(Dir::OVER_WRITE_REMOVE_ALL|Dir::CREATE_DIRS);
-
+	createManualDirectory();
 
 	printCaptureInfo();
 
 	cout<<"c:キャプチャー保存"<<endl;
 	cout<<"q:終了"<<endl;
 
-	cv::namedWindow(w_name, CV_WINDOW_NORMAL|CV_WINDOW_KEEPRATIO);
-
-	// キャプチャ画像番号
-	long num=0;	
+	cv::namedWindow(w_name, cvWindowFlag);
 
 	while(1) {
-		cv::Mat frame;
 		cap >> frame;  // キャプチャ
 
-		// キャプチャ番号用
-		stringstream ss;
-		ss.str("");
-		ss.clear(stringstream::goodbit);
-
-		// Windowの生存確認
-		void* life = cvGetWindowHandle(w_name.c_str());
-		if(life == NULL) break;
+		if(!isCVWindowActive()) break;
 
 		cv::imshow(w_name, frame); // 表示
 		switch(cv::waitKey(fps)){
 		case 'c':  // 画像保存
-			ss << num++;
-			cv::imwrite(m_dir.pwd() + "\\" + m_name + ss.str() + ".jpg", frame, params);
-			cout << m_name << ss.str() << ".jpg" << endl;
+			m_capture();
 			break;
 		case 'q':  // 終了
 			cv::destroyWindow(w_name);
@@ -291,29 +379,18 @@ void Camera::autoCapture(){
 }
 
 void Camera::autoCapture(long interval,long time){
+	
+	createAutoDirectory();
+	createManualDirectory();
 
 	pro::Timer timer;
 	
-	a_dir.create(Dir::OVER_WRITE_REMOVE_ALL|Dir::CREATE_DIRS);
-	m_dir.create(Dir::OVER_WRITE_REMOVE_ALL|Dir::CREATE_DIRS);
-
-	// キャプチャ画像ナンバー
-	long num;
-	long num_m=0;
-	
 	// 撮影カウンター用
-	int counter;
-	int init_counter;
+	int counter,init_counter;
 	if(interval > this->counter)
 		counter = init_counter = this->counter;
 	else
 		counter = init_counter = interval;
-
-	// カメラがオープンできたかの確認
-	if(!cap.isOpened()){
-		cout << "not camera opened" << endl;
-		return;
-	}
 
 	// カメラ撮影情報の表示
 	printCaptureInfo();
@@ -323,31 +400,20 @@ void Camera::autoCapture(long interval,long time){
 	cout << "試合時間:" << time << endl;
 	cout << "間隔:" << interval << "[s]" << endl;
 
-	cv::namedWindow(w_name, CV_WINDOW_NORMAL|CV_WINDOW_KEEPRATIO);
+	cv::namedWindow(w_name, cvWindowFlag); // );
 	
 	// カメラループ開始
 	while(1) {
-		cv::Mat frame;
 		cap >> frame;  // キャプチャ
 
-		// 自動キャプチャ番号用
-		stringstream ss;
-		ss.str("");
-		ss.clear(stringstream::goodbit);
-		// 手動キャプチャ番号用
-		stringstream ss_m;
-		ss_m.str("");
-		ss_m.clear(stringstream::goodbit);
-
-		// Windowの生存確認
-		void* life = cvGetWindowHandle(w_name.c_str());
-		if(life == NULL) break;
+		if(!isCVWindowActive()) break;
 
 		cv::imshow(w_name, frame); // 表示
+
 		switch(cv::waitKey(fps)){
 		case 's':  // タイマ開始
 			timer.start();
-			num=0;	
+			a_cap_num=0;
 			cout << "start" << endl;
 			break;
 		case ' ':  // 停止/再開
@@ -362,9 +428,7 @@ void Camera::autoCapture(long interval,long time){
 			}
 			break;
 		case 'c':  // 手動キャプチャ
-			ss_m << num_m++;
-			cv::imwrite(m_dir.pwd() + "\\" + m_name + ss_m.str() + ".jpg", frame, params);
-			cout << m_name << ss_m.str() << ".jpg" << endl;
+			m_capture();
 			break;
 		case 'r':  // リセット
 			timer.reset();
@@ -389,9 +453,9 @@ void Camera::autoCapture(long interval,long time){
 				e.showError();
 				throw OutOfRangeException<long>(interval,"interval","Camera.cpp","autoCapture()");
 			}
-			ss << num++;
-			cv::imwrite(a_dir.pwd() + "\\" + a_name + ss.str() + ".jpg", frame, params);
-			cout << a_name << ss.str() << ".jpg" << endl;
+
+			a_capture();
+
 			counter = init_counter;
 
 		// 撮影カウンタ
@@ -401,7 +465,7 @@ void Camera::autoCapture(long interval,long time){
 
 		// 撮影終了
 		if(timer.getNow() > Timer::m_sec(time) && time!=0){
-			cv::destroyWindow(w_name);		
+			cv::destroyWindow(w_name);
 		}
 	}	
 }
