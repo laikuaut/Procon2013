@@ -4,41 +4,41 @@ namespace pro{
 
 FileException::FileException(void)
 {
-	name = "FileExpection";
+}
+
+FileException::FileException(const string& aMassage) : Exception(aMassage){
+
 }
 
 FileException::FileException(const string& aMessage,
 				const string& aFile,
 				const string& aFunc)
 			: Exception(aMessage,aFile,aFunc){
-	name = "FileExpection";
 }
 
-FileException::FileException(const error_num aNum){
-	setErrorNum(aNum);
-	name = "FileExpection";
+FileException::FileException(const error_code aNum){
+	setErrorCode(aNum);
 }
 
-FileException::FileException(const error_num aNum,string& aOpenFName){
-	setErrorNum(aNum,aOpenFName);
-	name = "FileExpection";
+FileException::FileException(const error_code aNum,const string& aOpenFName){
+	setErrorCode(aNum,aOpenFName);
 }
 
-FileException::FileException(const error_num aNum,
+FileException::FileException(const error_code aNum,
 				const string& aOpenFName,
 				const string& aFile,
 				const string& aFunc)
 				:Exception("",aFile,aFunc){
-	setErrorNum(aNum,aOpenFName);
-	name = "FileExpection";
+	setErrorCode(aNum,aOpenFName);
 }
 
 FileException::~FileException(void)
 {
 }
 
-void FileException::setErrorNum(const error_num aNum,const string aOpenFName){
-	switch(aNum){
+void FileException::setErrorCode(const error_code aCode,const string aOpenFName){
+	code = aCode;
+	switch(aCode){
 	case OPEN:
 		message = aOpenFName + "が開けませんでした。";
 		break;
@@ -57,9 +57,12 @@ void FileException::setErrorNum(const error_num aNum,const string aOpenFName){
 	}
 }
 
-void FileException::setErrorNum(const error_num aNum){
-	setErrorNum(aNum,"ファイル");
+void FileException::setErrorCode(const error_code aCode){
+	setErrorCode(aCode,"ファイル");
 }
 
+FileException::error_code FileException::getErrorCode() const{
+	return code;
+}
 
 }

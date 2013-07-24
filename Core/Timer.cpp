@@ -82,3 +82,9 @@ clock_t Timer::getNow(){
 }
 
 }
+
+asdfg::asdfg(){}
+
+int asdfg::add(){
+	return 111;
+}

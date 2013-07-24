@@ -13,7 +13,8 @@ namespace test
 		
 		TEST_METHOD(TestMethod1)
 		{
-			// TODO: テスト コードをここに挿入します
+			pro::Encode e;
+				// TODO: テスト コードをここに挿入します
 		}
 
 	};

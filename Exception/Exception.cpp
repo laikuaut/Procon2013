@@ -6,20 +6,18 @@ using namespace std;
 
 namespace pro{
 
-Exception::Exception(void) : name("Exception")
+Exception::Exception(void)
 {
 
 }
 
 Exception::Exception(const string& aMessage) : 
-							name("Exception"),
 							message(aMessage){
 }
 
 Exception::Exception(const string& aMessage,
 				const string& aFile,
 				const string& aFunc) : 
-							name("Exception"),
 							message(aMessage),
 							fileName(aFile),
 							functionName(aFunc){
@@ -47,7 +45,7 @@ const char* Exception::getFuncName() const throw(){
 }
 
 void Exception::showError() const throw(){
-	cout	<< getName()  
+	cout	<< typeid(*this).name() //getName()  
 		<< " [" << getFileName() << " , " << getFuncName() << "] "
 				<< ": "	<< what()
 				<< endl;

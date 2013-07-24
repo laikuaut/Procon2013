@@ -2,6 +2,8 @@
 #include"Exception.h"
 #include"FileException.h"
 #include"OutOfRangeException.h"
+#include"DirException.h"
+#include"CameraException.h"
 
 
 

@@ -3,19 +3,21 @@
 #ifdef NSTATIC
 #	define PRO_EXPORTS __declspec(dllexport)
 #else
-#	define PRO_EXPORTS 
-#endif
-
-#ifndef PRO_C_EXTERN
-#	define PRO_C_EXTERN extern "C"
+#	define PRO_EXPORTS
 #endif
 
 #ifdef NSTATIC
+#	define PRO_C_EXTERN extern "C" __declspec(dllexport)
+#else
+#	define PRO_C_EXTERN extern "C"
+#endif
+
+#if defined(NSTATIC)
 #define BOOST_ALL_DYN_LINK
 #endif
 
 #include<string>
-#include<time.h>
+#include<ctime>
 #include<vector>
 
 using std::vector;
@@ -34,4 +36,5 @@ template class PRO_EXPORTS std::basic_string<char, std::char_traits<char>, std::
 template class PRO_EXPORTS std::vector<clock_t>;
 template class PRO_EXPORTS std::vector<std::string>; 
 template class PRO_EXPORTS std::vector<int>; 
+
 

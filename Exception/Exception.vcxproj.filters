@@ -27,6 +27,12 @@
     <ClInclude Include="OutOfRangeException.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="DirException.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraException.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Exception.cpp">
@@ -36,6 +42,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="OutOfRangeException.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirException.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraException.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

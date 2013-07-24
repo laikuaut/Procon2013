@@ -3,16 +3,18 @@
 #include"Procon2013/Core/type_c.h"
 
 #include<string>
+#include<typeinfo>
 #include<stdexcept>
 
 namespace pro{
-
 
 /**
  *  —áŠOˆ—‚Ì©ìŠî’êƒNƒ‰ƒX
  */
 class PRO_EXPORTS Exception : public std::exception
 {
+private:
+
 protected:
 	string name;
 	string message;

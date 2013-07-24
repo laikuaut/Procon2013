@@ -11,26 +11,27 @@ class PRO_EXPORTS FileException :
 {
 public:
 
-	typedef enum error_num{
+	typedef enum error_code{
 		OPEN,CLOSE,WRITE,READ
-	}error_num;
+	}error_code;
 
 protected:
 	
-	error_num en;
+	error_code code;
 	string openFileName;
 
 private :
 	
-	void setErrorNum(error_num num);
-	void setErrorNum(error_num num,string file_name);
+	void setErrorCode(error_code aCode);
+	void setErrorCode(error_code aCode,string file_name);
 
 public:
 	
 	FileException(void);
-	FileException(const error_num aNum);
-	FileException(const error_num aNum,string& aOpenFName);
-	FileException(const error_num aNum,
+	FileException(const error_code aCode);
+	FileException(const error_code aCode,
+				const string& aOpenFName);
+	FileException(const error_code aCode,
 				const string& aOpenFName,
 				const string& aFile,
 				const string& aFunc);
@@ -38,6 +39,8 @@ public:
 	FileException(const string& aMessage,
 				const string& aFile,
 				const string& aFunc);
+
+	error_code getErrorCode() const;
 
 	virtual ~FileException(void);
 

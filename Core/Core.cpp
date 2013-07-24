@@ -1,3 +1,5 @@
+//#include"Procon2013/Exception/Exceptions.h"
+
 #include"Core.h"
 
 namespace pro{
@@ -12,6 +14,12 @@ std::string charToString(const char* str_c,int n){
 	}
 
 	return str;
+}
+
+const char* stringToChar(const std::string& str){
+	char* c_str = new char[str.size()+1];
+	strcpy_s(c_str,str.size()+1,str.c_str());
+	return c_str;
 }
 
 }

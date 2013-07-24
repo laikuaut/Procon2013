@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include"Procon2013/Core/Core.h"
 
 #include<sstream>
@@ -11,7 +10,9 @@
 
 namespace pro{
 
+// warning C4251: 'pro::Camera::cap' : class 'cv::VideoCapture' は __export キーワードを使って class 'pro::Camera' にエクスポートしてください。
 class PRO_EXPORTS cv::VideoCapture;
+class PRO_EXPORTS cv::Mat;
 
 class PRO_EXPORTS Camera
 {
@@ -30,12 +31,6 @@ public:
 		QVGA,VGA,XGA,HD,UXGA,FULL_HD,FREE
 	}f_kind;
 
-	int test;
-
-/*********************** 
- * フレームサイズ定数
- **/
-public:
 	static int const QVGA_WIDTH = 320;
 	static int const QVGA_HEIGHT = 240;
 
@@ -54,57 +49,105 @@ public:
 	static int const FULL_HD_WIDTH = 1920;
 	static int const FULL_HD_HEIGHT = 1080;
 
-/*********************** 
- *    メンバ変数 
- **/
 private:
+
+	cv::Mat frame;
+
 	f_kind fk;		// フレームサイズの種類
 	int height;		// フレーム高さ
-	int width;		// フレーム幅
+	int width;		// フレーム幅	
+
 	int fps;		// 表示間隔時間
 
-	Dir dir;		// キャプチャ先ディレクトリ
-	string name;	// 出力ファイル名 and Window名
+	long interval;	// 自動キャプチャインターバル
+	long cap_time;	// 自動キャプチャ総時間
+
+	string a_name;	// 手動キャプチャ出力ファイル名
+	string m_name;	// 自動キャプチャ出力ファイル名
+
+	int a_cap_num;	// 自動キャプチャナンバー
+	int m_cap_num;	// 手動キャプチャナンバー
+
+	int counter;	// キャプチャまでのカウンター
 
 	cv::VideoCapture cap;	// キャプチャ
 	vector<int> params;  // JPEG圧縮パラメータ
 
-	// キャプチャ情報を表示
-	void printCaptureInfo();
+	int dirCreateFlag;  // ディレクトリ作成オプション pro::Dir::CreateOption
+	int cvWindowFlag;	// OpenCVのWindowオプション 
 	
-	void setCap();
-	void setJPEGParams();
+	Dir a_dir;		// 自動キャプチャ先ディレクトリ
+	Dir m_dir;		// 手動キャプチャ先ディレクトリ
+	
+	bool a_dir_created;	// 自動キャプチャディレクトリが作成されているか
+	bool m_dir_created;	// 手動キャプチャディレクトリが作成されているか
 
-
-/*********************** 
- * コンストラクタ
- **/
 public:
-	// フルHD、fps=30ms
-	Camera(void);
-	Camera(int width,int height,int fps=30);
-	Camera(f_kind fk,int fps=30);
 
-/*********************** 
- * デストラクタ
- **/
+	string w_name;	// Window名
+
+
+private:
+
+	void printCaptureInfo() const;
+	void initCap(f_kind aFk,int aWidth,int aHeight,int fps,int jpgCR);
+	void a_capture();
+	void m_capture();
+	bool isCVWindowActive();
+
 public:
+	Camera(int jpgCR=95);
+	Camera(int width,int height,int fps=30,int jpgCR=95);
+	Camera(f_kind fk,int fps=30,int jpgCR=95);
+
 	~Camera(void);
 
-/*********************** 
- * プロパティ
- **/
-public:
 	void setFk(f_kind fk);
-	f_kind getFk();
+	f_kind getFk() const;
 
 	void setFrameSize(int width,int height);
-	void getFrameSize(int *width,int *height);
+	void getFrameSize(int &width,int &height) const;
+	int getFrameWidth() const;
+	int getFrameHeight() const;
 
 	void setFps(int fps);
-	int getFps();
+	int getFps() const;
+
+	void setJPEGCR(int jpgCR=95);
+	int getJPEGCR() const;
+
+	void setTimes(long aInterval,long aTime);
+	long getInterval() const;
+	long getTime() const;
+	
+	void setAutoCaptureFileName(const string& aFName);
+	const string getAutoCaptureFileName() const;
+
+	void setManualCaptureFileName(const string& aFName);
+	const string getManualCaptureFileName() const;
+
+	void setCounter(int aCounter);
+	int getCounter() const;
+
+	void setDirCreateFlag(int falg);
+	int getDirCreateFlag() const;
+
+	void setCVWindowFlag(int flag);
+	int getCVWindowFlag() const;
+
+	void setManualCaptureNumber(int num);
+	int getManualCaptureNumber() const;
+
+	void setAutoDirectoryPath(string path);
+	string getAutoDirectoryPath() const;
+	bool createAutoDirectory();
+	void setManualDirectoryPath(string path);
+	string getManualDirectoryPath() const;
+	bool createManualDirectory();
 
 	void manualCapture();
+
+	void autoCapture();
 	void autoCapture(long interval,long time);
 
 };

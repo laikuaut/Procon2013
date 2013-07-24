@@ -25,14 +25,8 @@
     <ProjectReference Include="..\Camera\Camera.vcxproj">
       <Project>{b1987010-1602-49b1-bd9b-77386518cfa5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Convert\Convert.vcxproj">
-      <Project>{f3b13193-e686-401d-8398-ae835e0a9e92}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{42a62d9b-1327-48ef-ab71-fccb8fc9e8db}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Dice\Dice.vcxproj">
-      <Project>{f068438c-73ba-4a86-b449-6295bfd0f5e9}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Exception\Exception.vcxproj">
       <Project>{6a6a563e-28b2-42e7-a17a-b3b9cd4d4545}</Project>

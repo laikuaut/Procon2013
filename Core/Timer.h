@@ -1,8 +1,9 @@
 #pragma once
 
-#include"Core.h"
+#include"type_c.h"
+#include"Procon2013/Exception/Exceptions.h"
 
-#include<time.h>
+#include<ctime>
 #include<vector>
 
 namespace pro{
@@ -56,3 +57,9 @@ public:
 };
 
 }
+
+class PRO_EXPORTS asdfg{
+public:
+	asdfg();
+	int add();
+};

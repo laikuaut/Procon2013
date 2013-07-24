@@ -3,7 +3,8 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-#include"Procon2013\Camera\Camera.h"
+#include"Procon2013\Exception\Exceptions.h"
+
 
 namespace test
 {		
@@ -13,7 +14,10 @@ namespace test
 		
 		TEST_METHOD(TestMethod1)
 		{
-			// TODO: テスト コードをここに挿入します
+			pro::Exception e;
+			pro::FileException ef;
+			pro::DirException de;
+			pro::OutOfRangeException<int> of;
 		}
 
 	};
