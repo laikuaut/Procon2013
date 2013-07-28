@@ -51,6 +51,12 @@ void FileException::setErrorCode(const error_code aCode,const string aOpenFName)
 	case READ:
 		message = aOpenFName + "が読み込めませんでした。";
 		break;
+	case DIRECTORY:
+		message = aOpenFName + "はディレクトリです。";
+		break;
+	case NOT_EXIST:
+		message = aOpenFName + "は存在しません。";
+		break;
 	default:
 		message = "予期せぬエラー";
 		break;

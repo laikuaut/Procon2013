@@ -12,7 +12,12 @@ class PRO_EXPORTS FileException :
 public:
 
 	typedef enum error_code{
-		OPEN,CLOSE,WRITE,READ
+		OPEN,
+		CLOSE,
+		WRITE,
+		READ,
+		DIRECTORY,
+		NOT_EXIST
 	}error_code;
 
 protected:

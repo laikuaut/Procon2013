@@ -42,6 +42,10 @@ public:
 	void setState(t_state state);
 	t_state getState();
 
+	clock_t getStartTime() const;
+	clock_t getStopTime() const;
+	clock_t getSumStop() const;
+
 	void start(void);
 	clock_t restart(void);
 	clock_t stop(void);
@@ -54,12 +58,8 @@ public:
 
 	// 現在タイマ時間出力
 	clock_t getNow(void);
+
+
 };
 
 }
-
-class PRO_EXPORTS asdfg{
-public:
-	asdfg();
-	int add();
-};

@@ -3,6 +3,8 @@
 #include<iostream>
 #include<typeinfo>
 
+#include"Procon2013\ImageProcessing\Image.h"
+
 using namespace pro;
 using namespace std;
 
@@ -23,5 +25,7 @@ int main(int argc,char* argv[]){
 	}catch(const CameraException& e){
 		e.showError();
 	}
+
+	//pro::Image::test();
 
 }

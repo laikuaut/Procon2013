@@ -23,6 +23,18 @@ Timer::t_state Timer::getState(){
 	return state;
 }
 
+clock_t Timer::getStartTime() const{
+	return this->start_time;
+}
+
+clock_t Timer::getStopTime() const{
+	return this->stop_time;
+}
+
+clock_t Timer::getSumStop() const{
+	return this->sum_stop;
+}
+
 void Timer::start(){
 	reset();
 	start_time = clock();
@@ -81,10 +93,4 @@ clock_t Timer::getNow(){
 	else return stop_time - sum_stop - start_time;
 }
 
-}
-
-asdfg::asdfg(){}
-
-int asdfg::add(){
-	return 111;
 }

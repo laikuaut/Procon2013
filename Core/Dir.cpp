@@ -42,6 +42,34 @@ const std::string Dir::pwd() const{
 	return path.string();
 }
 
+const std::string Dir::pwd(const std::string& name) const{
+	return path.string() + "/" + name;
+}
+
+bool Dir::isExist() const{
+	return fs::exists(path);
+}
+
+bool Dir::isExist(const string& name) const{
+	return fs::exists(pwd(name));
+}
+
+bool Dir::isDirectory() const{
+	return fs::is_directory(path);
+}
+
+bool Dir::isDirectory(const string& name) const{
+	return fs::is_directory(pwd(name));
+}
+
+const std::string Dir::getFilename() const{
+	return path.filename().string();
+}
+
+const std::string Dir::getDrive() const{
+	return path.root_name().string();
+}
+
 bool Dir::create(int flag){
 	try{
 		if(fs::exists(path)){
@@ -191,30 +219,6 @@ void Dir::cd(const fs::path& path,const DirException& e){
 void Dir::setErrorShow(bool errorShow){
 	ErrorShow = errorShow;
 }
-
-const char* Dir::test(){
-
-	//fstream file;
-	//file.open("test.txt",ios::in);
-
-	//string ss;
-
-	//getline(file,ss);
-
-	//file.close();
-
-	//assert(true);
-
-	//fs::path pp(ss);
-
-	//Dir dir(ss);
-	//dir.create(Dir::OVER_WRITE_REMOVE_ALL);
-	//dir.remove();
-
-	return "";
-}
-
-
 
 }
 

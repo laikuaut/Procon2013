@@ -53,7 +53,17 @@ public:
 	static bool isPath(const boost::filesystem::path& path);
 	
 	const std::string pwd() const;
+	const std::string pwd(const string& name) const;
+
+	bool isExist() const;
+	bool isExist(const string& name) const;
+
+	bool isDirectory() const;
+	bool isDirectory(const string& name) const;
 	
+	const std::string getFilename() const;
+	const std::string getDrive() const;
+
 	void cd(const boost::filesystem::path& path);
 	void cd(const boost::filesystem::path& path,const DirException& e);
 
@@ -63,8 +73,6 @@ public:
 	bool remove(const boost::filesystem::path& path) const;
 	boost::uintmax_t remove_all() const;
 	boost::uintmax_t remove_all(const boost::filesystem::path& path) const;
-
-	static const char* test();
 
 	void setErrorShow(bool errorShow);
 

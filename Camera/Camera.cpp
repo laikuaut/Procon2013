@@ -20,6 +20,7 @@ Camera::Camera(Camera::f_kind fk,int fps,int jpgCR){
 
 Camera::~Camera(void){
 	frame.release();
+	cap.release();
 }
 
 void Camera::printCaptureInfo() const{
@@ -94,11 +95,6 @@ void Camera::initCap(f_kind aFk,
 	setCVWindowFlag(CV_WINDOW_NORMAL|CV_WINDOW_KEEPRATIO);
 
 	setManualCaptureNumber(1);
-
-	// 様々な設定...
-	cap.set(CV_CAP_PROP_FRAME_WIDTH, width);
-	cap.set(CV_CAP_PROP_FRAME_HEIGHT, height);
-
 }
 
 void Camera::setFk(Camera::f_kind fk){
@@ -287,7 +283,7 @@ int Camera::getManualCaptureNumber() const{
 void Camera::a_capture(){
 	stringstream ss;
 	ss << a_cap_num++;
-	cv::imwrite(a_dir.pwd() + "\\" + a_name + ss.str() + ".jpg", frame, params);
+	cv::imwrite(a_dir.pwd(a_name + ss.str() + ".jpg"), frame, params);
 	cout << a_name << ss.str() << ".jpg" << endl;
 
 }
@@ -295,7 +291,7 @@ void Camera::a_capture(){
 void Camera::m_capture(){
 	stringstream ss;
 	ss << m_cap_num++;
-	cv::imwrite(m_dir.pwd() + "\\" + m_name + ss.str() + ".jpg", frame, params);
+	cv::imwrite(m_dir.pwd(m_name + ss.str() + ".jpg"), frame, params);
 	cout << m_name << ss.str() << ".jpg" << endl;
 }
 
@@ -344,7 +340,15 @@ bool Camera::createManualDirectory(){
 	return false;
 }
 
+void Camera::Set(){
+	// 様々な設定...
+	cap.set(CV_CAP_PROP_FRAME_WIDTH, width);
+	cap.set(CV_CAP_PROP_FRAME_HEIGHT, height);
+}
+
 void Camera::manualCapture(){
+
+	Set();
 
 	createManualDirectory();
 
@@ -380,6 +384,8 @@ void Camera::autoCapture(){
 
 void Camera::autoCapture(long interval,long time){
 	
+	Set();
+
 	createAutoDirectory();
 	createManualDirectory();
 

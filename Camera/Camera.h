@@ -86,7 +86,6 @@ public:
 
 	string w_name;	// Window–¼
 
-
 private:
 
 	void printCaptureInfo() const;
@@ -141,9 +140,12 @@ public:
 	void setAutoDirectoryPath(string path);
 	string getAutoDirectoryPath() const;
 	bool createAutoDirectory();
+
 	void setManualDirectoryPath(string path);
 	string getManualDirectoryPath() const;
 	bool createManualDirectory();
+
+	void Set(); // cv::VideoCapture‚Ìİ’è‚ğ‚Ü‚Æ‚ß‚Äs‚¤B
 
 	void manualCapture();
 
