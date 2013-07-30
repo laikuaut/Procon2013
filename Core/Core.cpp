@@ -31,9 +31,13 @@ const char* stringToChar(const std::string& str){
 
 namespace test{
 
-void writeMessage(const std::string& message){
+void writeMessage(const std::string& message,int tab){
 #ifdef TEST_MESSAGE
-	Logger::WriteMessage(message.c_str());
+	std::stringstream ss;
+	for(int i=0;i<tab;i++)
+		ss << "\t";
+	ss<<message;
+	Logger::WriteMessage(ss.str().c_str());
 #endif
 }
 

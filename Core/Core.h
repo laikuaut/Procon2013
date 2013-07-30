@@ -16,6 +16,6 @@ PRO_C_EXTERN const char* stringToChar(const string& str);
 
 namespace test{
 
-void writeMessage(const std::string& message);
+void PRO_EXPORTS writeMessage(const std::string& message,int tab=0);
 
 }
