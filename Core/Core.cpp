@@ -2,6 +2,10 @@
 
 #include"Core.h"
 
+
+#include"CppUnitTest.h"
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
 namespace pro{
 
 std::string charToString(const char* str_c,int n){
@@ -20,6 +24,17 @@ const char* stringToChar(const std::string& str){
 	char* c_str = new char[str.size()+1];
 	strcpy_s(c_str,str.size()+1,str.c_str());
 	return c_str;
+}
+
+}
+
+
+namespace test{
+
+void writeMessage(const std::string& message){
+#ifdef TEST_MESSAGE
+	Logger::WriteMessage(message.c_str());
+#endif
 }
 
 }

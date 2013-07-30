@@ -28,6 +28,8 @@ private:
 	// ƒ^ƒCƒ}ó‘Ô
 	t_state state;
 
+	void setState(t_state state);
+
 public:
 
 	Timer(void);
@@ -39,12 +41,12 @@ public:
 	// •b–ˆ’è” * sec
 	static clock_t m_sec(long sec);
 
-	void setState(t_state state);
 	t_state getState();
 
 	clock_t getStartTime() const;
 	clock_t getStopTime() const;
 	clock_t getSumStop() const;
+	const std::vector<clock_t> getLapTime() const;
 
 	void start(void);
 	clock_t restart(void);

@@ -16,6 +16,9 @@
 #define BOOST_ALL_DYN_LINK
 #endif
 
+// testプロジェクトにてLoggerを表示するための宣言
+#define TEST_MESSAGE
+
 #include<string>
 #include<ctime>
 #include<vector>

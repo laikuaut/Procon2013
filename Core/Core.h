@@ -13,3 +13,9 @@ std::string PRO_EXPORTS charToString(const char* str_c,int n=512);
 PRO_C_EXTERN const char* stringToChar(const string& str);
 
 }
+
+namespace test{
+
+void writeMessage(const std::string& message);
+
+}

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Camera", "Camera\Camera.vcxproj", "{B1987010-1602-49B1-BD9B-77386518CFA5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Procon2013", "Procon2013\Procon2013.vcxproj", "{1FC94AF7-47B3-48D2-AC40-9DEB0DB0567D}"
@@ -21,7 +21,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Convert", "Convert\Convert.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exception", "Exception\Exception.vcxproj", "{6A6A563E-28B2-42E7-A17A-B3B9CD4D4545}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageProcessing", "ImageProcessing\ImageProcessing.vcxproj", "{22C1E058-6204-4C90-8870-2A657BD00625}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_ImageProcessing", "Test_ImageProcessing\Test_ImageProcessing.vcxproj", "{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Procon2013.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
@@ -177,6 +184,34 @@ Global
 		{6A6A563E-28B2-42E7-A17A-B3B9CD4D4545}.static_Release|Win32.Build.0 = static_Release|Win32
 		{6A6A563E-28B2-42E7-A17A-B3B9CD4D4545}.static_Release|x64.ActiveCfg = static_Release|x64
 		{6A6A563E-28B2-42E7-A17A-B3B9CD4D4545}.static_Release|x64.Build.0 = static_Release|x64
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Debug|Win32.ActiveCfg = Debug|Win32
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Debug|Win32.Build.0 = Debug|Win32
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Debug|x64.ActiveCfg = Debug|x64
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Debug|x64.Build.0 = Debug|x64
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Release|Win32.ActiveCfg = Release|Win32
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Release|Win32.Build.0 = Release|Win32
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Release|x64.ActiveCfg = Release|x64
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Release|x64.Build.0 = Release|x64
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Static_Debug|Win32.ActiveCfg = Static_Debug|Win32
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Static_Debug|Win32.Build.0 = Static_Debug|Win32
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Static_Debug|x64.ActiveCfg = Static_Debug|x64
+		{22C1E058-6204-4C90-8870-2A657BD00625}.Static_Debug|x64.Build.0 = Static_Debug|x64
+		{22C1E058-6204-4C90-8870-2A657BD00625}.static_Release|Win32.ActiveCfg = static_Release|Win32
+		{22C1E058-6204-4C90-8870-2A657BD00625}.static_Release|Win32.Build.0 = static_Release|Win32
+		{22C1E058-6204-4C90-8870-2A657BD00625}.static_Release|x64.ActiveCfg = static_Release|x64
+		{22C1E058-6204-4C90-8870-2A657BD00625}.static_Release|x64.Build.0 = static_Release|x64
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.Debug|x64.ActiveCfg = Debug|x64
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.Release|Win32.ActiveCfg = Release|Win32
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.Release|x64.ActiveCfg = Release|x64
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.Static_Debug|Win32.ActiveCfg = Debug|Win32
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.Static_Debug|Win32.Build.0 = Debug|Win32
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.Static_Debug|x64.ActiveCfg = Debug|x64
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.Static_Debug|x64.Build.0 = Debug|x64
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.static_Release|Win32.ActiveCfg = Release|Win32
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.static_Release|Win32.Build.0 = Release|Win32
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.static_Release|x64.ActiveCfg = Release|x64
+		{227D7BF7-5DB1-4D4C-9B1B-A4390A3D8DE1}.static_Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

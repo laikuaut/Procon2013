@@ -35,6 +35,10 @@ clock_t Timer::getSumStop() const{
 	return this->sum_stop;
 }
 
+const vector<clock_t> Timer::getLapTime() const{
+	return lap_time;
+}
+
 void Timer::start(){
 	reset();
 	start_time = clock();
@@ -42,14 +46,15 @@ void Timer::start(){
 }
 
 clock_t Timer::stop(){
-	if(start_time == -1) return -1;
+	if(state!=START) return -1;
+	//if(stop_time == -1) 
 	stop_time = clock();
 	setState(Timer::STOP);
 	return stop_time;
 }
 
 clock_t Timer::restart(){
-	if(start_time == -1) return -1;
+	if(state!=STOP) return -1;
 	sum_stop += clock() - stop_time;
 	stop_time = -1;
 	setState(Timer::START);
@@ -65,7 +70,7 @@ void Timer::reset(){
 }
 
 clock_t Timer::lap(){
-	if(start_time == -1) return -1;
+	if(state==RESET) return -1;
 	lap_time.push_back(getNow());
 	return lap_time.back();
 }
@@ -73,14 +78,14 @@ clock_t Timer::lap(){
 clock_t Timer::lap(long m_sec){
 	if(m_sec < 0)
 		throw OutOfRangeException<long>(m_sec,"m_sec","Timer.cpp","Timer::lap()");
-	if(start_time == -1) return -1;
+	if(state==RESET) return -1;
 	if(lap_time.empty())	lap_time.push_back(m_sec);
 	else lap_time.push_back(lap_time.back() + m_sec);
 	return lap_time.back();
 }
 
 clock_t Timer::getDiff(){
-	if(start_time == -1 || stop_time != -1) return -1;
+	if(state==RESET) return -1;
 	if(lap_time.empty())
 		return getNow();
 	else
@@ -88,7 +93,7 @@ clock_t Timer::getDiff(){
 }
 
 clock_t Timer::getNow(){
-	if(start_time == -1) return -1;
+	if(state==RESET) return -1;
 	if(stop_time == -1) return clock() - sum_stop - start_time;
 	else return stop_time - sum_stop - start_time;
 }
