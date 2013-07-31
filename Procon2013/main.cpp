@@ -10,18 +10,20 @@ using namespace std;
 
 int main(int argc,char* argv[]){
 
-	PaiFileDivide dd;
-	//dd.fileSizeCalc();
-	//dd.getIniSetting();
-	try{
-		//dd.divide();
-		dd.getIniSetting();
-		cout << dd.getLine(1,1,1) << endl;
-		cout << dd.getLine(1,1,2) << endl;
-		cout << dd.getLine(1,1,3) << endl;
-	}catch(const FileException& e){
-		e.showError();
-	}
+	CharArray::test();
+
+	//PaiFileDivide dd;
+	////dd.fileSizeCalc();
+	////dd.getIniSetting();
+	//try{
+	//	//dd.divide();
+	//	dd.getIniSetting();
+	//	cout << dd.getLine(1,1,1) << endl;
+	//	cout << dd.getLine(1,1,2) << endl;
+	//	cout << dd.getLine(1,1,3) << endl;
+	//}catch(const FileException& e){
+	//	e.showError();
+	//}
 	//try{
 	//	Camera camera;
 	//	camera.autoCapture(2,60);

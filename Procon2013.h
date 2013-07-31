@@ -6,6 +6,4 @@
 
 #include"Procon2013/Camera/Camera.h"
 #include"Procon2013/Dice/Dice.h"
-#include"Procon2013/Convert/Encode.h"
-
-#include"Procon2013/Convert/Pai.h"
+#include"Procon2013/Convert/Convert.h"

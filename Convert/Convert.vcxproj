@@ -44,6 +44,7 @@
   <ItemGroup>
     <ClInclude Include="Bin.h" />
     <ClInclude Include="CharArray.h" />
+    <ClInclude Include="Convert.h" />
     <ClInclude Include="Decode.h" />
     <ClInclude Include="Encode.h" />
     <ClInclude Include="Pai.h" />
