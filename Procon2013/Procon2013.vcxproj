@@ -25,6 +25,9 @@
     <ProjectReference Include="..\Camera\Camera.vcxproj">
       <Project>{b1987010-1602-49b1-bd9b-77386518cfa5}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Convert\Convert.vcxproj">
+      <Project>{f3b13193-e686-401d-8398-ae835e0a9e92}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{42a62d9b-1327-48ef-ab71-fccb8fc9e8db}</Project>
     </ProjectReference>

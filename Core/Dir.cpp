@@ -91,7 +91,7 @@ bool Dir::create(int flag){
 				// -----------------------------------
 				// アクセス拒否対策　コード検討・・・
 				while(fs::exists(path,boost::system::error_code()));
-				for(int i=0;i<5;i++){
+				for(int i=0;i<100;i++){
 					if(fs::create_directory(path,boost::system::error_code()))
 						return true;
 				}

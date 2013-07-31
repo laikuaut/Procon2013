@@ -10,6 +10,11 @@ using namespace std;
 
 int main(int argc,char* argv[]){
 
+	PaiFileDivide dd;
+	//dd.fileSizeCalc();
+	//dd.getIniSetting();
+	dd.divide();
+
 	//try{
 	//	Camera camera;
 	//	camera.autoCapture(2,60);
