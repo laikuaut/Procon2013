@@ -36,12 +36,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bin.cpp" />
+    <ClCompile Include="CharArray.cpp" />
     <ClCompile Include="Decode.cpp" />
     <ClCompile Include="Encode.cpp" />
     <ClCompile Include="Pai.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin.h" />
+    <ClInclude Include="CharArray.h" />
     <ClInclude Include="Decode.h" />
     <ClInclude Include="Encode.h" />
     <ClInclude Include="Pai.h" />

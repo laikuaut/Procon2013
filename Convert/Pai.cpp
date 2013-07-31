@@ -67,12 +67,48 @@ void PaiFileDivide::getIniSetting(){
 	fileSizeCalc(this->digits);
 }
 
+long PaiFileDivide::getDirNum() const{
+	return dir_num;
+}
+
+int PaiFileDivide::getOneLineNum() const{
+	return one_line_num;
+}
+
+int PaiFileDivide::getLineNum() const{
+	return line_num;
+}
+
+int PaiFileDivide::getFileNum() const{
+	return file_num;
+}
+
+const string PaiFileDivide::getOutFileName() const{
+	return out_name;
+}
+
+const string PaiFileDivide::getOutPath() const{
+	return out_path.pwd();
+}
 
 void PaiFileDivide::fileSizeCalc(){
 	boost::filesystem::path file(in_path.pwd(in_name));
 	//file_size = boost::filesystem::file_size(file);
 
-	fileSizeCalc(boost::filesystem::file_size(file)-2);
+	in_file.open(this->in_path.pwd(in_name),std::ios::in);
+	if(in_file.fail()) {
+		throw FileException(FileException::OPEN,in_path.pwd(in_name),"Pai.cpp","PaiFileDivide::fileSizeCalc()");
+	}
+
+	char *buf = new char[3];
+	in_file.read(buf,3);
+
+	if(buf[1]=='.')
+		fileSizeCalc(boost::filesystem::file_size(file)-1);
+	else
+		fileSizeCalc(boost::filesystem::file_size(file));
+
+	in_file.close();
 
 }
 
@@ -111,16 +147,16 @@ void PaiFileDivide::fileSizeCalc(boost::uintmax_t digits){
 }
 
 void PaiFileDivide::divide(){
-	
-	in_file.open(this->in_path.pwd(in_name),std::ios::in);
-	if(in_file.fail()) {
-		throw FileException(FileException::OPEN,in_name,"Pai.cpp","PaiFileDivide::divide()");
-	}
 
 	out_base_path.create(Dir::CREATE_DIRS | Dir::OVER_WRITE_REMOVE_ALL);
 
 	if(!setting_flag)	fileSizeCalc();
 	else				createIniFile();
+
+	in_file.open(this->in_path.pwd(in_name),std::ios::in);
+	if(in_file.fail()) {
+		throw FileException(FileException::OPEN,in_path.pwd(in_name),"Pai.cpp","PaiFileDivide::divide()");
+	}
 
 	// Å‰‚Ìdirectoryì¬
 	createDir(1);
@@ -243,9 +279,52 @@ void PaiFileDivide::createFile(int dir_num,int file_num,int file_max_num){
 void PaiFileDivide::createLine(int one_line_num){
 	char *buf = new char[one_line_num];
 	in_file.read(buf,one_line_num);
+	if(this->one_line_num == one_line_num-1){
+		if(buf[1] == '.'){
+			for(int i=2;i<one_line_num;i++){
+				buf[i-1] = buf[i];
+			}
+			one_line_num--;
+		}
+	}
 	out_file.write(buf,one_line_num);
 	out_file << std::endl;
 }
 
+const char* PaiFileDivide::getLine(long dir_num,int file_num,int line_num){
+	std::ifstream in_file;
+	
+	std::stringstream d_ss;
+	std::stringstream f_ss;
+	d_ss << dir_num;
+	f_ss << out_name << "_" << file_num << ".txt";
+
+	out_path = Dir(out_base_path.pwd(d_ss.str()));
+
+	in_file.open(out_path.pwd(f_ss.str()));
+	if(in_file.fail())
+		throw FileException(FileException::OPEN,in_path.pwd(in_name),"Pai.cpp","PaiFileDivide::getLine(long,int,int)");
+
+	char *c_str;
+	int one_line;
+
+	if( dir_num == this->dir_num &&
+		file_num == this->last_file_num &&
+		line_num == this->last_line_num){
+		one_line = last_digits+1;
+	}else{
+		one_line = one_line_num+1;
+	}
+
+	c_str = new char[one_line];
+
+	in_file.seekg((line_num-1)*(one_line+1),std::ios_base::beg);
+
+	in_file.getline(c_str,one_line);
+
+	in_file.close();
+
+	return c_str;
+}
 
 }

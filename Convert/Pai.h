@@ -17,7 +17,6 @@ private:
 	int last_file_num;
 	int last_line_num;
 	int last_digits;
-	//boost::uintmax_t file_size;
 	boost::uintmax_t digits;
 	long all_line_num;
 	long all_file_num;
@@ -53,14 +52,12 @@ public:
 	PaiFileDivide(boost::filesystem::path path,string name);
 	~PaiFileDivide(void);
 
-	long getDirNum();
-	int getOneLineNum();
-	int getLineNum();
-	int getFileNum();
-	const string getOutFileName();
-	const string getOutPath();
-	
-
+	long getDirNum() const;
+	int getOneLineNum() const;
+	int getLineNum() const;
+	int getFileNum() const;
+	const string getOutFileName() const;
+	const string getOutPath() const;
 
 	void fileSizeCalc();
 	void fileSizeCalc(boost::uintmax_t digits);
@@ -68,7 +65,9 @@ public:
 
 	void getIniSetting();
 
-	void setNums(int dir_num,int file_num,int one_line_num);
+	//void setNums(int file_num,int line_num,int one_line_num);
+
+	const char* getLine(long dir_num,int file_num,int line_num);
 
 
 
