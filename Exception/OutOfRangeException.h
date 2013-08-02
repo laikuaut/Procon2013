@@ -23,14 +23,17 @@ public:
 	OutOfRangeException(const string& aMessage);
 	OutOfRangeException(const string& aMessage,
 				const string& aFile,
-				const string& aFunc);
+				const string& aFunc,
+				int aLine);
 	OutOfRangeException(Type aNum,
 				const string& aFile,
-				const string& aFunc);
+				const string& aFunc,
+				int aLine);
 	OutOfRangeException(Type aNum,
 				const string& aAgument,
 				const string& aFile,
-				const string& aFunc);
+				const string& aFunc,
+				int aLine);
 
 	~OutOfRangeException(void);
 };

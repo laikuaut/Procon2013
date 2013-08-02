@@ -30,11 +30,13 @@ public:
 	DirException(const error_code aCode,
 				const string& aPath,
 				const string& aFile,
-				const string& aFunc);
+				const string& aFunc,
+				int aLine);
 	DirException(const string& aMessage);
 	DirException(const string& aMessage,
 				const string& aFile,
-				const string& aFunc);
+				const string& aFunc,
+				int aLine);
 
 	~DirException(void);
 

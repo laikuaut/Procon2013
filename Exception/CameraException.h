@@ -25,11 +25,13 @@ public:
 	CameraException(const error_code aCode);
 	CameraException(const error_code aCode,
 				const string& aFile,
-				const string& aFunc);
+				const string& aFunc,
+				int aLine);
 	CameraException(const string& aMessage);
 	CameraException(const string& aMessage,
 				const string& aFile,
-				const string& aFunc);
+				const string& aFunc,
+				int aLine);
 
 	~CameraException(void);
 };

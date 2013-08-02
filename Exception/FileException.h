@@ -39,11 +39,13 @@ public:
 	FileException(const error_code aCode,
 				const string& aOpenFName,
 				const string& aFile,
-				const string& aFunc);
+				const string& aFunc,
+				int aLine);
 	FileException(const string& aMessage);
 	FileException(const string& aMessage,
 				const string& aFile,
-				const string& aFunc);
+				const string& aFunc,
+				int aLine);
 
 	error_code getErrorCode() const;
 

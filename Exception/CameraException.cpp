@@ -13,8 +13,9 @@ CameraException::CameraException(const error_code aCode){
 
 CameraException::CameraException(const error_code aCode,
 				const string& aFile,
-				const string& aFunc)
-			: Exception("",aFile,aFunc){
+				const string& aFunc,
+				int aLine)
+			: Exception("",aFile,aFunc,aLine){
 	setErrorCode(aCode);
 }
 
@@ -25,8 +26,9 @@ CameraException::CameraException(const string& aMessage)
 
 CameraException::CameraException(const string& aMessage,
 				const string& aFile,
-				const string& aFunc)
-			: Exception(aMessage,aFile,aFunc) {
+				const string& aFunc,
+				int aLine)
+			: Exception(aMessage,aFile,aFunc,aLine) {
 
 }
 

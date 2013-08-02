@@ -8,8 +8,6 @@ class PRO_EXPORTS CharArray
 {
 private:
 
-	static int const DEFAULT_LENGTH = 8192;
-
 	char *c_str;
 	int length;
 
@@ -41,8 +39,12 @@ public:
 	void push_back(const CharArray& obj);
 	void push_back(const char* c_str);
 	void push_back(const char* c_str,int length);
+	void push_flont(const CharArray& obj);
+	void push_flont(const char* c_str);
+	void push_flont(const char* c_str,int length);
 
 	void pop_flont(int length);
+	void pop_back(int length);
 	
 	bool Equal(const CharArray& obj) const;
 	bool Equal(const char* c_str) const;
@@ -73,7 +75,6 @@ public:
 	bool operator!=(const CharArray& obj) const;
 	bool operator!=(const char* c_str) const;
 
-	void static test();
 };
 
 }

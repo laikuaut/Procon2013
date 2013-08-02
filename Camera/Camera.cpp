@@ -66,7 +66,7 @@ void Camera::initCap(f_kind aFk,
 	if(!cap.isOpened()){
 		throw CameraException(CameraException::OPEN,
 			"Camera.cpp",
-			"Camera::initCap(f_kind aFk,int,int,int,int)");
+			"Camera::initCap(f_kind aFk,int,int,int,int)",__LINE__);
 	}
 
 	if(aFk == FREE)
@@ -124,10 +124,10 @@ void Camera::setFk(Camera::f_kind fk){
 		this->height = FULL_HD_HEIGHT;
 		break;
 	case FREE:
-		throw OutOfRangeException<int>("fk=FREEは設定できません。","Camera.cpp","Camera::setFk(Camera::f_kind)");
+		throw OutOfRangeException<int>("fk=FREEは設定できません。","Camera.cpp","Camera::setFk(Camera::f_kind)",__LINE__);
 		break;
 	default:
-		throw OutOfRangeException<int>("定義されていない値を使用しています。","Camera.cpp","Camera::setFk(Camera::f_kind)");
+		throw OutOfRangeException<int>("定義されていない値を使用しています。","Camera.cpp","Camera::setFk(Camera::f_kind)",__LINE__);
 		break;
 	}
 	this->fk = fk;
@@ -139,9 +139,9 @@ Camera::f_kind Camera::getFk() const{
 
 void Camera::setFrameSize(int width,int height){
 	if(width < 1 || width > FULL_HD_WIDTH)
-		throw OutOfRangeException<int>(width,"width","Camera.cpp","Camera::setFrameSize(int,int)");
+		throw OutOfRangeException<int>(width,"width","Camera.cpp","Camera::setFrameSize(int,int)",__LINE__);
 	else if(height < 1 || height > FULL_HD_HEIGHT)
-		throw OutOfRangeException<int>(height,"height","Camera.cpp","Camera::setFrameSize(int,int)");
+		throw OutOfRangeException<int>(height,"height","Camera.cpp","Camera::setFrameSize(int,int)",__LINE__);
 	
 	if(width == QVGA_WIDTH && height == QVGA_HEIGHT)
 		this->fk = QVGA;
@@ -177,7 +177,7 @@ int Camera::getFrameHeight() const{
 
 void Camera::setFps(int fps){
 	if(fps<1)
-		throw OutOfRangeException<int>(fps,"fps","Camera.cpp","Camera::setFps(int)");
+		throw OutOfRangeException<int>(fps,"fps","Camera.cpp","Camera::setFps(int)",__LINE__);
 	this->fps = fps;
 }
 
@@ -187,7 +187,7 @@ int Camera::getFps() const{
 
 void Camera::setJPEGCR(int jpgCR){
 	if(jpgCR < 0 || jpgCR > 100)
-		throw OutOfRangeException<int>(jpgCR,"jpgCR(0～100)","Camera.cpp","Camera::setJPEGCR(int)");
+		throw OutOfRangeException<int>(jpgCR,"jpgCR(0～100)","Camera.cpp","Camera::setJPEGCR(int)",__LINE__);
 
 	params = vector<int>(2);
 	// JPEG圧縮パラメータ
@@ -201,9 +201,9 @@ int Camera::getJPEGCR() const{
 
 void Camera::setTimes(long aInterval,long aTime){
 	if(aInterval <= 0)
-		throw OutOfRangeException<long>(aInterval,"aInterval","Camera.cpp","Camera::setTimes(long,long)");
+		throw OutOfRangeException<long>(aInterval,"aInterval","Camera.cpp","Camera::setTimes(long,long)",__LINE__);
 	else if(aTime < 0)
-		throw OutOfRangeException<long>(aTime,"aTime","Camera.cpp","Camera::setTimes(long,long)");
+		throw OutOfRangeException<long>(aTime,"aTime","Camera.cpp","Camera::setTimes(long,long)",__LINE__);
 	this->interval = aInterval;
 	this->cap_time = aTime;
 }
@@ -218,7 +218,7 @@ long Camera::getTime() const{
 
 void Camera::setAutoCaptureFileName(const string& aFName){
 	if(!Dir::isPath(aFName))
-		throw DirException(DirException::PATH_ERROR,aFName,"Camera.cpp","Camera::setAutoCaptureFileName(string)");
+		throw DirException(DirException::PATH_ERROR,aFName,"Camera.cpp","Camera::setAutoCaptureFileName(string)",__LINE__);
 	this->a_name = aFName;
 }
 
@@ -228,7 +228,7 @@ const string Camera::getAutoCaptureFileName() const{
 
 void Camera::setManualCaptureFileName(const string& aFName){
 	if(!Dir::isPath(aFName))
-		throw DirException(DirException::PATH_ERROR,aFName,"Camera.cpp","Camera::setManualCaptureFileName(string)");
+		throw DirException(DirException::PATH_ERROR,aFName,"Camera.cpp","Camera::setManualCaptureFileName(string)",__LINE__);
 	this->m_name = aFName;
 }
 
@@ -238,7 +238,7 @@ const string Camera::getManualCaptureFileName() const{
 
 void Camera::setCounter(int aCounter){
 	if(aCounter < 1)
-		throw OutOfRangeException<int>(aCounter,"aCounter","Camera.cpp","Camera::setCounter(int)");
+		throw OutOfRangeException<int>(aCounter,"aCounter","Camera.cpp","Camera::setCounter(int)",__LINE__);
 	this->counter = aCounter;
 }
 
@@ -248,7 +248,7 @@ int Camera::getCounter() const{
 
 void Camera::setDirCreateFlag(int flag){
 	if(flag < 0 || flag >= Dir::CREATE_DIRS<<1)
-		throw OutOfRangeException<int>(flag,"flag","Dir.cpp","Camera::setDirCreateFlag(int)");
+		throw OutOfRangeException<int>(flag,"flag","Dir.cpp","Camera::setDirCreateFlag(int)",__LINE__);
 	this->dirCreateFlag = flag;
 }
 
@@ -272,7 +272,7 @@ int Camera::getCVWindowFlag() const{
 
 void Camera::setManualCaptureNumber(int num){
 	if(num < 0)
-		throw OutOfRangeException<int>(num,"num","Camera.cpp","Camera::setManualCaptureNumber(int)");
+		throw OutOfRangeException<int>(num,"num","Camera.cpp","Camera::setManualCaptureNumber(int)",__LINE__);
 	this->m_cap_num = num;
 }
 
@@ -457,7 +457,7 @@ void Camera::autoCapture(long interval,long time){
 				timer.lap(Timer::m_sec(interval));
 			}catch(const OutOfRangeException<long>& e){
 				e.showError();
-				throw OutOfRangeException<long>(interval,"interval","Camera.cpp","autoCapture()");
+				throw OutOfRangeException<long>(interval,"interval","Camera.cpp","autoCapture()",__LINE__);
 			}
 
 			a_capture();

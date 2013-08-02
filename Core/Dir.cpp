@@ -20,7 +20,7 @@ Dir::Dir(void)
 
 Dir::Dir(const fs::path& path){
 	if(!isPath(path))
-		throw DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::Dir(boost::filesystem::path&)");
+		throw DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::Dir(boost::filesystem::path&)",__LINE__);
 	this->path = fs::system_complete(path);
 }
 
@@ -74,7 +74,7 @@ bool Dir::create(int flag){
 	try{
 		if(fs::exists(path)){
 			if(flag == 0)
-				throw DirException(DirException::EXIST,pwd(),"Dir.cpp","Dir::create()");
+				throw DirException(DirException::EXIST,pwd(),"Dir.cpp","Dir::create()",__LINE__);
 			else if(flag%2==1){
 				string default_path = pwd();
 				int num=1;
@@ -105,7 +105,7 @@ bool Dir::create(int flag){
 			if((flag>>3)%2==0){
 				if(fs::create_directory(path))
 					return true;
-				throw DirException(DirException::NOT_PATH,pwd(),"Dir.cpp","Dir::create()");
+				throw DirException(DirException::NOT_PATH,pwd(),"Dir.cpp","Dir::create()",__LINE__);
 			}
 			else
 				return fs::create_directories(path);
@@ -124,7 +124,7 @@ bool Dir::create(int flag){
 bool Dir::create(const fs::path& path, int flag){
 	Dir dir(this->pwd());
 	try{
-		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::create(string,int)"));
+		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::create(string,int)",__LINE__));
 	}catch(const DirException& e){
 		if(ErrorShow) e.showError();
 		return false;
@@ -135,9 +135,9 @@ bool Dir::create(const fs::path& path, int flag){
 bool Dir::remove() const{
 	try{
 		if(!fs::exists(path))
-			throw DirException(DirException::NOT_EXIST,path.string(),"Dir.cpp","Dir::remove()");
+			throw DirException(DirException::NOT_EXIST,path.string(),"Dir.cpp","Dir::remove()",__LINE__);
 		else if(!fs::is_empty(path))
-			throw DirException(DirException::NOT_EMPTY,path.string(),"Dir.cpp","Dir::remove()");
+			throw DirException(DirException::NOT_EMPTY,path.string(),"Dir.cpp","Dir::remove()",__LINE__);
 		return fs::remove(path);
 	}catch(const DirException& e){
 		if(ErrorShow) e.showError();
@@ -152,7 +152,7 @@ bool Dir::remove() const{
 bool Dir::remove(const fs::path& path) const{
 	Dir dir(this->pwd());
 	try{
-		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::remove(string)"));
+		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::remove(string)",__LINE__));
 		return dir.remove();
 	}catch(const DirException& e){
 		if(ErrorShow) e.showError();
@@ -177,7 +177,7 @@ boost::uintmax_t Dir::remove_all() const{
 boost::uintmax_t Dir::remove_all(const fs::path& path) const{
 	Dir dir(this->pwd());
 	try{
-		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::remove_all(string)"));
+		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::remove_all(string)",__LINE__));
 		return dir.remove_all();
 	}catch(const DirException& e){
 		if(ErrorShow) e.showError();
@@ -192,7 +192,7 @@ boost::uintmax_t Dir::remove_all(const fs::path& path) const{
 void Dir::cd(const fs::path& path){
 	fs::path pth(path.string());
 	if(!isPath(path))
-		throw DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::cd(string)");
+		throw DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::cd(string)",__LINE__);
 	if(pth.is_absolute()){
 		this->path = fs::system_complete(pth);
 	}else if(pth.is_relative()){
@@ -204,7 +204,7 @@ void Dir::cd(const fs::path& path,const DirException& e){
 	fs::path pth(path.string());
 	try{
 		if(!isPath(path))
-			throw DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::cd(string,DirException)");
+			throw DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::cd(string,DirException)",__LINE__);
 	}catch(const DirException& ex){
 		if(ErrorShow) ex.showError();
 		throw e;

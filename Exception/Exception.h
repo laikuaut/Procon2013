@@ -20,18 +20,21 @@ protected:
 	string message;
 	string fileName;
 	string functionName;
+	int throwLine;
 public:
 	Exception();
 	Exception(const string& aMessage);
 	Exception(const string& aMessage,
 				const string& aFile,
-				const string& aFunc);
+				const string& aFunc,
+				int aLine);
 	virtual ~Exception();
 
 	virtual const char* what() const throw();
 	virtual const char* getName() const throw();
 	virtual const char* getFileName() const throw();
 	virtual const char* getFuncName() const throw();
+	virtual int   getThrowLine() const throw();
 	virtual void showError() const throw();
 };
 

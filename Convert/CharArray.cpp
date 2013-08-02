@@ -119,10 +119,44 @@ void CharArray::push_back(const char* c_str,int length){
 	create(tmp,length);
 }
 
+void CharArray::push_flont(const CharArray& obj){
+	push_flont(obj.c_str,obj.length);
+}
+
+void CharArray::push_flont(const char* c_str){
+	std::stringstream ss;
+	ss<<c_str;
+	ss<<this->c_str;
+	length = ss.str().length();
+	create(ss.str().c_str(),length);
+}
+
+void CharArray::push_flont(const char* c_str,int length){
+	const int L = length + this->length;
+	char* tmp = new char[L];
+	for(int i=0;i<length;i++){
+		tmp[i] = c_str[i];
+	}
+	for(int i=length;i<L;i++){
+		tmp[i] = this->c_str[i-length];
+	}
+	tmp[L] = '\0';
+	create(tmp,L);
+}
+
 void CharArray::pop_flont(int length){
 	char* tmp = new char[this->length - length];
 	for(int i=length;i<this->length;i++){
 		tmp[i-length] = this->c_str[i];
+	}
+	tmp[this->length - length] = '\0';
+	create(tmp,this->length-length);
+}
+
+void CharArray::pop_back(int length){
+	char* tmp = new char[this->length - length];
+	for(int i=0;i<this->length-length;i++){
+		tmp[i] = this->c_str[i];
 	}
 	tmp[this->length - length] = '\0';
 	create(tmp,this->length-length);
@@ -149,7 +183,7 @@ char CharArray::getChar(int n){
 		N=n;
 	}
 	if(N<0 || N>length)
-		throw OutOfRangeException<int>(n,"n","CharArray.cpp","CharArray::getChar(int)");
+		throw OutOfRangeException<int>(n,"n","CharArray.cpp","CharArray::getChar(int)",__LINE__);
 	return c_str[N];
 }
 
@@ -167,7 +201,7 @@ char CharArray::operator[](int n){
 	try{
 		return getChar(n);
 	}catch(OutOfRangeException<int> e){
-		throw OutOfRangeException<int>(n,"n","CharArray.cpp","CharArray::operator[](int)");
+		throw OutOfRangeException<int>(n,"n","CharArray.cpp","CharArray::operator[](int)",__LINE__);
 	}
 }
 
@@ -175,18 +209,18 @@ char CharArray::operator()(int n){
 	try{
 		return getChar(n);
 	}catch(OutOfRangeException<int> e){
-		throw OutOfRangeException<int>(n,"n","CharArray.cpp","CharArray::operator()(int)");
+		throw OutOfRangeException<int>(n,"n","CharArray.cpp","CharArray::operator()(int)",__LINE__);
 	}
 }
 
 const char* CharArray::operator()(int s_num,int e_num){
 	if(e_num < s_num)
 		// ExceptionAgument‚ðì¬‚·‚é‚±‚Æ
-		throw Exception("ˆø”‚ª³‚µ‚­‚È‚¢","CharArray.cpp","CharArray::operator()(int,int)");
+		throw Exception("ˆø”‚ª³‚µ‚­‚È‚¢","CharArray.cpp","CharArray::operator()(int,int)",__LINE__);
 	else if(s_num<0||s_num>length)
-		throw OutOfRangeException<int>(s_num,"s_num","CharArray.cpp","CharArray::operator()(int,int)");
+		throw OutOfRangeException<int>(s_num,"s_num","CharArray.cpp","CharArray::operator()(int,int)",__LINE__);
 	else if(e_num<0||e_num>length)
-		throw OutOfRangeException<int>(e_num,"e_num","CharArray.cpp","CharArray::operator()(int,int)");
+		throw OutOfRangeException<int>(e_num,"e_num","CharArray.cpp","CharArray::operator()(int,int)",__LINE__);
 
 	char* c_str = new char[e_num - s_num+2];
 	for(int i=s_num;i<e_num+1;i++)
@@ -250,30 +284,6 @@ bool CharArray::operator!=(const CharArray& obj) const{
 
 bool CharArray::operator!=(const char* c_str) const{
 	return !Equal(c_str);
-}
-
-void CharArray::test(){
-	const char* aa = "aaaa";
-	
-	CharArray char_array(aa);
-	CharArray char_array2(aa);
-
-	if(char_array != "bbbb")
-		std::cout << "ok" << std::endl;
-
-	char_array.allSame('0');
-	std::cout << char_array	 << std::endl;
-	char_array+=char_array2;
-	char_array=char_array2+char_array;
-	char_array+="ffdd";
-	char_array+="b";
-	std::cout << char_array	 << std::endl;
-	std::cout << char_array(1,3) << std::endl;
-	/*
-	char_array.pop_flont(4);
-	std::cout << char_array	 << std::endl;
-	char_array = char_array2 = "asdf";
-	std::cout << char_array	 << std::endl;*/
 }
 
 }

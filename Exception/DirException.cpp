@@ -9,8 +9,9 @@ DirException::DirException(void)
 
 DirException::DirException(const string& aMessage,
 				const string& aFile,
-				const string& aFunc)
-			: Exception(aMessage,aFile,aFunc){
+				const string& aFunc,
+				int aLine)
+			: Exception(aMessage,aFile,aFunc,aLine){
 }
 
 DirException::DirException(const error_code aCode){
@@ -24,8 +25,9 @@ DirException::DirException(const error_code aCode,const string& aPath){
 DirException::DirException(const error_code aCode,
 				const string& aPath,
 				const string& aFile,
-				const string& aFunc)
-				:Exception("",aFile,aFunc){
+				const string& aFunc,
+				int aLine)
+				:Exception("",aFile,aFunc,aLine){
 	setErrorCode(aCode,aPath);
 }
 

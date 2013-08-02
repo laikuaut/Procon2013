@@ -3,15 +3,19 @@
 #include<iostream>
 #include<typeinfo>
 
-#include"Procon2013\ImageProcessing\Image.h"
-
 using namespace pro;
 using namespace std;
 
 int main(int argc,char* argv[]){
 
-	CharArray::test();
-
+	try{
+		OutPaiDivide opd("./Resource/Pi - Dec - Chudnovsky.txt");
+		opd.divide();
+	}catch(const FileException& e){
+		e.showError();
+	}catch(const DirException& e){
+		e.showError();
+	}
 	//PaiFileDivide dd;
 	////dd.fileSizeCalc();
 	////dd.getIniSetting();

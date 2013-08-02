@@ -4,4 +4,7 @@
 #include"CharArray.h"
 #include"Decode.h"
 #include"Encode.h"
-#include"Pai.h"
+#include"PaiDivide.h"
+#include"OutPaiDivide.h"
+#include"InPaiDivide.h"
+

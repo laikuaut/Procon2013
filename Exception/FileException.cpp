@@ -12,8 +12,9 @@ FileException::FileException(const string& aMassage) : Exception(aMassage){
 
 FileException::FileException(const string& aMessage,
 				const string& aFile,
-				const string& aFunc)
-			: Exception(aMessage,aFile,aFunc){
+				const string& aFunc,
+				int aLine)
+			: Exception(aMessage,aFile,aFunc,aLine){
 }
 
 FileException::FileException(const error_code aNum){
@@ -27,8 +28,9 @@ FileException::FileException(const error_code aNum,const string& aOpenFName){
 FileException::FileException(const error_code aNum,
 				const string& aOpenFName,
 				const string& aFile,
-				const string& aFunc)
-				:Exception("",aFile,aFunc){
+				const string& aFunc,
+				int aLine)
+				:Exception("",aFile,aFunc,aLine){
 	setErrorCode(aNum,aOpenFName);
 }
 

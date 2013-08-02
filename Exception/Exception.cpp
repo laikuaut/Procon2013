@@ -17,10 +17,12 @@ Exception::Exception(const string& aMessage) :
 
 Exception::Exception(const string& aMessage,
 				const string& aFile,
-				const string& aFunc) : 
+				const string& aFunc,
+				int aLine) : 
 							message(aMessage),
 							fileName(aFile),
-							functionName(aFunc){
+							functionName(aFunc),
+							throwLine(aLine){
 }
 
 Exception::~Exception(void)
@@ -44,9 +46,13 @@ const char* Exception::getFuncName() const throw(){
 	return functionName.c_str();
 }
 
+int Exception::getThrowLine() const throw(){
+	return throwLine;
+}
+
 void Exception::showError() const throw(){
 	cout	<< typeid(*this).name() //getName()  
-		<< " [" << getFileName() << " , " << getFuncName() << "] "
+		<< " [" << getFileName() << " , " << getFuncName() << " , Line:" << throwLine << "] "
 				<< ": "	<< what()
 				<< endl;
 }

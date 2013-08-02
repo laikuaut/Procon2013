@@ -39,7 +39,10 @@
     <ClCompile Include="CharArray.cpp" />
     <ClCompile Include="Decode.cpp" />
     <ClCompile Include="Encode.cpp" />
+    <ClCompile Include="InPaiDivide.cpp" />
+    <ClCompile Include="OutPaiDivide.cpp" />
     <ClCompile Include="Pai.cpp" />
+    <ClCompile Include="PaiDivide.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin.h" />
@@ -47,7 +50,10 @@
     <ClInclude Include="Convert.h" />
     <ClInclude Include="Decode.h" />
     <ClInclude Include="Encode.h" />
+    <ClInclude Include="InPaiDivide.h" />
+    <ClInclude Include="OutPaiDivide.h" />
     <ClInclude Include="Pai.h" />
+    <ClInclude Include="PaiDivide.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">

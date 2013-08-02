@@ -48,23 +48,23 @@ OutOfRangeException<Type>::OutOfRangeException
 
 template<typename Type>
 OutOfRangeException<Type>::OutOfRangeException
-	(const string& aMessage,const string& aFile,const string& aFunc)
-	: Exception(aMessage,aFile,aFunc)
+	(const string& aMessage,const string& aFile,const string& aFunc,int aLine)
+	: Exception(aMessage,aFile,aFunc,aLine)
 {
 }
 
 template<typename Type>
 OutOfRangeException<Type>::OutOfRangeException
-	(Type aNum,const string& aFile,const string& aFunc)
-	: Exception("",aFile,aFunc)
+	(Type aNum,const string& aFile,const string& aFunc,int aLine)
+	: Exception("",aFile,aFunc,aLine)
 {
 	setNum(aNum);
 }
 
 template<typename Type>
 OutOfRangeException<Type>::OutOfRangeException
-	(Type aNum,const string& aAgument, const string& aFile,const string& aFunc)
-	: Exception("",aFile,aFunc)
+	(Type aNum,const string& aAgument, const string& aFile,const string& aFunc,int aLine)
+	: Exception("",aFile,aFunc,aLine)
 {
 	setNum(aNum,aAgument);
 }
