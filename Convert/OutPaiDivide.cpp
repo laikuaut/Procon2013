@@ -209,7 +209,7 @@ void OutPaiDivide::createLastDir(){
 	// ÅŒã‚Ìfileì¬
 	createFile(dir_num,last_file_num,last_file_num);
 
-	for(int k=0;k<last_line_num;k++){
+	for(int k=1;k<last_line_num;k++){
 		createLine(one_line_num);
 	}
 
