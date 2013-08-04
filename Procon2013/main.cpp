@@ -17,12 +17,12 @@ int main(int argc,char* argv[]){
 	//	e.showError();
 	//}
 
-	InPaiDivide ipd;
-
-	cout << ipd.getLine() << endl;
-
-	for(int i=1;i<10000;i++)
-		cout << ipd.nextLine() << endl;
+	CharArrayNumeric can(2);
+	cout << can.getNumString() << endl;
+	cout << can.getNumLength() << endl;
+	do{
+		cout << can << endl;
+	}while(can.add());
 
 
 	//PaiFileDivide dd;

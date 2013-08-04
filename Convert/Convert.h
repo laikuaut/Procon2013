@@ -8,4 +8,4 @@
 #include"OutPaiDivide.h"
 #include"InPaiDivide.h"
 #include"PaiMatch.h"
-
+#include"CharArrayNumeric.h"

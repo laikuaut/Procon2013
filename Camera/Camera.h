@@ -28,7 +28,13 @@ public:
  *	  FULL HD：1920×1080
  **/
 	typedef enum f_kind{
-		QVGA,VGA,XGA,HD,UXGA,FULL_HD,FREE
+		QVGA
+		,VGA
+		,XGA
+		,HD
+		,UXGA
+		,FULL_HD
+		,FREE
 	}f_kind;
 
 	static int const QVGA_WIDTH = 320;
@@ -88,10 +94,15 @@ public:
 
 private:
 
+	// キャプチャ情報の表示
 	void printCaptureInfo() const;
+	// キャプチャ初期化
 	void initCap(f_kind aFk,int aWidth,int aHeight,int fps,int jpgCR);
+	// 自動撮影時のキャプチャメソッド
 	void a_capture();
+	// 手動撮影時のキャプチャメソッド
 	void m_capture();
+	// OpenCVのWindowがアクティブかどうか
 	bool isCVWindowActive();
 
 public:
@@ -100,6 +111,10 @@ public:
 	Camera(f_kind fk,int fps=30,int jpgCR=95);
 
 	~Camera(void);
+
+	/*************************
+	 *   プロパティメソッド
+	 */
 
 	void setFk(f_kind fk);
 	f_kind getFk() const;
@@ -139,13 +154,26 @@ public:
 
 	void setAutoDirectoryPath(string path);
 	string getAutoDirectoryPath() const;
-	bool createAutoDirectory();
 
 	void setManualDirectoryPath(string path);
 	string getManualDirectoryPath() const;
+
+	/*************************
+	 *   ディレクトリ作成
+	 */
+
+	bool createAutoDirectory();
 	bool createManualDirectory();
 
+	/*************************
+	 *   設定メソッド
+	 */
+
 	void Set(); // cv::VideoCaptureの設定をまとめて行う。
+
+	/*************************
+	 *   キャプチャメソッド
+	 */
 
 	void manualCapture();
 

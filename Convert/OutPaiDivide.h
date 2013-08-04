@@ -4,7 +4,7 @@
 
 namespace pro{
 
-class PRO_EXPORTS OutPaiDivide : PaiDivide
+class PRO_EXPORTS OutPaiDivide : public PaiDivide
 {
 private:
 	

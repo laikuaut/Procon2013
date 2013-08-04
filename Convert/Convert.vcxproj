@@ -37,6 +37,7 @@
   <ItemGroup>
     <ClCompile Include="Bin.cpp" />
     <ClCompile Include="CharArray.cpp" />
+    <ClCompile Include="CharArrayNumeric.cpp" />
     <ClCompile Include="Decode.cpp" />
     <ClCompile Include="Encode.cpp" />
     <ClCompile Include="InPaiDivide.cpp" />
@@ -47,6 +48,7 @@
   <ItemGroup>
     <ClInclude Include="Bin.h" />
     <ClInclude Include="CharArray.h" />
+    <ClInclude Include="CharArrayNumeric.h" />
     <ClInclude Include="Convert.h" />
     <ClInclude Include="Decode.h" />
     <ClInclude Include="Encode.h" />
