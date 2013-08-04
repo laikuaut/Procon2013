@@ -8,14 +8,23 @@ using namespace std;
 
 int main(int argc,char* argv[]){
 
-	try{
-		OutPaiDivide opd("./Resource/Pi - Dec - Chudnovsky.txt");
-		opd.divide();
-	}catch(const FileException& e){
-		e.showError();
-	}catch(const DirException& e){
-		e.showError();
-	}
+	//try{
+	//	OutPaiDivide opd("./Resource/Pi - Dec - Chudnovsky.txt");
+	//	opd.divide();
+	//}catch(const FileException& e){
+	//	e.showError();
+	//}catch(const DirException& e){
+	//	e.showError();
+	//}
+
+	InPaiDivide ipd;
+
+	cout << ipd.getLine() << endl;
+
+	for(int i=1;i<10000;i++)
+		cout << ipd.nextLine() << endl;
+
+
 	//PaiFileDivide dd;
 	////dd.fileSizeCalc();
 	////dd.getIniSetting();

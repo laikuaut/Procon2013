@@ -30,7 +30,7 @@ void Image::Init(string aPath,string aName){
 
 void Image::setName(const string& aName){
 	if(!Dir::isPath(aName))
-		throw DirException(DirException::NOT_PATH,aName,"Image.cpp","Image::setName(string)",__LINE__);
+		throw DirException(DirException::PATH_ERROR,aName,"Image.cpp","Image::setName(string)",__LINE__);
 	else
 		this->name = aName;
 }
@@ -41,7 +41,7 @@ string Image::getName() const{
 
 void Image::setPath(const string& aPath){
 	if(!Dir::isPath(aPath))
-		throw DirException(DirException::NOT_PATH,aPath,"Image.cpp","Image::Image(string)",__LINE__);
+		throw DirException(DirException::PATH_ERROR,aPath,"Image.cpp","Image::Image(string)",__LINE__);
 	else
 		this->path.cd(aPath);
 }

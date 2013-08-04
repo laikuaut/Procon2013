@@ -105,7 +105,7 @@ bool Dir::create(int flag){
 			if((flag>>3)%2==0){
 				if(fs::create_directory(path))
 					return true;
-				throw DirException(DirException::NOT_PATH,pwd(),"Dir.cpp","Dir::create()",__LINE__);
+				throw DirException(DirException::PATH_ERROR,pwd(),"Dir.cpp","Dir::create()",__LINE__);
 			}
 			else
 				return fs::create_directories(path);

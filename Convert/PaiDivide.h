@@ -9,6 +9,7 @@ class PRO_EXPORTS PaiDivide
 {
 protected:
 
+	// アクセス用ストリーム
 	std::fstream fs;
 
 	/*******************************

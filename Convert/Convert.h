@@ -7,4 +7,5 @@
 #include"PaiDivide.h"
 #include"OutPaiDivide.h"
 #include"InPaiDivide.h"
+#include"PaiMatch.h"
 

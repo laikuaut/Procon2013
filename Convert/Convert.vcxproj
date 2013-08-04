@@ -41,7 +41,7 @@
     <ClCompile Include="Encode.cpp" />
     <ClCompile Include="InPaiDivide.cpp" />
     <ClCompile Include="OutPaiDivide.cpp" />
-    <ClCompile Include="Pai.cpp" />
+    <ClCompile Include="PaiMatch.cpp" />
     <ClCompile Include="PaiDivide.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -52,7 +52,7 @@
     <ClInclude Include="Encode.h" />
     <ClInclude Include="InPaiDivide.h" />
     <ClInclude Include="OutPaiDivide.h" />
-    <ClInclude Include="Pai.h" />
+    <ClInclude Include="PaiMatch.h" />
     <ClInclude Include="PaiDivide.h" />
   </ItemGroup>
   <ItemGroup>

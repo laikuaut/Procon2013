@@ -9,7 +9,11 @@ class PRO_EXPORTS DirException :
 public:
 
 	typedef enum error_code{
-		EXIST,NOT_EXIST,NOT_EMPTY,PATH_ERROR,NOT_PATH
+		EXIST			// ë∂ç›ÇµÇƒÇ¢ÇÈ
+		,NOT_EXIST		// ë∂ç›ÇµÇƒÇ¢Ç»Ç¢
+		,NOT_EMPTY		// ãÛÇ≈Ç»Ç¢
+		,PATH_ERROR		// ÉpÉXÇ™ä‘à·Ç¡ÇƒÇ¢ÇÈ
+		//,NOT_PATH		// 
 	}error_code;
 
 protected:
