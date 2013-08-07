@@ -4,6 +4,7 @@
 #include<iostream>
 
 #include"CharArray.h"
+#include"CharArrayNumeric.h"
 #include"InPaiDivide.h"
 
 namespace pro{
@@ -21,13 +22,33 @@ private:
 	int file_num;		// ファイル番号
 	int dir_num;		// ディレクトリ番号
 
-	CharArray c_str;	// マッチ文字列
+	long count;
+
+	CharArray c_str;	// マッチ保存文字列
+	CharArrayNumeric num_str; // 数値文字列
+
 	InPaiDivide ipd;	// 円周率分割ファイルデータ取得クラス
 
+	std::fstream fs;
+	std::fstream count_fs;
+	
+	void setStr();
+
+	void init();
+	bool next();
+
+	bool match();
+
+	void matchOneLine();
+
+	void output();
 
 public:
 	PaiMatch(void);
 	~PaiMatch(void);
+
+	void matching();
+
 };
 
 }

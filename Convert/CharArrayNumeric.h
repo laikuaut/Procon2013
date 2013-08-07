@@ -5,9 +5,9 @@
 
 namespace pro{
 
-class PRO_EXPORTS CharArrayNumeric : public CharArray
+class PRO_EXPORTS CharArrayNumeric : private CharArray
 {
-private:
+public:
 
 	typedef enum NumericKind{
 		DEC
@@ -16,12 +16,12 @@ private:
 		,ORIGINAL
 	}NumKind;
 
+private:
+
 	NumKind kind;
 
 	const char* numString;
 	int numLength;
-
-	void setNumKind(NumKind kind,const char* str=nullptr,int num=0);
 
 	int getNumStringNum(char c);
 
@@ -34,6 +34,16 @@ public:
 
 	int getNumLength() const;
 	const char* getNumString() const;
+	NumKind getNumKind() const;
+
+	char getChar(int n);
+	int getLength() const;
+	const char* getCstr() const;
+
+	void init(int length,NumKind kind,const char* str=nullptr,int num=0);
+
+	void setLength(int length);
+	void setNumKind(NumKind kind,const char* str=nullptr,int num=0);
 
 	bool add();
 	bool add(int num);
@@ -41,11 +51,15 @@ public:
 	bool sub();
 	bool sub(int num);
 
-	/*
-     * 課題： 数値の順序を考える
-	 */
+	void first_num();
+	void first_num(int length);
 
+	void last_num();
+	void last_num(int length);
+
+	// 文字列数字セット
 	void setNum(const char* str);
+	void setNum(const char* str,int length);
 
 	// 後置きインクリメント演算子
 	const char* operator ++(int);
@@ -60,6 +74,15 @@ public:
 	const CharArrayNumeric& operator --();
 	// 減算代入
 	const CharArrayNumeric& operator -=(int num);
+
+	bool Equal(const CharArray& obj) const;
+	bool Equal(const char* c_str) const;
+
+	bool operator==(const CharArray& obj) const;
+	bool operator==(const char* c_str) const;
+
+	operator const char* () const;
+	operator char* ();
 };
 
 }

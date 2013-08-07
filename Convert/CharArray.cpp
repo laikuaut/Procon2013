@@ -88,6 +88,14 @@ void CharArray::allSame(char c){
 	c_str[length] = '\0';
 }
 
+void CharArray::reverse(){
+	const char* tmp = getCstr();
+	for(int i=0;i<length;i++){
+		this->c_str[i] = tmp[length-i-1];
+	}
+	this->c_str[length] = '\0';
+}
+
 void CharArray::allSame(char c,int length){
 	c_str = new char[length+1];
 	this->length = length;
@@ -145,6 +153,10 @@ void CharArray::push_flont(const char* c_str,int length){
 }
 
 void CharArray::pop_flont(int length){
+	if(this->length <= length){
+		clear();
+		return;
+	}
 	char* tmp = new char[this->length - length];
 	for(int i=length;i<this->length;i++){
 		tmp[i-length] = this->c_str[i];
@@ -154,6 +166,10 @@ void CharArray::pop_flont(int length){
 }
 
 void CharArray::pop_back(int length){
+	if(this->length <= length){
+		clear();
+		return;
+	}
 	char* tmp = new char[this->length - length];
 	for(int i=0;i<this->length-length;i++){
 		tmp[i] = this->c_str[i];
@@ -163,7 +179,8 @@ void CharArray::pop_back(int length){
 }
 
 bool CharArray::Equal(const CharArray& obj) const{
-	if(length!=obj.length) return false;
+	if(length!=obj.length)
+		return false;
 	for(int i=0;i<length;i++){
 		if(c_str[i] != obj.c_str[i]) return false;
 	}
@@ -222,10 +239,10 @@ const char* CharArray::operator()(int s_num,int e_num){
 	else if(e_num<0||e_num>length)
 		throw OutOfRangeException<int>(e_num,"e_num","CharArray.cpp","CharArray::operator()(int,int)",__LINE__);
 
-	char* c_str = new char[e_num - s_num+2];
-	for(int i=s_num;i<e_num+1;i++)
+	char* c_str = new char[e_num - s_num+1];
+	for(int i=s_num;i<e_num;i++)
 		c_str[i-s_num] = this->c_str[i];
-	c_str[e_num-e_num+2] = '\0';
+	c_str[e_num-s_num] = '\0';
 	return c_str;
 }
 

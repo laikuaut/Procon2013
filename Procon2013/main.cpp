@@ -9,20 +9,27 @@ using namespace std;
 int main(int argc,char* argv[]){
 
 	//try{
-	//	OutPaiDivide opd("./Resource/Pi - Dec - Chudnovsky.txt");
+	//	OutPaiDivide opd("./Resource/Pi - Hex - Chudnovsky.txt");
 	//	opd.divide();
 	//}catch(const FileException& e){
 	//	e.showError();
 	//}catch(const DirException& e){
 	//	e.showError();
 	//}
+/*
+	InPaiDivide ipd;*/
+	////ipd.getIniSetting();
 
-	CharArrayNumeric can(2);
-	cout << can.getNumString() << endl;
-	cout << can.getNumLength() << endl;
-	do{
-		cout << can << endl;
-	}while(can.add());
+	//cout << ipd.getLine() << endl;
+	//cout << ipd.nextLine() << endl;
+
+	PaiMatch pm;
+	pm.matching();
+
+	//CharArrayNumeric can(CharArrayNumeric::HEX,1);
+	//do{
+	//	cout << can << endl;
+	//}while(can.add());
 
 
 	//PaiFileDivide dd;

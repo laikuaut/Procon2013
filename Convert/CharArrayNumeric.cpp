@@ -25,9 +25,17 @@ CharArrayNumeric::CharArrayNumeric(NumKind kind
 	allSame(numString[0],this->length=length);
 }
 
-
 CharArrayNumeric::~CharArrayNumeric(void)
 {
+}
+
+void CharArrayNumeric::init(int length,NumKind kind,const char* str,int num){
+	setLength(length);
+	setNumKind(kind,str,num);
+}
+
+void CharArrayNumeric::setLength(int length){
+	first_num(length);
 }
 
 void CharArrayNumeric::setNumKind(NumKind kind,const char* str,int num){
@@ -67,16 +75,20 @@ int CharArrayNumeric::getNumLength() const{
 	return numLength;
 }
 
+CharArrayNumeric::NumKind CharArrayNumeric::getNumKind() const{
+	return kind;
+}
+
 const char* CharArrayNumeric::getNumString() const{
 	return numString;
 }
 
 bool CharArrayNumeric::add(){
 	int num;
-	for(int i=0;i<length;i++){
+	for(int i=length-1;i>=0;i--){
 		num = getNumStringNum(c_str[i]);
 		if(++num == numLength){
-			if(length-1==i)
+			if(0==i)
 				return false;
 			c_str[i] = numString[0];
 		}else{
@@ -87,12 +99,24 @@ bool CharArrayNumeric::add(){
 	return true;
 }
 
+char CharArrayNumeric::getChar(int n){
+	return CharArray::getChar(n);
+}
+
+int CharArrayNumeric::getLength() const{
+	return CharArray::getLength();
+}
+
+const char* CharArrayNumeric::getCstr() const{
+	return CharArray::getCstr();
+}
+
 bool CharArrayNumeric::sub(){
 	int num;
-	for(int i=0;i<length;i++){
+	for(int i=length-1;i>=0;i--){
 		num = getNumStringNum(c_str[i]);
 		if(--num == -1){
-			if(length-1==i){
+			if(0==i){
 				allSame(numString[0]);
 				return false;
 			}
@@ -119,11 +143,28 @@ bool CharArrayNumeric::sub(int num){
 
 void CharArrayNumeric::setNum(const char* str){
 	CharArray tmp(str);
+	bool flag=false;
 	for(int i=0;i<tmp.getLength();i++){
 		for(int j=0;j<numLength;j++){
-			if(tmp[i] != numString[j])
-				throw Exception("文字列に不正な値があります。","CharArrayNumeric.cpp","CharArrayNumeric::setNum(const char*)",__LINE__);
+			if(tmp[i] == numString[j])
+				flag = true;
 		}
+		if(!flag)
+			throw Exception("文字列に不正な値があります。","CharArrayNumeric.cpp","CharArrayNumeric::setNum(const char*)",__LINE__);
+	}
+	create(str);
+}
+
+void CharArrayNumeric::setNum(const char* str,int length){
+	CharArray tmp(str,length);
+	bool flag=false;
+	for(int i=0;i<tmp.getLength();i++){
+		for(int j=0;j<numLength;j++){
+			if(tmp[i] == numString[j])
+				flag = true;
+		}
+		if(!flag)
+			throw Exception("文字列に不正な値があります。","CharArrayNumeric.cpp","CharArrayNumeric::setNum(const char*)",__LINE__);
 	}
 	create(str);
 }
@@ -159,4 +200,49 @@ const CharArrayNumeric& CharArrayNumeric::operator-=(int num){
 	sub(num);
 	return (*this);
 }
+	
+bool CharArrayNumeric::Equal(const CharArray& obj) const{
+	return CharArray::Equal(obj);
+}
+
+bool CharArrayNumeric::Equal(const char* c_str) const{
+	return CharArray::Equal(c_str);
+}
+
+bool CharArrayNumeric::operator==(const CharArray& obj) const{
+	return Equal(obj);
+}
+
+bool CharArrayNumeric::operator==(const char* c_str) const{
+	return Equal(c_str);
+}
+
+void CharArrayNumeric::first_num(){
+	allSame(numString[0]);
+}
+
+void CharArrayNumeric::first_num(int length){
+	allSame(numString[0],length);
+}
+
+void CharArrayNumeric::last_num(){
+	allSame(numString[numLength-1]);
+}
+
+void CharArrayNumeric::last_num(int length){
+	allSame(numString[numLength-1],length);
+}
+
+CharArrayNumeric::operator const char* () const{
+	return c_str;
+}
+
+CharArrayNumeric::operator char* (){
+	return c_str;
+}
+
+
+
+
+
 }

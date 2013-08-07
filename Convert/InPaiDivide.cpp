@@ -126,7 +126,7 @@ void InPaiDivide::setLine(int line_num){
 		one_line = one_line_num+1;
 	}
 
-	fs.seekg((line_num-1)*(one_line+1),std::ios_base::beg);
+	fs.seekg((line_num-1)*(one_line_num+2),std::ios_base::beg);
 
 	char* str = new char[one_line];
 
@@ -139,7 +139,7 @@ void InPaiDivide::setLine(int line_num){
 
 bool InPaiDivide::nextDir(){
 	try{
-		setDir(++now_dir);
+		setDir(now_dir+1);
 	}catch(const OutOfRangeException<long>&){
 		return false;
 	}
@@ -148,8 +148,8 @@ bool InPaiDivide::nextDir(){
 
 bool InPaiDivide::nextFile(){
 	try{
-		setFile(++now_file);
-	}catch(const OutOfRangeException<int>&){
+		setFile(now_file+1);
+	}catch(const OutOfRangeException<long>&){
 		if(nextDir()){
 			setFile(1);
 			return true;
@@ -161,8 +161,8 @@ bool InPaiDivide::nextFile(){
 
 const CharArray& InPaiDivide::nextLine(){
 	try{
-		return getLine(++now_line);
-	}catch(const OutOfRangeException<int>&){
+		return getLine(now_line+1);
+	}catch(const OutOfRangeException<long>&){
 		if(nextFile())
 			return getLine(1);
 	}
