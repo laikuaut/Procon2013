@@ -22,13 +22,14 @@ private:
 	int file_num;		// ファイル番号
 	int dir_num;		// ディレクトリ番号
 
-	long count;
+	long count;			// 一致数カウント
 
 	CharArray c_str;	// マッチ保存文字列
 	CharArrayNumeric num_str; // 数値文字列
 
 	InPaiDivide ipd;	// 円周率分割ファイルデータ取得クラス
 
+	Dir path;
 	std::fstream fs;
 	std::fstream count_fs;
 	
@@ -42,6 +43,10 @@ private:
 	void matchOneLine();
 
 	void output();
+
+	// 途中経過
+	void save();
+	void load();
 
 public:
 	PaiMatch(void);

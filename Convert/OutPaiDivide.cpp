@@ -77,14 +77,14 @@ void OutPaiDivide::createIniFile(
 					,int line_num
 					,int one_line_num){
 	ptree pt;
-	pt.put("Pai.path",path);
-	pt.put("Pai.name",name);
-	pt.put("Pai.digits",digits);
-	pt.put("Pai.oneLineNum",one_line_num);
-	pt.put("Pai.LineNum",line_num);
-	pt.put("Pai.FileNum",file_num);
+	pt.put("Divide.path",path);
+	pt.put("Divide.name",name);
+	pt.put("Divide.digits",digits);
+	pt.put("Divide.oneLineNum",one_line_num);
+	pt.put("Divide.LineNum",line_num);
+	pt.put("Divide.FileNum",file_num);
 
-	write_ini("./PaiDivide.ini",pt);
+	write_ini("./Pai.ini",pt);
 
 	getIniSetting();
 }

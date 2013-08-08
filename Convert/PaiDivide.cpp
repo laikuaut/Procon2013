@@ -20,22 +20,22 @@ PaiDivide::~PaiDivide(void)
 bool PaiDivide::getIniSetting(){
 	ptree pt;
 	try{
-		read_ini("./PaiDivide.ini",pt);
+		read_ini("./Pai.ini",pt);
 	}catch(ini_parser_error e){
 		std::cout << e.what() << std::endl;
 		return false;
 	}
-	if(boost::optional<string> path = pt.get_optional<string>("Pai.path"))
+	if(boost::optional<string> path = pt.get_optional<string>("Divide.path"))
 		this->base_path = Dir(path.get());
-	if(boost::optional<string> name = pt.get_optional<string>("Pai.name"))
+	if(boost::optional<string> name = pt.get_optional<string>("Divide.name"))
 		this->name = name.get();
-	if(boost::optional<boost::uintmax_t> digits = pt.get_optional<boost::uintmax_t>("Pai.digits"))
+	if(boost::optional<boost::uintmax_t> digits = pt.get_optional<boost::uintmax_t>("Divide.digits"))
 		this->digits = digits.get();
-	if(boost::optional<int> one_line_num = pt.get_optional<int>("Pai.oneLineNum"))
+	if(boost::optional<int> one_line_num = pt.get_optional<int>("Divide.oneLineNum"))
 		this->one_line_num = one_line_num.get();
-	if(boost::optional<int> line_num = pt.get_optional<int>("Pai.LineNum"))
+	if(boost::optional<int> line_num = pt.get_optional<int>("Divide.LineNum"))
 		this->line_num = line_num.get();
-	if(boost::optional<int> file_num = pt.get_optional<int>("Pai.FileNum"))
+	if(boost::optional<int> file_num = pt.get_optional<int>("Divide.FileNum"))
 		this->file_num = file_num.get();
 
 	fileSizeCalc(this->digits);

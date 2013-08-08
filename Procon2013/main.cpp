@@ -3,10 +3,17 @@
 #include<iostream>
 #include<typeinfo>
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+#include <boost/optional.hpp>
+
 using namespace pro;
 using namespace std;
 
+using namespace boost::property_tree;
+
 int main(int argc,char* argv[]){
+
 
 	//try{
 	//	OutPaiDivide opd("./Resource/Pi - Hex - Chudnovsky.txt");
@@ -25,6 +32,44 @@ int main(int argc,char* argv[]){
 
 	PaiMatch pm;
 	pm.matching();
+
+	
+	//ptree pt;
+	//
+ //   pt.put("Data.value1", 1);
+ //   pt.put("Data.value2", 2);
+ //   pt.put("Data.str", "Hello");
+ //   pt.put("Data2.str", "Hello");
+ //   pt.put("Data2.str2", "Hello");
+
+	//write_ini("data_out.ini" , pt);
+	
+
+	/*
+	ptree pt;
+    read_ini("data_out.ini", pt);
+
+    if (boost::optional<int> value = pt.get_optional<int>("Data.value2")) {
+        std::cout << "value2 : " << value.get() << std::endl;
+    }
+    else {
+        std::cout << "value is nothing" << std::endl;
+    }
+
+	if (boost::optional<int> value = pt.get_optional<int>("Data.value1")) {
+        std::cout << "value1 : " << value.get() << std::endl;
+    }
+    else {
+        std::cout << "value is nothing" << std::endl;
+    }
+
+    if (boost::optional<std::string> str = pt.get_optional<std::string>("Data.str")) {
+        std::cout << "str : " << str.get() << std::endl;
+    }
+    else {
+        std::cout << "str is nothing" << std::endl;
+    }
+	*/
 
 	//CharArrayNumeric can(CharArrayNumeric::HEX,1);
 	//do{
