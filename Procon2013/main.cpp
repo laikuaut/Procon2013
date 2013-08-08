@@ -30,8 +30,11 @@ int main(int argc,char* argv[]){
 	//cout << ipd.getLine() << endl;
 	//cout << ipd.nextLine() << endl;
 
-	PaiMatch pm;
-	pm.matching();
+
+	PaiMatch pm(2);
+	while(pm.getDigits()<=4000)
+		pm.matching();
+
 
 	
 	//ptree pt;

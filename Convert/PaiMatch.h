@@ -18,11 +18,11 @@ private:
 	int line_length;	// 文字列が跨ぐラインの長さ
 
 	int char_num;		// 文字番号
-	int line_num;		// ライン番号
-	int file_num;		// ファイル番号
-	int dir_num;		// ディレクトリ番号
+	//int line_num;		// ライン番号
+	//int file_num;		// ファイル番号
+	//int dir_num;		// ディレクトリ番号
 
-	long count;			// 一致数カウント
+	long long unsigned count;			// 一致数カウント
 
 	CharArray c_str;	// マッチ保存文字列
 	CharArrayNumeric num_str; // 数値文字列
@@ -32,25 +32,28 @@ private:
 	Dir path;
 	std::fstream fs;
 	std::fstream count_fs;
+
+	bool load_flag;
 	
 	void setStr();
-
 	void init();
 	bool next();
-
+	void open();
+	void close();
 	bool match();
-
 	void matchOneLine();
-
 	void output();
 
 	// 途中経過
 	void save();
+	void last_save();
 	void load();
 
 public:
-	PaiMatch(void);
+	PaiMatch(int digits=1,CharArrayNumeric::NumKind kind=CharArrayNumeric::HEX);
 	~PaiMatch(void);
+
+	int getDigits() const;
 
 	void matching();
 
