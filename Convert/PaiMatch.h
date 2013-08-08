@@ -18,9 +18,7 @@ private:
 	int line_length;	// 文字列が跨ぐラインの長さ
 
 	int char_num;		// 文字番号
-	//int line_num;		// ライン番号
-	//int file_num;		// ファイル番号
-	//int dir_num;		// ディレクトリ番号
+	std::ifstream::pos_type pos;	// 開始位置
 
 	long long unsigned count;			// 一致数カウント
 
@@ -43,6 +41,8 @@ private:
 	bool match();
 	void matchOneLine();
 	void output();
+	void nowDisplay();
+	void keyEvent();
 
 	// 途中経過
 	void save();

@@ -12,7 +12,8 @@ using namespace std;
 
 using namespace boost::property_tree;
 
-int main(int argc,char* argv[]){
+
+//int main(int argc,char* argv[]){
 
 
 	//try{
@@ -31,9 +32,9 @@ int main(int argc,char* argv[]){
 	//cout << ipd.nextLine() << endl;
 
 
-	PaiMatch pm(2);
-	while(pm.getDigits()<=4000)
-		pm.matching();
+	//PaiMatch pm(2);
+	//while(pm.getDigits()<=4000)
+	//	pm.matching();
 
 
 	
@@ -110,4 +111,32 @@ int main(int argc,char* argv[]){
 
 	//pro::Image::test();
 
+//}
+
+
+
+// PaiDivide
+//int main(int argc,char* argv[]){
+//	try{
+//		OutPaiDivide opd(argv[1]);
+//		opd.divide();
+//	}catch(const FileException& e){
+//		e.showError();
+//	}catch(const DirException& e){
+//		e.showError();
+//	}
+//
+//}
+
+//int main(){
+//	ifstream ifs;
+//	ifs.open("main.cpp");
+//	cout << ifs.tellg() << endl;
+//}
+
+// PaiMatch
+int main(int argc,char* argv[]){
+	PaiMatch pm(1);
+	while(pm.getDigits()<=4000)
+		pm.matching();
 }

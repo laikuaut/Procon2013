@@ -1,8 +1,9 @@
-#include "PaiMatch.h"
+﻿#include "PaiMatch.h"
 
 #include<Windows.h>
 #include<sstream>
 #include<opencv2/highgui/highgui.hpp>
+#include<cstdio>
 
 namespace pro{
 
@@ -13,8 +14,6 @@ PaiMatch::PaiMatch(int digits, CharArrayNumeric::NumKind kind){
 
 	this->digits = num_str.getLength();
 	
-	open();
-	init();
 }
 
 PaiMatch::~PaiMatch(void){
@@ -67,7 +66,7 @@ void PaiMatch::init(){
 bool PaiMatch::next(){
 	
 	if(count>0)
-		count_fs << num_str << " " << count << std::endl;
+		count_fs << num_str << " " << count << " " << pos << std::endl;
 
 	count = 0;
 
@@ -96,20 +95,27 @@ bool PaiMatch::match(){
 	}
 }
 
+void PaiMatch::keyEvent(){
+	if(GetKeyState(0x51)<0){
+		save();
+		close();
+		exit(EXIT_SUCCESS);
+	}
+	if(GetKeyState(0x53)<0){
+		save();
+	}
+	if(GetKeyState(0x4E)<0){
+		nowDisplay();
+	}
+}
+
 void PaiMatch::matchOneLine(){
-	int num;
+//	int num;
 	for(int i=char_num-1;i<ipd.getOneLineNum();i++){
 		if(match()){
 			output();
 		}
-		if(GetKeyState(0x51)<0){
-			save();
-			close();
-			exit(EXIT_SUCCESS);
-		}
-		if(GetKeyState(0x53)<0){
-			save();
-		}
+		keyEvent();
 		char_num++;
 	}
 	setStr();
@@ -131,13 +137,17 @@ int PaiMatch::getDigits() const{
 }
 
 void PaiMatch::matching(){
+	open();
+	init();
 	do{
-		std::cout << "\r" << num_str << std::flush;
+		if(count==0) pos = fs.tellg();
+		std::cout << "\r" << num_str << "\t\t\t\t\t\t" << std::flush;
 		while(c_str.getLength()>0){
 			matchOneLine();
 		}
 	}while(next());
 	last_save();
+	close();
 }
 
 void PaiMatch::save(){
@@ -148,7 +158,8 @@ void PaiMatch::save(){
 	ofs<<ipd.getNowFile()<<" ";
 	ofs<<ipd.getNowLine()-line_length+1<<" ";
 	ofs<<char_num<<" ";
-	ofs<<count;
+	ofs<<count<<" ";
+	ofs<<pos;
 	ofs<<std::endl;
 	ofs.close();
 }
@@ -156,12 +167,14 @@ void PaiMatch::save(){
 void PaiMatch::last_save(){
 	std::ofstream ofs;
 	ofs.open("PaiMatch.dat");
-	num_str.setLength(num_str.getLength()+1);
+	digits++;
+	num_str.setLength(digits);
 	ofs << num_str << std::endl;
 	ofs<<1<<" ";
 	ofs<<1<<" ";
 	ofs<<1<<" ";
 	ofs<<1<<" ";
+	ofs<<0<<" ";
 	ofs<<0;
 	ofs<<std::endl;
 	ofs.close();
@@ -177,6 +190,7 @@ void PaiMatch::load(){
 		load_flag = false;
 	}else{
 		string str;
+		int pos;
 		ifs >> str;
 		num_str.setNum(str.c_str());
 		int line_num,file_num,dir_num;
@@ -185,11 +199,24 @@ void PaiMatch::load(){
 		ifs >> line_num;
 		ifs >> char_num;
 		ifs >> count;
+		ifs >> pos;
+		this->pos = pos;
 		ipd.getLine(dir_num,file_num,line_num);
 
 		ifs.close();
 		load_flag = true;
 	}
+}
+
+void PaiMatch::nowDisplay(){
+	std::cout<< "\r" << num_str << " " << std::flush;
+	std::cout<<ipd.getNowDir()<<" "<<std::flush;
+	std::cout<<ipd.getNowFile()<<" "<<std::flush;
+	std::cout<<ipd.getNowLine()-line_length+1<<" "<<std::flush;
+	std::cout<<char_num<<" "<<std::flush;
+	std::cout<<count<<" "<<std::flush;
+	//std::cout<<fs.tellg()<<" "<<std::flush;
+	//printf_s("¥033[2J");
 }
 
 }
