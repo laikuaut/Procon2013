@@ -11,52 +11,41 @@ namespace pro{
 
 class PRO_EXPORTS PaiMatch
 {
-private:
+protected:
 
-	int digits;			// マッチングする桁数
-	int length;			// マッチングするときの文字列長さ
-	int line_length;	// 文字列が跨ぐラインの長さ
+	int digits;						// マッチングする桁数
 
-	int char_num;		// 文字番号
+	int char_num;					// 文字番号
 	std::ifstream::pos_type pos;	// 開始位置
 
-	long long unsigned count;			// 一致数カウント
+	long long unsigned count;		// 一致数カウント
 
-	CharArray c_str;	// マッチ保存文字列
-	CharArrayNumeric num_str; // 数値文字列
+	CharArrayNumeric num_str;		// 数値文字列
 
-	InPaiDivide ipd;	// 円周率分割ファイルデータ取得クラス
+	Dir path;						// ディレクトリパス
+	std::fstream fs;				// 座標ファイルストリーム
+	std::fstream count_fs;			// カウントファイルストリーム
 
-	Dir path;
-	std::fstream fs;
-	std::fstream count_fs;
+	// 初期化関数
+	virtual void init();	
 
-	bool load_flag;
-	
-	void setStr();
-	void init();
-	bool next();
-	void open();
-	void close();
-	bool match();
-	void matchOneLine();
-	void output();
-	void nowDisplay();
-	void keyEvent();
+	// 開く
+	virtual void open() = 0;
+	// 閉じる
+	void close();					
 
-	// 途中経過
-	void save();
-	void last_save();
-	void load();
+	// 現在状況の表示
+	virtual void nowDisplay() = 0;	
+	// キーイベント関数
+	virtual void keyEvent() = 0;	
 
 public:
 	PaiMatch(int digits=1,CharArrayNumeric::NumKind kind=CharArrayNumeric::HEX);
 	~PaiMatch(void);
 
+	// 桁数取得
 	int getDigits() const;
-
-	void matching();
-
+	
 };
 
 }

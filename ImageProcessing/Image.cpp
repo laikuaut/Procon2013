@@ -22,7 +22,7 @@ Image::~Image(void)
 }
 
 void Image::Init(string aPath,string aName){
-	path = Dir(".");
+	path = Dir();
 	setPath(aPath);
 	setName(aName);
 	Load();

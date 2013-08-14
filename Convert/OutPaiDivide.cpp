@@ -32,9 +32,9 @@ void OutPaiDivide::init(boost::filesystem::path i_full_path){
 }
 
 void OutPaiDivide::init(boost::filesystem::path i_path,string i_name){
-	if(!Dir(i_path).isExist(i_name))
-		throw FileException(FileException::NOT_EXIST,Dir(i_path).pwd(i_name),"OutPaiDivide.cpp","OutPaiDivide::init(boost::filesystem::path,string)",__LINE__);
-	input_path = Dir(i_path);
+	if(!Dir(i_path,false).isExist(i_name))
+		throw FileException(FileException::NOT_EXIST,Dir(i_path,false).pwd(i_name),"OutPaiDivide.cpp","OutPaiDivide::init(boost::filesystem::path,string)",__LINE__);
+	input_path = Dir(i_path,false);
 	input_name = i_name;
 	setDotFlag();
 }
@@ -222,7 +222,7 @@ void OutPaiDivide::createLastDir(){
 void OutPaiDivide::createDir(int dir_num){
 	std::stringstream d_ss;
 	d_ss << dir_num;
-	path = Dir(base_path.pwd(d_ss.str()));
+	path = Dir(base_path.pwd(d_ss.str()),false);
 	path.create(Dir::CREATE_DIRS | Dir::OVER_WRITE_REMOVE_ALL);
 }
 

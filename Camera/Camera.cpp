@@ -84,8 +84,8 @@ void Camera::initCap(f_kind aFk,
 
 	w_name = "Capture";
 
-	a_dir = Dir("Auto_Cap");
-	m_dir = Dir("Manual_Cap");
+	a_dir = Dir("Auto_Cap",false);
+	m_dir = Dir("Manual_Cap",false);
 	a_dir_created = false;
 	m_dir_created = false;
 

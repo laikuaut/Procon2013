@@ -12,16 +12,22 @@ namespace fs = boost::filesystem;
 
 namespace pro{
 
-Dir::Dir(void)
-{
+Dir::Dir(void){
 	path = fs::system_complete(".");
 	ErrorShow = false;
 }
 
-Dir::Dir(const fs::path& path){
+Dir::Dir(bool flag)
+{
+	path = fs::system_complete(".");
+	ErrorShow = flag;
+}
+
+Dir::Dir(const fs::path& path,bool flag){
 	if(!isPath(path))
 		throw DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::Dir(boost::filesystem::path&)",__LINE__);
 	this->path = fs::system_complete(path);
+	ErrorShow = flag;
 }
 
 Dir::~Dir(void)
@@ -122,7 +128,7 @@ bool Dir::create(int flag){
 }
 
 bool Dir::create(const fs::path& path, int flag){
-	Dir dir(this->pwd());
+	Dir dir(this->pwd(),ErrorShow);
 	try{
 		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::create(string,int)",__LINE__));
 	}catch(const DirException& e){
@@ -150,7 +156,7 @@ bool Dir::remove() const{
 }
 
 bool Dir::remove(const fs::path& path) const{
-	Dir dir(this->pwd());
+	Dir dir(this->pwd(),ErrorShow);
 	try{
 		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::remove(string)",__LINE__));
 		return dir.remove();
@@ -175,7 +181,7 @@ boost::uintmax_t Dir::remove_all() const{
 }
 
 boost::uintmax_t Dir::remove_all(const fs::path& path) const{
-	Dir dir(this->pwd());
+	Dir dir(this->pwd(),ErrorShow);
 	try{
 		dir.cd(path,DirException(DirException::PATH_ERROR,path.string(),"Dir.cpp","Dir::remove_all(string)",__LINE__));
 		return dir.remove_all();

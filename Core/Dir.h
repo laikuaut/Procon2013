@@ -44,9 +44,10 @@ private:
 //#pragma warning(pop)
 
 public:
-
-	Dir();
-	Dir(const boost::filesystem::path& path);
+	
+	Dir(void);
+	Dir(bool flag);
+	Dir(const boost::filesystem::path& path,bool flag);
 
 	~Dir(void);
 	

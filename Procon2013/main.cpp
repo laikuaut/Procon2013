@@ -115,7 +115,9 @@ using namespace boost::property_tree;
 
 
 
-// PaiDivide
+/************************
+  * PaiDivide
+  */
 //int main(int argc,char* argv[]){
 //	try{
 //		OutPaiDivide opd(argv[1]);
@@ -128,15 +130,11 @@ using namespace boost::property_tree;
 //
 //}
 
-//int main(){
-//	ifstream ifs;
-//	ifs.open("main.cpp");
-//	cout << ifs.tellg() << endl;
-//}
-
-// PaiMatch
+/************************
+  * PaiMatch
+  */
 int main(int argc,char* argv[]){
-	PaiMatch pm(1);
-	while(pm.getDigits()<=4000)
-		pm.matching();
+	OutPaiMatch opm(1);
+	while(opm.getDigits()<=4000)
+		opm.matching();
 }

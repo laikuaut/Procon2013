@@ -26,7 +26,7 @@ bool PaiDivide::getIniSetting(){
 		return false;
 	}
 	if(boost::optional<string> path = pt.get_optional<string>("Divide.path"))
-		this->base_path = Dir(path.get());
+		this->base_path = Dir(path.get(),false);
 	if(boost::optional<string> name = pt.get_optional<string>("Divide.name"))
 		this->name = name.get();
 	if(boost::optional<boost::uintmax_t> digits = pt.get_optional<boost::uintmax_t>("Divide.digits"))

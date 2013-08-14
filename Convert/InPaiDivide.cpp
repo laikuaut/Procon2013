@@ -79,7 +79,7 @@ void InPaiDivide::setDir(long dir_num){
 
 	std::stringstream d_ss;
 	d_ss << dir_num;
-	path = Dir(base_path.pwd(d_ss.str()));
+	path = Dir(base_path.pwd(d_ss.str()),false);
 	if(!path.isDirectory())
 		throw DirException(DirException::NOT_EXIST,path.pwd(),"InPaiDivide.cpp","InPaiDivide::setDir(long)",__LINE__);
 	now_dir = dir_num;
