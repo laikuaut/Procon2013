@@ -12,6 +12,8 @@ private:
 	int file_num;
 	int line_num;
 
+	int flag_count;
+
 	void init();		// 初期化関数
 
 	void open();		// 開く
@@ -21,19 +23,22 @@ private:
 	void setCount();
 
 public:
+
+	InPaiMatch(int digits=1, CharArrayNumeric::NumKind kind=CharArrayNumeric::HEX);
+	~InPaiMatch(void);
 	
 	int getDirNum() const;
 	int getFileNum() const;
 	int getLineNum() const;
 	int getCharNum() const;
-	int getCount() const;
+	long long unsigned getCount() const;
+	const char* getNumStr() const;
 	
-	void setNum(const char* str);
+	bool setNum(const char* str);
 
-	bool next();		// 次の数値にアクセス
+	bool next();		// 次の要素にアクセス
+	void nextNum();		// 次の数値にアクセス
 
-	InPaiMatch(void);
-	~InPaiMatch(void);
 
 };
 
