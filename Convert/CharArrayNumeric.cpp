@@ -54,6 +54,15 @@ void CharArrayNumeric::setNumKind(NumKind kind,const char* str,int num){
 		numString = "0123456789abcdef";
 		numLength = 16;
 		break;
+	case STRING:
+		numLength = 86;
+		char* str = new char[numLength];
+		for(int i=33;i<123;i++){
+			if(i<91 || i>94)
+				str[i] = i;
+		}
+		numString = str;
+		break;
 	case ORIGINAL:
 		numString = str;
 		numLength = num;

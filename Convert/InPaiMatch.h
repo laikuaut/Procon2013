@@ -17,10 +17,9 @@ private:
 	void init();		// 初期化関数
 
 	void open();		// 開く
-	void nowDisplay(){}	// 現在状況の表示
 	void keyEvent(){}	// キーイベント関数
 
-	void setCount();
+	void setDigits(int digits);
 
 public:
 
@@ -34,10 +33,13 @@ public:
 	long long unsigned getCount() const;
 	const char* getNumStr() const;
 	
+	bool setNum();
 	bool setNum(const char* str);
 
 	bool next();		// 次の要素にアクセス
-	void nextNum();		// 次の数値にアクセス
+	bool nextNum();		// 次の数値にアクセス
+
+	void nowDisplay();	// 現在状況の表示
 
 
 };

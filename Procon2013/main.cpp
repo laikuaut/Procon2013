@@ -118,6 +118,7 @@ using namespace boost::property_tree;
 /************************
  * PaiDivide
  */
+
 //int main(int argc,char* argv[]){
 //	try{
 //		OutPaiDivide opd(argv[1]);
@@ -133,6 +134,7 @@ using namespace boost::property_tree;
 /************************
  * OutPaiMatch
  */
+
 //int main(int argc,char* argv[]){
 //	OutPaiMatch opm(1);
 //	while(opm.getDigits()<=4000)
@@ -140,33 +142,31 @@ using namespace boost::property_tree;
 //}
 
 /************************
- * 
+ * InPaiMatch Testing
  */
+
 int main(int argc,char* argv[]){
+
 	InPaiMatch ipm;
 	string key;
-	ipm.setNum("1");
+
 	while(1){
 		cin >> key;
-		if(key=="q") break;
-		else if(key=="n"){}
-		else ipm.setNum(key.c_str());
+		if(key=="q"){
+			break;
+		}else if(key=="n") {
+			if(!ipm.nextNum())
+				continue;
+		}else if(key=="e"){
+		
+		}else {
+			if(!ipm.setNum(key.c_str()))
+				continue;
+		}
+
 		ipm.next();
-		cout << "ipm.getDigits():" <<ipm.getDigits()		<< endl;
-		cout << "ipm.getNumStr():" <<ipm.getNumStr()		<< endl;
-		cout << "ipm.getCount():" <<ipm.getCount()		<< endl;
-		cout << "ipm.getDirNum():" <<ipm.getDirNum()		<< endl;
-		cout << "ipm.getFileNum():" <<ipm.getFileNum()	<< endl;
-		cout << "ipm.getLineNum():" <<ipm.getLineNum()	<< endl;
-		cout << "ipm.getCharNum():" <<ipm.getCharNum()	<< endl;
-		cout << endl;
+		ipm.nowDisplay();
+
 	}
-	cout << "ipm.getDigits():" <<ipm.getDigits()		<< endl;
-	cout << "ipm.getNumStr():" <<ipm.getNumStr()		<< endl;
-	cout << "ipm.getCount():" <<ipm.getCount()		<< endl;
-	cout << "ipm.getDirNum():" <<ipm.getDirNum()		<< endl;
-	cout << "ipm.getFileNum():" <<ipm.getFileNum()	<< endl;
-	cout << "ipm.getLineNum():" <<ipm.getLineNum()	<< endl;
-	cout << "ipm.getCharNum():" <<ipm.getCharNum()	<< endl;
 			 
 }

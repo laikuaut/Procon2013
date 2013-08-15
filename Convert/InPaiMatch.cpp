@@ -28,6 +28,8 @@ void InPaiMatch::init(){
 	char_num = 0;
 	count = 0;
 	flag_count=0;
+	num_str.first_num();
+	setNum();
 }
 
 void InPaiMatch::open(){
@@ -38,9 +40,30 @@ void InPaiMatch::open(){
 	std::stringstream ss_count;
 	ss_count << digits << "_count.txt";
 	fs.open(path.pwd(ss.str()),std::ios::in);
-	if(fs.fail()) std::cout << "fs not" << std::endl;
+	if(fs.fail()){ 
+		std::cout << "fs not" << std::endl;
+		throw FileException();
+	}
 	count_fs.open(path.pwd(ss_count.str()),std::ios::in);
-	if(count_fs.fail()) std::cout << "count_fs not" << std::endl;
+	if(count_fs.fail()){
+		std::cout << "count_fs not" << std::endl;
+		throw FileException();
+	}
+}
+
+void InPaiMatch::nowDisplay(){
+	std::cout << "Digits:" << getDigits()	<< std::endl;
+	std::cout << "NumStr:" << getNumStr()	<< std::endl;
+	std::cout << "Count:"	<< getCount()		<< std::endl;
+	std::cout << "DirNum:" << getDirNum()	<< std::endl;
+	std::cout << "FileNum:" << getFileNum()	<< std::endl;
+	std::cout << "LineNum:" << getLineNum()	<< std::endl;
+	std::cout << "CharNum:" << getCharNum()	<< std::endl;
+	std::cout << std::endl;
+}
+
+void InPaiMatch::setDigits(int digits){
+	this->digits = digits;
 }
 
 int InPaiMatch::getDirNum() const{
@@ -67,22 +90,28 @@ const char* InPaiMatch::getNumStr() const{
 	return num_str;
 }
 
+bool InPaiMatch::setNum(){
+	return setNum(num_str);
+}
+
 bool InPaiMatch::setNum(const char* str){
-	//num_str.setNum(str);
-	open();
+
+	std::stringstream ss;
+	ss << str;
+	num_str.setLength(ss.str().length());
+	setDigits(num_str.getLength());
+
+	try{
+		open();
+	}catch(const FileException&){
+		return false;
+	}
 	
 	do{
-		nextNum();
-		if(count_fs.eof()) 
+		if(!nextNum())
 			return false;
 	}while(!num_str.Equal(str));
 
-	fs.seekg(pos,std::ios::beg);
-	string s;
-	fs >> s;
-	if(!num_str.Equal(s.c_str()))
-		return false;
-	flag_count=0;
 	return true;
 }
 
@@ -96,7 +125,8 @@ bool InPaiMatch::next(){
 	return true;
 }
 
-void InPaiMatch::nextNum(){
+bool InPaiMatch::nextNum(){
+
 	string str;
 	int pos;
 	count_fs >> str;
@@ -104,6 +134,17 @@ void InPaiMatch::nextNum(){
 	count_fs >> count;
 	count_fs >> pos;
 	this->pos = pos;
+	if(count_fs.eof()) 
+		return false;
+	
+	fs.seekg(pos,std::ios::beg);
+	string s;
+	fs >> s;
+	if(!num_str.Equal(s.c_str()))
+		return false;
+	flag_count=0;
+
+	return true;
 }
 
 }

@@ -13,6 +13,7 @@ public:
 		DEC
 		,OCT
 		,HEX
+		,STRING
 		,ORIGINAL
 	}NumKind;
 
