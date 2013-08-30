@@ -40,6 +40,7 @@ void CharArrayNumeric::setLength(int length){
 
 void CharArrayNumeric::setNumKind(NumKind kind,const char* str,int num){
 	this->kind = kind;
+	char* c_str;
 	switch (kind)
 	{
 	case DEC:
@@ -56,12 +57,12 @@ void CharArrayNumeric::setNumKind(NumKind kind,const char* str,int num){
 		break;
 	case STRING:
 		numLength = 86;
-		char* str = new char[numLength];
+		c_str = new char[numLength];
 		for(int i=33;i<123;i++){
 			if(i<91 || i>94)
-				str[i] = i;
+				c_str[i] = i;
 		}
-		numString = str;
+		numString = c_str;
 		break;
 	case ORIGINAL:
 		numString = str;
@@ -148,6 +149,15 @@ bool CharArrayNumeric::sub(int num){
 	for(int i=0;i<num;i++)
 		if(!sub()) return false;
 	return true;
+}
+
+void CharArrayNumeric::addDigits(){
+	push_back(numString[numLength-1]);
+}
+
+void CharArrayNumeric::addDigits(int num){
+	for(int i=0;i<num;i++)
+		push_back(numString[numLength-1]);
 }
 
 void CharArrayNumeric::setNum(const char* str){
@@ -250,7 +260,21 @@ CharArrayNumeric::operator char* (){
 	return c_str;
 }
 
+char CharArrayNumeric::operator[](int n){
+	try{
+		return getChar(n);
+	}catch(OutOfRangeException<int> e){
+		throw OutOfRangeException<int>(n,"n","CharArray.cpp","CharArray::operator[](int)",__LINE__);
+	}
+}
 
+char CharArrayNumeric::operator()(int n){
+	try{
+		return getChar(n);
+	}catch(OutOfRangeException<int> e){
+		throw OutOfRangeException<int>(n,"n","CharArray.cpp","CharArray::operator()(int)",__LINE__);
+	}
+}
 
 
 

@@ -51,6 +51,7 @@ void CharArray::create(const char* c_str,int length){
 		this->c_str[i] = c_str[i];
 	}
 	this->c_str[length] = '\0';
+	//delete c_str;
 }
 
 void CharArray::clear(){
@@ -116,7 +117,7 @@ void CharArray::push_back(const char* c_str){
 
 void CharArray::push_back(const char* c_str,int length){
 	length += this->length;
-	char* tmp = new char[length];
+	char* tmp = new char[length+1];
 	for(int i=0;i<this->length;i++){
 		tmp[i] = this->c_str[i];
 	}
@@ -125,6 +126,7 @@ void CharArray::push_back(const char* c_str,int length){
 	}
 	tmp[length] = '\0';
 	create(tmp,length);
+	delete tmp;
 }
 
 void CharArray::push_flont(const CharArray& obj){
@@ -141,7 +143,7 @@ void CharArray::push_flont(const char* c_str){
 
 void CharArray::push_flont(const char* c_str,int length){
 	const int L = length + this->length;
-	char* tmp = new char[L];
+	char* tmp = new char[L+1];
 	for(int i=0;i<length;i++){
 		tmp[i] = c_str[i];
 	}
@@ -150,6 +152,7 @@ void CharArray::push_flont(const char* c_str,int length){
 	}
 	tmp[L] = '\0';
 	create(tmp,L);
+	delete tmp;
 }
 
 void CharArray::pop_flont(int length){
@@ -157,12 +160,13 @@ void CharArray::pop_flont(int length){
 		clear();
 		return;
 	}
-	char* tmp = new char[this->length - length];
+	char* tmp = new char[this->length - length + 1];
 	for(int i=length;i<this->length;i++){
 		tmp[i-length] = this->c_str[i];
 	}
 	tmp[this->length - length] = '\0';
 	create(tmp,this->length-length);
+	delete tmp;
 }
 
 void CharArray::pop_back(int length){
@@ -170,12 +174,13 @@ void CharArray::pop_back(int length){
 		clear();
 		return;
 	}
-	char* tmp = new char[this->length - length];
+	char* tmp = new char[this->length - length + 1];
 	for(int i=0;i<this->length-length;i++){
 		tmp[i] = this->c_str[i];
 	}
 	tmp[this->length - length] = '\0';
 	create(tmp,this->length-length);
+	delete tmp;
 }
 
 bool CharArray::Equal(const CharArray& obj) const{

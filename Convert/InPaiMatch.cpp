@@ -41,21 +41,21 @@ void InPaiMatch::open(){
 	ss_count << digits << "_count.txt";
 	fs.open(path.pwd(ss.str()),std::ios::in);
 	if(fs.fail()){ 
-		std::cout << "fs not" << std::endl;
-		throw FileException();
+		//std::cout << "fs not" << std::endl;
+		throw FileException(FileException::NOT_EXIST,path.pwd(ss.str()),"InPaiMatch.cpp","InPaiMatch::open()",__LINE__);
 	}
 	count_fs.open(path.pwd(ss_count.str()),std::ios::in);
 	if(count_fs.fail()){
-		std::cout << "count_fs not" << std::endl;
-		throw FileException();
+		//std::cout << "count_fs not" << std::endl;
+		throw FileException(FileException::NOT_EXIST,path.pwd(ss_count.str()),"InPaiMatch.cpp","InPaiMatch::open()",__LINE__);
 	}
 }
 
 void InPaiMatch::nowDisplay(){
-	std::cout << "Digits:" << getDigits()	<< std::endl;
-	std::cout << "NumStr:" << getNumStr()	<< std::endl;
-	std::cout << "Count:"	<< getCount()		<< std::endl;
-	std::cout << "DirNum:" << getDirNum()	<< std::endl;
+	std::cout << "Digits:"	<< getDigits()	<< std::endl;
+	std::cout << "NumStr:"	<< getNumStr()	<< std::endl;
+	std::cout << "Count:"	<< getCount()	<< std::endl;
+	std::cout << "DirNum:"	<< getDirNum()	<< std::endl;
 	std::cout << "FileNum:" << getFileNum()	<< std::endl;
 	std::cout << "LineNum:" << getLineNum()	<< std::endl;
 	std::cout << "CharNum:" << getCharNum()	<< std::endl;
@@ -145,6 +145,12 @@ bool InPaiMatch::nextNum(){
 	flag_count=0;
 
 	return true;
+}
+
+void InPaiMatch::Reset(){
+	const char *str = num_str.getCstr();
+	init();
+	setNum(str);
 }
 
 }

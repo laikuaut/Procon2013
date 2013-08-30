@@ -39,6 +39,8 @@ public:
 	bool next();		// 次の要素にアクセス
 	bool nextNum();		// 次の数値にアクセス
 
+	void Reset();
+
 	void nowDisplay();	// 現在状況の表示
 
 

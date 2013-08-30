@@ -135,38 +135,44 @@ using namespace boost::property_tree;
  * OutPaiMatch
  */
 
-//int main(int argc,char* argv[]){
-//	OutPaiMatch opm(1);
-//	while(opm.getDigits()<=4000)
-//		opm.matching();
-//}
+int main(int argc,char* argv[]){
+	OutPaiMatch opm(1);
+	while(opm.getDigits()<=4000){
+		try{
+			opm.matching();
+		}catch(const OutOfRangeException<long>& e){
+			e.showError();
+			return 0;
+		}
+	}
+}
 
 /************************
  * InPaiMatch Testing
  */
-
-int main(int argc,char* argv[]){
-
-	InPaiMatch ipm;
-	string key;
-
-	while(1){
-		cin >> key;
-		if(key=="q"){
-			break;
-		}else if(key=="n") {
-			if(!ipm.nextNum())
-				continue;
-		}else if(key=="e"){
-		
-		}else {
-			if(!ipm.setNum(key.c_str()))
-				continue;
-		}
-
-		ipm.next();
-		ipm.nowDisplay();
-
-	}
-			 
-}
+//
+//int main(int argc,char* argv[]){
+//
+//	InPaiMatch ipm;
+//	string key;
+//
+//	while(1){
+//		cin >> key;
+//		if(key=="q"){
+//			break;
+//		}else if(key=="n") {
+//			if(!ipm.nextNum())
+//				continue;
+//		}else if(key=="e"){
+//		
+//		}else {
+//			if(!ipm.setNum(key.c_str()))
+//				continue;
+//		}
+//
+//		ipm.next();
+//		ipm.nowDisplay();
+//
+//	}
+//			 
+//}

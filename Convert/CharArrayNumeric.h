@@ -48,6 +48,9 @@ public:
 
 	bool add();
 	bool add(int num);
+	
+	void addDigits();
+	void addDigits(int num);
 
 	bool sub();
 	bool sub(int num);
@@ -81,6 +84,9 @@ public:
 
 	bool operator==(const CharArray& obj) const;
 	bool operator==(const char* c_str) const;
+
+	char operator[](int n);
+	char operator()(int n);
 
 	operator const char* () const;
 	operator char* ();

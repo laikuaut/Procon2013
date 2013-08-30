@@ -1,6 +1,7 @@
 #pragma once
 
 #include"PaiMatch.h"
+#include"InPaiMatch.h"
 
 namespace pro{
 
@@ -15,16 +16,26 @@ private:
 	CharArray c_str;	// マッチ保存文字列	
 
 	bool load_flag;		// ロードフラグ
+	bool all_match_flag;// すべてをマッチングしているかどうか
 
+	InPaiMatch ipm;
 
-	// 文字列を更新
-	void setStr();		
+	// 文字列を行で更新
+	void setNextLineStr();		
+	// セットした設定の文字列を更新
+	void setStr();
 	// 文字列一致
 	bool match();		
 	// 一列文字列一致
 	void matchOneLine();
 	// 一致座標出力
 	void output();		
+	// すべてをマッチング処理する
+	void allMatching();
+	// 前の桁のデータを利用した高速処理マッチング
+	void fastMatching();
+	// InPaiMatchの情報を取得し設定
+	bool setIpm();
 
 	/*****************************
 	 *  途中経過

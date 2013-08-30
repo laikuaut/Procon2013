@@ -22,7 +22,7 @@ void OutPaiMatch::open(){
 	ss_count << digits << "_count.txt";
 	if(load_flag){
 		fs.open(path.pwd(ss.str()),std::ios::app);
-		fs.seekg(std::ios_base::end);
+		fs.seekg(pos,std::ios_base::end);
 		count_fs.open(path.pwd(ss_count.str()),std::ios::app);
 		count_fs.seekg(std::ios_base::end);
 	}
@@ -40,10 +40,10 @@ void OutPaiMatch::init(){
 		this->line_length *= 2;
 	}
 
-	c_str.push_back(ipd.getLine());
-	for(int i=1;i<this->line_length;i++){
-		c_str.push_back(ipd.nextLine());
-	}
+	if(!load_flag) pos = 0;
+	load_flag = false;
+	
+	setStr();
 
 }
 
@@ -58,19 +58,36 @@ bool OutPaiMatch::next(){
 
 	init();
 
+	ipm.Reset();
+
 	return num_str.add();
 }
 
-void OutPaiMatch::setStr(){
+void OutPaiMatch::setNextLineStr(){
 	c_str.pop_flont(ipd.getOneLineNum());
 	c_str.push_back(ipd.nextLine());
 	if(ipd.getLine().getLength() == 0)
 		line_length--;
 }
 
+void OutPaiMatch::setStr(){
+	c_str.clear();
+	c_str.push_back(ipd.getLine());
+	for(int i=1;i<this->line_length;i++){
+		c_str.push_back(ipd.nextLine());
+	}
+	if(ipd.getLine().getLength() == 0)
+		line_length--;
+}
+
 bool OutPaiMatch::match(){
 	try{
-		return num_str==c_str(char_num-1,char_num-1+digits);
+		const char* tmp = c_str(char_num-1,char_num-1+digits);
+		if(num_str==tmp){
+			delete tmp;
+			return true;
+		}
+		return false;
 	}catch(const Exception&){
 		return false;
 	}
@@ -101,7 +118,7 @@ void OutPaiMatch::matchOneLine(){
 		keyEvent();
 		char_num++;
 	}
-	setStr();
+	setNextLineStr();
 	char_num=1;
 }
 
@@ -109,13 +126,17 @@ void OutPaiMatch::output(){
 	if(count==0) fs<<num_str<<std::endl;
 	fs<<ipd.getNowDir()<<" ";
 	fs<<ipd.getNowFile()<<" ";
+	//if(all_match_flag)
 	fs<<ipd.getNowLine()-line_length+1<<" ";
+	//else
+		//fs<<ipd.getNowLine()<<" ";
 	fs<<char_num<<" ";
 	fs<<std::endl;
 	count++;
 }
 
-void OutPaiMatch::matching(){
+void OutPaiMatch::allMatching(){
+	all_match_flag = true;
 	open();
 	init();
 	do{
@@ -129,13 +150,97 @@ void OutPaiMatch::matching(){
 	close();
 }
 
+void OutPaiMatch::fastMatching(){
+	//int tmp_line;
+	all_match_flag = false;
+	open();
+	init();
+
+	//char *num = new char[num_str.getLength()];
+	//for(int i=0;i<num_str.getLength()-1;i++){
+	//	num[i] = num_str[i];
+	//}
+	//num[num_str.getLength()-1] = '\0';
+
+	//ipm.setNum(num);
+
+	do{
+		if(count==0) pos = fs.tellg();
+		std::cout << "\r" << num_str << "\t\t\t\t\t\t" << std::flush;
+
+		//////-------------------------------------------
+		char *num = new char[num_str.getLength()];
+		for(int i=0;i<num_str.getLength()-1;i++){
+			num[i] = num_str[i];
+		}
+		num[num_str.getLength()-1] = '\0';
+
+		if(!ipm.setNum(num)){
+			keyEvent();
+			next();
+			continue;
+		}
+		//////-------------------------------------------
+
+		while(setIpm()){
+			if(match()){
+				output();
+			}
+			keyEvent();
+		}
+		keyEvent();
+	}while(next());
+	last_save();
+	close();
+}
+
+bool OutPaiMatch::setIpm(){
+	if(!ipm.next()) return false; 
+	int line_num,file_num,dir_num;
+	dir_num = ipm.getDirNum();
+	file_num = ipm.getFileNum();
+	line_num = ipm.getLineNum();
+	char_num = ipm.getCharNum();
+	ipd.getLine(dir_num,file_num,line_num);
+
+	setStr();
+
+	return true;
+
+}
+
+//void OutPaiMatch::matching(){
+//	open();
+//	init();
+//	do{
+//		if(count==0) pos = fs.tellg();
+//		std::cout << "\r" << num_str << "\t\t\t\t\t\t" << std::flush;
+//		while(c_str.getLength()>0){
+//			matchOneLine();
+//		}
+//	}while(next());
+//	last_save();
+//	close();
+//}
+
+void OutPaiMatch::matching(){
+	if(digits == 1){
+		allMatching();
+	}else{
+		fastMatching();
+	}
+}
+
 void OutPaiMatch::save(){
 	std::ofstream ofs;
 	ofs.open("OutPaiMatch.dat");
 	ofs << num_str << std::endl;
 	ofs<<ipd.getNowDir()<<" ";
 	ofs<<ipd.getNowFile()<<" ";
-	ofs<<ipd.getNowLine()-line_length+1<<" ";
+	if(all_match_flag)
+		ofs<< ipd.getNowLine()-line_length+1<<" ";
+	else
+		ofs<< ipd.getNowLine() << " ";
 	ofs<<char_num<<" ";
 	ofs<<count<<" ";
 	ofs<<pos;
@@ -191,7 +296,10 @@ void OutPaiMatch::nowDisplay(){
 	std::cout<< "\r" << num_str << " " << std::flush;
 	std::cout<<ipd.getNowDir()<<" "<<std::flush;
 	std::cout<<ipd.getNowFile()<<" "<<std::flush;
-	std::cout<<ipd.getNowLine()-line_length+1<<" "<<std::flush;
+	if(all_match_flag)
+		std::cout<<ipd.getNowLine()-line_length+1<<" "<<std::flush;
+	else
+		std::cout<<ipd.getNowLine()<<" "<<std::flush;
 	std::cout<<char_num<<" "<<std::flush;
 	std::cout<<count<<" "<<std::flush;
 }

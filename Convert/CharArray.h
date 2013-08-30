@@ -55,8 +55,8 @@ public:
 	virtual int getLength() const;
 	virtual const char* getCstr() const;
 	
-	char operator[](int n);
-	char operator()(int n);
+	virtual char operator[](int n);
+	virtual char operator()(int n);
 	const char* operator()(int s_num,int e_num);
 
 	virtual operator const char* () const;
