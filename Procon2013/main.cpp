@@ -12,6 +12,44 @@ using namespace std;
 
 using namespace boost::property_tree;
 
+// Testing main
+
+void show(cv::Mat& img){
+	cv::namedWindow("test");
+	cv::imshow("test",img);
+	cv::waitKey(0);
+}
+
+void set(cv::Mat& img){
+	img = cv::Mat(cv::Size(200,200),CV_8UC3,cv::Scalar(255,0,0));
+}
+
+int main(int argc,char* argv[]){
+	Image img1,img2,img3,img4,img5;
+	img5.init(500,500);
+	img1.load("mCap5.jpg");
+	//show(img1);
+	img2.grayeScale(img1);
+	//show(img2);
+	img3.binarization(img2);
+	//show(img3);
+	img4.adaptiveBinarization(img2);
+	//show(img4);
+	img1.save("img1.jpg");
+	img2.save("img2.jpg");
+	img3.save("img3.jpg");
+	img4.save("img4.jpg");
+	show(img5);
+	img5.circle(cv::Point(100,100),20,cv::Scalar(255,255,255));
+	img5.rectangle(cv::Point(200,200),100,100,cv::Scalar(255,255,255));
+	img5.rectangle(cv::Point(300,300),cv::Point(350,350),cv::Scalar(255,255,255));
+	img5.line(cv::Point(300,300),cv::Point(350,350),cv::Scalar(255,255,255));
+	img5.line(cv::Point(350,300),cv::Point(300,350),cv::Scalar(255,255,255));
+	img5.triangle(cv::Point(400,400),cv::Point(450,200),cv::Point(500,400),cv::Scalar(255,255,255));
+
+	show(img5);
+}
+
 
 //int main(int argc,char* argv[]){
 
@@ -135,17 +173,17 @@ using namespace boost::property_tree;
  * OutPaiMatch
  */
 
-int main(int argc,char* argv[]){
-	OutPaiMatch opm(1);
-	while(opm.getDigits()<=4000){
-		try{
-			opm.matching();
-		}catch(const OutOfRangeException<long>& e){
-			e.showError();
-			return 0;
-		}
-	}
-}
+//int main(int argc,char* argv[]){
+//	OutPaiMatch opm(1);
+//	while(opm.getDigits()<=4000){
+//		try{
+//			opm.matching();
+//		}catch(const OutOfRangeException<long>& e){
+//			e.showError();
+//			return 0;
+//		}
+//	}
+//}
 
 /************************
  * InPaiMatch Testing
@@ -175,4 +213,44 @@ int main(int argc,char* argv[]){
 //
 //	}
 //			 
+//}
+
+
+/************************
+ * Image Testing
+ */
+
+//int main(int argc, char* argv[]){
+//
+//	Image img("Auto_Cap","aCap1.jpg");
+//	img.Show();
+//	img.Resize(500,500);
+//	img.Show();
+//
+//	return 0;
+//}
+
+/************************
+ * Image Testing
+ */
+
+//int main(int argc, char* argv[]){
+//
+//	try{
+//		Camera camera;
+//		camera.autoCapture(2,60);
+//		camera.manualCapture();
+//	}catch(const OutOfRangeException<long>& e){
+//		e.showError();
+//	}catch(const OutOfRangeException<int>& e){
+//		e.showError();
+//	}catch(const DirException& e){
+//		e.showError();
+//	}catch(const boost::filesystem::filesystem_error& e){
+//		cout << e.what() <<endl;
+//	}catch(const CameraException& e){
+//		e.showError();
+//	}
+//
+//	return 0;
 //}

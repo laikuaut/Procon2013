@@ -7,3 +7,6 @@
 #include"Procon2013/Camera/Camera.h"
 #include"Procon2013/Dice/Dice.h"
 #include"Procon2013/Convert/Convert.h"
+
+#include"Procon2013\ImageProcessing\ImageProssing.h"
+

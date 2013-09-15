@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Image.h" />
+    <ClInclude Include="ImageProssing.h" />
     <ClInclude Include="Labeling.h" />
   </ItemGroup>
   <ItemGroup>
