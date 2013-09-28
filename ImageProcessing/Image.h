@@ -42,17 +42,28 @@ public:
 	void grayeScale(const Image& src);
 	void binarization(const Image& src);
 	void adaptiveBinarization(const Image& src);
+	void oneColor(cv::Scalar scal);
+
+	void reversal(const Image& src);
 
 	void load(string name);
 	void save(string name);
 
+	bool empty();
+
 	void circle(cv::Point center,int radius,cv::Scalar scal = cv::Scalar(0,0,0));
 	void rectangle(cv::Point pt1,cv::Point pt2,cv::Scalar scal = cv::Scalar(0,0,0),int thickness=1);
 	void rectangle(cv::Point center,int w,int h,cv::Scalar scal = cv::Scalar(0,0,0),int thickness=1);
+	void rectangle(cv::Point center,int w,int h,int angle,cv::Scalar scal = cv::Scalar(0,0,0),int thickness=1);
 	void line(cv::Point pt1,cv::Point pt2,cv::Scalar scal = cv::Scalar(0,0,0),int thickness=1);
 	void triangle(cv::Point pt1,cv::Point pt2,cv::Point pt3,cv::Scalar scal = cv::Scalar(0,0,0),int thickness=1);
 
+	void imshow(string windowName);
+
 	operator cv::Mat &(); 
+	operator const unsigned char* ();
+	operator unsigned char* ();
+	operator cv::Size ();
 
 
 };

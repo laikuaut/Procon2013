@@ -3,6 +3,7 @@
 #include"type_c.h"
 #include"Timer.h"
 #include"Dir.h"
+#include"Calc.h"
 #include"Procon2013/Exception/Exceptions.h"
 
 #include<string>

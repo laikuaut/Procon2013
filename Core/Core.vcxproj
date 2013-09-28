@@ -35,12 +35,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Calc.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Dir.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="type_c.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Calc.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Dir.cpp" />
     <ClCompile Include="Timer.cpp" />

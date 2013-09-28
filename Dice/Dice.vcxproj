@@ -36,9 +36,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dice.h" />
+    <ClInclude Include="DiceDraw.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dice.cpp" />
+    <ClCompile Include="DiceDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">
@@ -46,6 +48,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Exception\Exception.vcxproj">
       <Project>{6a6a563e-28b2-42e7-a17a-b3b9cd4d4545}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ImageProcessing\ImageProcessing.vcxproj">
+      <Project>{22c1e058-6204-4c90-8870-2a657bd00625}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

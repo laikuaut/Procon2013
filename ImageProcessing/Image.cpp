@@ -13,8 +13,8 @@ void Image::init(int width,int height){
 }
 
 void Image::w_h_reset(){
-	w = img.rows;
-	h = img.cols;
+	w = img.size().width;
+	h = img.size().height;
 }
 
 void Image::release(){
@@ -28,6 +28,7 @@ void Image::clone(const Image& src){
 	w = src.w;
 	h = src.h;
 	img = src.img.clone();
+	img.data;
 }
 
 void Image::swap(Image& src){
@@ -67,6 +68,15 @@ void Image::adaptiveBinarization(const Image& src){
 	w_h_reset();
 }
 
+void Image::oneColor(cv::Scalar scal){
+	img = cv::Mat(cv::Size(w, h), CV_8UC3, scal);
+}
+
+void Image::reversal(const Image& src){
+	img = ~src.img;
+	w_h_reset();
+}
+
 void Image::load(string name){
 	try{
 		if(!path.isExist(name))
@@ -75,8 +85,8 @@ void Image::load(string name){
 			throw FileException(FileException::DIRECTORY,path.pwd(name),"Image.cpp","Image::Load()",__LINE__);
 		else{
 			img = cv::imread(path.pwd(name), 1);
-			w = img.rows;
-			h = img.cols;
+			w = img.size().width;
+			h = img.size().height;
 		}
 	}catch(const FileException& e){
 		e.showError();
@@ -93,6 +103,10 @@ void Image::save(string name){
 	cv::imwrite(path.pwd(name), img , params);
 }
 
+bool Image::empty(){
+	return img.empty();
+}
+
 void Image::circle(cv::Point center,int radius,cv::Scalar scal){
 	cv::circle(img,center,radius,scal, -1, CV_AA);
 }
@@ -102,6 +116,18 @@ void Image::rectangle(cv::Point pt1,cv::Point pt2,cv::Scalar scal,int thickness)
 }
 void Image::rectangle(cv::Point center,int w,int h,cv::Scalar scal,int thickness){
 	cv::rectangle(img,cv::Point(center.x-w/2,center.y-h/2),cv::Point(center.x+w/2,center.y+h/2),scal,thickness,8);
+}
+
+void Image::rectangle(cv::Point center,int w,int h,int angle,cv::Scalar scal,int thickness){
+	cv::Point pt1[1][4];
+	int npt[] = {4};
+	//double c=cos(angle*CV_PI/180),s=sin(angle*CV_PI/180);
+	const cv::Point *ppt[1] = {pt1[0]};
+	pt1[0][0] = cv::Point(center+Calc::PointRotate(w/2,h/2,angle));
+	pt1[0][1] = cv::Point(center+Calc::PointRotate(w/2,-h/2,angle));
+	pt1[0][2] = cv::Point(center+Calc::PointRotate(-w/2,-h/2,angle));
+	pt1[0][3] = cv::Point(center+Calc::PointRotate(-w/2,h/2,angle));
+	cv::polylines(img,ppt,npt,1,true,scal,thickness);
 }
 
 void Image::line(cv::Point pt1,cv::Point pt2,cv::Scalar scal,int thickness){
@@ -114,116 +140,25 @@ void Image::triangle(cv::Point pt1,cv::Point pt2,cv::Point pt3,cv::Scalar scal,i
 	cv::line(img,pt3,pt1,scal,thickness,8);
 }
 
+void Image::imshow(string windowName){
+	cv::imshow(windowName,img);
+}
 
 Image::operator cv::Mat &(){
 	return img;
 }
 
-//Image::operator cv::InputArray (){
-//	return img.clone();
-//}
+Image::operator unsigned char *(){
+	return img.data;
+}
+Image::operator const unsigned char *(){
+	return img.data;
+}
+
+Image::operator cv::Size (){
+	return cv::Size(w,h);
+}
 
 
-//
-//Image::Image(void)
-//{
-//	Init();
-//}
-
-//Image::Image(const string& aName){
-//	Init(".",aName);
-//}
-//
-//Image::Image(const string& aPath,const string& aName){
-//	Init(aPath,aName);
-//}
-//
-//
-//Image::~Image(void)
-//{
-//
-//}
-//
-//void Image::Init(string aPath,string aName){
-//	path = Dir();
-//	setPath(aPath);
-//	setName(aName);
-//	Load();
-//}
-//
-//void Image::setName(const string& aName){
-//	if(!Dir::isPath(aName))
-//		throw DirException(DirException::PATH_ERROR,aName,"Image.cpp","Image::setName(string)",__LINE__);
-//	else
-//		this->name = aName;
-//}
-//
-//string Image::getName() const{
-//	return name;
-//}
-//
-//void Image::setPath(const string& aPath){
-//	if(!Dir::isPath(aPath))
-//		throw DirException(DirException::PATH_ERROR,aPath,"Image.cpp","Image::Image(string)",__LINE__);
-//	else
-//		this->path.cd(aPath);
-//}
-//
-//string Image::getPath() const{
-//	return path.pwd();
-//}
-//
-//void Image::Load(){
-//	if(!path.isExist(name))
-//		throw FileException(FileException::NOT_EXIST,path.pwd(name),"Image.cpp","Image::Load()",__LINE__);
-//	else if(path.isDirectory(name))
-//		throw FileException(FileException::DIRECTORY,path.pwd(name),"Image.cpp","Image::Load()",__LINE__);
-//	else
-//		img = cv::imread(path.pwd(name), 1);
-//}
-//
-//void Image::Load(const string& aName){
-//	setName(aName);
-//	Load();
-//}
-//
-//void Image::Save() const{
-//	cv::imwrite(path.pwd(name), img);
-//}
-//
-//void Image::Save(const string& aName){
-//	setName(aName);
-//	Save();
-//}
-//
-//void Image::Show(){
-//	cv::namedWindow(name);
-//	cv::imshow(name,img);
-//	cv::waitKey(0);
-//	cv::destroyWindow(name);
-//}
-//
-//Image Image::Clone(){
-//	Image img(path.pwd(),name);
-//	setMat(this->img.clone());
-//	return img;
-//}
-//
-//void Image::Resize(int width,int height){
-//	cv::Mat dst;
-//	cv::resize(img.clone(),img,cv::Size(width,height),cv::INTER_CUBIC);
-//}
-//
-//cv::Mat& Image::operator() (){
-//	return img;
-//}
-//
-//void Image::setMat(cv::Mat& img){
-//	this->img = img;
-//}
-//
-//cv::Mat& Image::getMat(){
-//	return img;
-//}
 
 }

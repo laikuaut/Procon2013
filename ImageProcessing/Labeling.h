@@ -1,12 +1,33 @@
 #pragma once
 
+#include"Procon2013/Core/Core.h"
+#include"opencv2\core\core.hpp"
+#include<vector>
+
 namespace pro{
 
-class Labeling
+class PRO_EXPORTS Labeling
 {
 public:
-	Labeling(void);
-	~Labeling(void);
+
+	int w,h;
+	int num;
+
+private:
+	
+	std::vector<int> labels;
+
+public:
+
+	//Labeling();
+	Labeling(cv::Size size);
+
+	void init(cv::Size size);
+	void labeling(const unsigned char* bins);
+
+	int& operator() (const int x, const int y); 
+	const int& operator() (const int x, const int y) const;
+
 };
 
 }

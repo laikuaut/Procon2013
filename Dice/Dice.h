@@ -1,6 +1,7 @@
 #pragma once
 
 #include"Procon2013\Core\Core.h"
+#include"DiceDraw.h"
 
 namespace pro{
 
