@@ -19,8 +19,7 @@ private:
 
 public:
 
-	//Labeling();
-	Labeling(cv::Size size);
+	Labeling();
 
 	void init(cv::Size size);
 	void labeling(const unsigned char* bins);

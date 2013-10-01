@@ -30,9 +30,9 @@ void info(cv::Mat& img){
 }
 
 //void _test(cv::Mat& src){
-//	cv::Mat dst4 = cv::Mat(src.size(),CV_8SC1);
-//	cv::Mat dst5 = cv::Mat(src.size(),CV_8SC1);
-//	cv::Mat dst6 = cv::Mat(src.size(),CV_8SC1);
+//	cv::Mat dst4 = cv::Mat(src.size(),0);
+//	cv::Mat dst5 = cv::Mat(src.size(),0);
+//	cv::Mat dst6 = cv::Mat(src.size(),0);
 //	cv::Mat dst1 = cv::Mat(src.size(),src.type(),cv::Scalar(255,255,255));
 //	cv::Mat dst2 = cv::Mat(src.size(),src.type(),cv::Scalar(255,255,255));
 //	cv::Mat dst3 = cv::Mat(src.size(),src.type(),cv::Scalar(255,255,255));
@@ -49,14 +49,68 @@ void info(cv::Mat& img){
 //			//}
 //		}
 //	}
-//	show(src);
+//	//show(src);
 //	show(dst4);
 //	show(dst5);
 //	show(dst6);
-//	show(dst1);
-//	show(dst2);
-//	show(dst3);
+//	//show(dst1);
+//	//show(dst2);
+//	//show(dst3);
+//	//cv::cvtColor(dst4, dst4, CV_BGR2GRAY);
+//	//cv::cvtColor(dst5, dst5, CV_BGR2GRAY);
+//	//cv::cvtColor(dst6, dst6, CV_BGR2GRAY);
+//	cv::threshold(dst4, dst4, 0, 255, cv::THRESH_BINARY_INV|cv::THRESH_OTSU);
+//	cv::threshold(dst5, dst5, 0, 255, cv::THRESH_BINARY_INV|cv::THRESH_OTSU);
+//	cv::threshold(dst6, dst6, 0, 255, cv::THRESH_BINARY_INV|cv::THRESH_OTSU);
+//	show(dst4);
+//	show(dst5);
+//	show(dst6);
+//
+//
 //}
+
+//void hist(cv::Mat& src){
+//  //cv::Mat src_img = cv::imread("../../image/lenna.png", 0);
+//  //if(src_img.empty()) return -1; 
+//  
+//  // ヒストグラムを描画する画像割り当て
+//  const int ch_width = 260, ch_height=200;
+//  cv::Mat hist_img(cv::Size(ch_width, ch_height), CV_8UC3, cv::Scalar::all(255));
+//
+//  cv::Mat hist;
+//  const int hdims[] = {256}; // 次元毎のヒストグラムサイズ
+//  const float hranges[] = {0,250};
+//  const float* ranges[] = {hranges}; // 次元毎のビンの下限上限
+//  double max_val = .0;
+//
+//  // シングルチャンネルのヒストグラム計算
+//  // 画像（複数可），画像枚数，計算するチャンネル，マスク，ヒストグラム（出力），
+//  // ヒストグラムの次元，ヒストグラムビンの下限上限
+//  cv::calcHist(&src, 1, 0, cv::Mat(), hist, 1, hdims, ranges);
+//  
+//  // 最大値の計算
+//  cv::minMaxLoc(hist, 0, &max_val);
+//
+//  // ヒストグラムのスケーリングと描画
+//  cv::Scalar color = cv::Scalar::all(100);
+//  // スケーリング
+//  hist = hist * (max_val? ch_height/max_val:0.);
+//  for(int j=0; j<hdims[0]; ++j) {
+//    int bin_w = cv::saturate_cast<int>((double)ch_width/hdims[0]);
+//    cv::rectangle(hist_img, 
+//		  cv::Point(j*bin_w, hist_img.rows),
+//		  cv::Point((j+1)*bin_w, hist_img.rows-cv::saturate_cast<int>(hist.at<float>(j))),
+//		  color, -1);
+//  }
+//
+//  cv::namedWindow("Image", CV_WINDOW_AUTOSIZE|CV_WINDOW_FREERATIO);
+//  cv::namedWindow("Histogram", CV_WINDOW_AUTOSIZE|CV_WINDOW_FREERATIO);
+//  cv::imshow("Image", src);
+//  cv::imshow("Histogram", hist_img);
+//  cv::waitKey(0);
+//}
+
+
 //
 //int main(int argc,char* argv[]){
 //	Image img1,img2,img3,img4,img5;
@@ -85,11 +139,8 @@ void info(cv::Mat& img){
 //	label(img4);
 //}
 
-int main(){
-	DiceDraw dd(5);
-	dd.drawing();
 
-}
+
 
 //int main(int argc,char* argv[]){
 
@@ -326,24 +377,26 @@ int main(){
 //	Image img1,bin;
 //
 //	// 画像処理
-//	img1.load("img.jpg");
-//	//img1.resize(img1,cv::Size(1920,1080));
+//	img1.load("Dice/Picture 15.jpg");
+//	img1.resize(img1,cv::Size(1920,1080));
 //	bin.grayeScale(img1);
 //	bin.binarization(bin);
 //
 //	// ラベリング重心計算
-//	LabelingCenter labelCenter(bin);
+//	LabelingCenter labelCenter;
+//	labelCenter.init(bin);
 //	labelCenter.setCenter(bin);
 //	labelCenter.circleFilter();
+//	labelCenter.sizeFilter(30,2000);
 //	
 //	// 円表示
 //	for(int i=0;i<labelCenter.num;i++){
 //		if(labelCenter.flags[i]){
-//			img1.circle(labelCenter(i),(int)sqrt(labelCenter.sizes[i]),cv::Scalar(255,0,0));
+//			img1.circle(labelCenter(i),(int)sqrt(labelCenter.sizes[i]/CV_PI),cv::Scalar(255,0,0));
 //			//cout << "OK:" << labelCenter.sizes[i] << endl;
 //		}else{
 //			if(labelCenter.sizes[i]<2000)
-//				img1.circle(labelCenter(i),(int)sqrt(labelCenter.sizes[i]),cv::Scalar(0,255,0));
+//				img1.circle(labelCenter(i),(int)sqrt(labelCenter.sizes[i]/CV_PI),cv::Scalar(0,255,0));
 //			//cout << "NG:" << labelCenter.sizes[i] << endl;
 //		}
 //	}
@@ -420,7 +473,6 @@ int main(){
 //
 //  std::cout << desc << " (" << x << ", " << y << ")" << std::endl;
 //}
-//
 //void mmshow(cv::Mat& mat){
 //	MainMouseEvent mme;
 //
@@ -436,7 +488,6 @@ int main(){
 //		cv::setMouseCallback("drawing", MainMouseEvent::onMouse, &mme);
 //	}
 //}
-//
 //int main(int argc,char* argv[]){
 //	Image img,gray,bin,adap;
 //	img.load("Picture 6.jpg");
@@ -444,3 +495,134 @@ int main(){
 //
 //	mmshow(img);
 //}
+
+/************************
+ * DiceDraw Testing
+ */
+//int main(){
+//	DiceDraw dd(5);
+//	//for(int i=0;i<9;i++){
+//	//	for(int j=0;j<6;j++){
+//	//		dd.addDice(cv::Point(DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*i,DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*j),i*90,DiceInfo::large,j+1);
+//	//	}
+//	//}
+//
+//	dd.drawing();
+//	dd.output();
+//}
+
+/************************
+ * Image Binaly Testing
+ */
+//int main(){
+//	Image img,gray,bin,adap;
+//	img.load("Picture 7.jpg");
+//	img.resize(img,cv::Size(1920,1080));
+//	show(img);
+//	gray.grayeScale(img);
+//	show(gray);
+//	bin.binarization(gray);
+//	show(bin);
+//	adap.adaptiveBinarization(gray);
+//	show(adap);
+//}
+
+/************************
+ * LineSegment Testing
+ */
+//int main(){
+//	Dot1Point dot1[2];
+//	Dot2Point dot2;
+//	Image img;
+//	img.init(600,600);
+//	img.oneColor(cv::Scalar::all(255));
+//
+//	dot1[0].init(300,300,100);
+//	dot1[1].init(100,500,100);
+//
+//	dot2.init(dot1);
+//
+//	dot2.draw(img);
+//
+//	show(img);
+//}
+
+/************************
+ * DiceDetection Testing
+ */
+//int main(){
+//	// 宣言
+//	DiceDetection dd;
+//	Image img,bin;
+//	LabelingCenter lc;
+//	
+//	// 画像作成
+//	img.load("Dice/Picture 15.jpg");
+//	img.resize(img,cv::Size(1920,1080));
+//	bin.grayeScale(img);
+//	bin.binarization(bin);
+//	
+//	// 重心計算
+//	lc.init(bin);
+//	lc.setCenter(bin);
+//	lc.circleFilter(1,2);
+//	lc.sizeFilter(30,2000);
+//	lc.mouseRangeFilter(img);
+//	//lc.rangeRectangleFilter(cv::Point2f(1000,500),cv::Point2f(1920,1080));
+//
+//	// サイコロの目を検出
+//	dd.init(lc);
+//	dd.drawAllPoints(img,cv::Scalar(255,0,0));
+//
+//	// 表示
+//	show(img);
+//
+//}
+
+/************************
+ * hsvColorExtraction Testing
+ * 赤色検出による1の目の探索
+ */
+//int main(){
+//	Image img,dst,hue1,hue2;
+//	img.load("Dice/Picture 31.jpg");
+//	img.resize(img,cv::Size(1920,1080));
+//
+//	dst.clone(img);
+//
+//	//for(int i=0;i<6;i++){
+//	//	stringstream ss;
+//	//	ss << "hsv" << i << ".jpg";
+//	//	dst.hsvColorExtraction(img,60*i,60*i+60,100,100);
+//	//	dst.save(ss.str());
+//	//}
+//
+//	hue1.hsvColorExtraction(img,0,60,100,100);
+//	show(hue1);
+//	hue2.hsvColorExtraction(img,120,180,100,100);
+//	show(hue2);
+//	dst.bitwiseOr(hue1,hue2);
+//	show(dst);
+//
+//	LabelingCenter lc;
+//	lc.init(dst);
+//	lc.setCenter(dst);
+//	lc.circleFilter(1,2);
+//	lc.sizeFilter(200,2000);
+//	lc.draw(img,1,cv::Scalar(255,0,0));
+//	lc.draw(img,0,cv::Scalar(255,255,0));
+//
+//	//show(dst);
+//	show(img);
+//
+//}
+
+/************************
+ * DiceDraw Random Testing
+ */
+int main(){
+	DiceRandomDraw drd;
+	drd.init(5);
+	drd.run();
+}
+

@@ -43,6 +43,14 @@ public:
 	void binarization(const Image& src);
 	void adaptiveBinarization(const Image& src);
 	void oneColor(cv::Scalar scal);
+	// hueの下限 hueの上限(0～360) saturation（彩度）の下限(0～100) value（明度）の下限(0～100)
+	void hsvColorExtraction(const Image& src,int low_hue,int up_hue,int low_saturation,int low_value);
+	
+	void bitwiseAnd(const Image& src1,const Image& src2);
+	void bitwiseOr(const Image& src1,const Image& src2);
+	void bitwiseXor(const Image& src1,const Image& src2);
+	void bitwiseNot(const Image& src);
+
 
 	void reversal(const Image& src);
 

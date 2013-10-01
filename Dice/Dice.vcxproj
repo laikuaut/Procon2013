@@ -36,11 +36,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dice.h" />
+    <ClInclude Include="DiceDetection.h" />
     <ClInclude Include="DiceDraw.h" />
+    <ClInclude Include="DiceInfo.h" />
+    <ClInclude Include="DiceRandomDraw.h" />
+    <ClInclude Include="Dot1Point.h" />
+    <ClInclude Include="LineSegment.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dice.cpp" />
+    <ClCompile Include="DiceDetection.cpp" />
     <ClCompile Include="DiceDraw.cpp" />
+    <ClCompile Include="DiceInfo.cpp" />
+    <ClCompile Include="DiceRandomDraw.cpp" />
+    <ClCompile Include="Dot1Point.cpp" />
+    <ClCompile Include="LineSegment.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">

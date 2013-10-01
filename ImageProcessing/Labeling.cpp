@@ -7,8 +7,8 @@ namespace pro{
 //
 //}
 
-Labeling::Labeling(cv::Size size){
-	init(size);
+Labeling::Labeling(){
+
 }
 
 void Labeling::init(cv::Size size){

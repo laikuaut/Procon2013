@@ -72,6 +72,43 @@ void Image::oneColor(cv::Scalar scal){
 	img = cv::Mat(cv::Size(w, h), CV_8UC3, scal);
 }
 
+void Image::hsvColorExtraction(const Image& src,int low_hue,int up_hue,int low_saturation,int low_value){
+    cv::Mat hsv, hue, hue1, hue2, saturation, value, hue_saturation;          //変数確保
+	cv::cvtColor(src.img, hsv, CV_BGR2HSV);               // RGB（BGR）画像をHSV画像に変換する（frame → hsv）
+	//赤い領域を取得
+	// hsvをチャンネル毎にsinglechannelsというMat型の配列に分解して格納する。その結果、singlechannels[0]がHue, singlechannels[1]がSaturation, singlechannels[2]がValueの情報を持つ。
+	std::vector<cv::Mat> singlechannels;//Matクラスのベクトルとしてsinglechannelsを定義
+	cv::split(hsv, singlechannels);//hsvをsinglechannelsに分解([0]:h, [1]:s,[2]:v)
+
+	//それぞれのチャンネルことに閾値を設定して二値化
+	cv::threshold(singlechannels[0], hue1, low_hue, 255, CV_THRESH_BINARY);                 // singlechannels[0]をLOW_HUEを閾値処理して、LOW_HUE以上の部分が255,それ以下の部分が0になるように、hue1に格納する。
+	cv::threshold(singlechannels[0], hue2, up_hue, 255, CV_THRESH_BINARY_INV);              // singlechannels[0]をUP_HUEを閾値処理して、UP_HUE以上の部分が0,それ以下の部分が255になるように、hue2に格納する。
+	cv::threshold(singlechannels[1], saturation, low_saturation, 255, CV_THRESH_BINARY);    //彩度LOW_SATURATION以上
+	cv::threshold(singlechannels[2], value, low_value, 255, CV_THRESH_BINARY);              //明度LOW_VALUE以上
+
+	//条件を満たした領域をoutに設定
+	cv::bitwise_and(hue1, hue2, hue);                                                       // hue1とhue2のbitごとのandをとる→hue
+	cv::bitwise_and(hue, saturation, hue_saturation);                                       // hueとsaturationのbitごとのandをとる→hue_saturation
+	cv::bitwise_and(hue_saturation, value, img);  
+}
+
+void Image::bitwiseAnd(const Image& src1,const Image& src2){
+	cv::bitwise_and(src1.img,src2.img,img);
+	w_h_reset();
+}
+void Image::bitwiseOr(const Image& src1,const Image& src2){
+	cv::bitwise_or(src1.img,src2.img,img);
+	w_h_reset();
+}
+void Image::bitwiseXor(const Image& src1,const Image& src2){
+	cv::bitwise_xor(src1.img,src2.img,img);
+	w_h_reset();
+}
+void Image::bitwiseNot(const Image& src){
+	cv::bitwise_not(src.img,img);
+	w_h_reset();
+}
+
 void Image::reversal(const Image& src){
 	img = ~src.img;
 	w_h_reset();
