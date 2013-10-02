@@ -23,13 +23,13 @@ int DiceInfo::getDiceSize(DiceInfo::dtype type){
 	switch (type)
 	{
 	case DiceInfo::small:
-		size = DiceInfo::DISE_S;
+		size = DiceInfo::DICE_S;
 		break;
 	case DiceInfo::middle:
-		size = DiceInfo::DISE_M;
+		size = DiceInfo::DICE_M;
 		break;
 	case DiceInfo::large:
-		size = DiceInfo::DISE_L;
+		size = DiceInfo::DICE_L;
 		break;
 	default:
 		break;

@@ -28,8 +28,6 @@ private:
 
 private:
 
-	
-
 	void onMouse_impl(int event,int x,int y,int flag);
 	
 	void draw(Image& src = Image(), bool clear = false);

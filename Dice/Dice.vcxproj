@@ -40,7 +40,8 @@
     <ClInclude Include="DiceDraw.h" />
     <ClInclude Include="DiceInfo.h" />
     <ClInclude Include="DiceRandomDraw.h" />
-    <ClInclude Include="Dot1Point.h" />
+    <ClInclude Include="DotPoint.h" />
+    <ClInclude Include="Dot3Point.h" />
     <ClInclude Include="LineSegment.h" />
   </ItemGroup>
   <ItemGroup>
@@ -49,7 +50,8 @@
     <ClCompile Include="DiceDraw.cpp" />
     <ClCompile Include="DiceInfo.cpp" />
     <ClCompile Include="DiceRandomDraw.cpp" />
-    <ClCompile Include="Dot1Point.cpp" />
+    <ClCompile Include="DotPoint.cpp" />
+    <ClCompile Include="Dot3Point.cpp" />
     <ClCompile Include="LineSegment.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -20,8 +20,8 @@ void DiceRandomDraw::init(int rate){
 void DiceRandomDraw::pattern1(){
 	for(int i=0;i<DiceInfo::MAX_LW_NUM;i++){
 		for(int j=0;j<DiceInfo::MAX_LH_NUM;j++){
-			dicedraw.addDice(cv::Point(DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*i
-				,DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*j)
+			dicedraw.addDice(cv::Point(DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*i
+				,DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*j)
 				,rand()%2*90,DiceInfo::large,rand()%6+1);
 		}
 	}
@@ -36,28 +36,28 @@ void DiceRandomDraw::pattern2(){
 		if(LLeft==0){
 			if(i<Lnum){
 				for(int j=0;j<DiceInfo::MAX_LH_NUM;j++){
-					dicedraw.addDice(cv::Point(DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*i
-						,DiceInfo::DISE_L/2 + (1+DiceInfo::DISE_L)*j)
+					dicedraw.addDice(cv::Point(DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*i
+						,DiceInfo::DICE_L/2 + (1+DiceInfo::DICE_L)*j)
 						,rand()%2*90,DiceInfo::large,rand()%6+1);
 				}
 			}else{
 				for(int j=0;j<DiceInfo::MAX_MH_NUM;j++){
-					dicedraw.addDice(cv::Point((DiceInfo::DISE_L+1)*Lnum + DiceInfo::DISE_M/2+1 + (DiceInfo::DISE_M)*(i-Lnum)
-						,DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*j)
+					dicedraw.addDice(cv::Point((DiceInfo::DICE_L+1)*Lnum + DiceInfo::DICE_M/2+1 + (DiceInfo::DICE_M)*(i-Lnum)
+						,DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*j)
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 				}
 			}
 		}else{
 			if(i<Mnum){
 				for(int j=0;j<DiceInfo::MAX_MH_NUM;j++){
-					dicedraw.addDice(cv::Point(DiceInfo::DISE_M/2+1 + (DiceInfo::DISE_M)*i
-						,DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*j)
+					dicedraw.addDice(cv::Point(DiceInfo::DICE_M/2+1 + (DiceInfo::DICE_M)*i
+						,DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*j)
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 				}
 			}else{
 				for(int j=0;j<DiceInfo::MAX_LH_NUM;j++){
-					dicedraw.addDice(cv::Point((DiceInfo::DISE_M)*Mnum + DiceInfo::DISE_L/2+2 + (1+DiceInfo::DISE_L)*(i-Mnum)
-						,DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*j)
+					dicedraw.addDice(cv::Point((DiceInfo::DICE_M)*Mnum + DiceInfo::DICE_L/2+2 + (1+DiceInfo::DICE_L)*(i-Mnum)
+						,DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*j)
 						,rand()%2*90,DiceInfo::large,rand()%6+1);
 				}
 			}
@@ -74,28 +74,28 @@ void DiceRandomDraw::pattern3(){
 		if(LLeft==0){
 			if(j<Lnum){
 				for(int i=0;i<DiceInfo::MAX_LW_NUM;i++){
-					dicedraw.addDice(cv::Point(DiceInfo::DISE_L/2 + (1+DiceInfo::DISE_L)*i
-						,DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*j)
+					dicedraw.addDice(cv::Point(DiceInfo::DICE_L/2 + (1+DiceInfo::DICE_L)*i
+						,DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*j)
 						,rand()%2*90,DiceInfo::large,rand()%6+1);
 				}
 			}else{
 				for(int i=0;i<DiceInfo::MAX_MW_NUM;i++){
-					dicedraw.addDice(cv::Point(DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*i
-						,(DiceInfo::DISE_L+1)*Lnum + DiceInfo::DISE_M/2+1 + (DiceInfo::DISE_M)*(j-Lnum))
+					dicedraw.addDice(cv::Point(DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*i
+						,(DiceInfo::DICE_L+1)*Lnum + DiceInfo::DICE_M/2+1 + (DiceInfo::DICE_M)*(j-Lnum))
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 				}
 			}
 		}else{
 			if(j<Mnum){
 				for(int i=0;i<DiceInfo::MAX_MW_NUM;i++){
-					dicedraw.addDice(cv::Point(DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*i
-						,DiceInfo::DISE_M/2+1 + (DiceInfo::DISE_M)*j)
+					dicedraw.addDice(cv::Point(DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*i
+						,DiceInfo::DICE_M/2+1 + (DiceInfo::DICE_M)*j)
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 				}
 			}else{
 				for(int i=0;i<DiceInfo::MAX_LW_NUM;i++){
-					dicedraw.addDice(cv::Point(DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*i
-						,(DiceInfo::DISE_M)*Mnum + DiceInfo::DISE_L/2+2 + (1+DiceInfo::DISE_L)*(j-Mnum))
+					dicedraw.addDice(cv::Point(DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*i
+						,(DiceInfo::DICE_M)*Mnum + DiceInfo::DICE_L/2+2 + (1+DiceInfo::DICE_L)*(j-Mnum))
 						,rand()%2*90,DiceInfo::large,rand()%6+1);
 				}
 			}
@@ -116,22 +116,22 @@ void DiceRandomDraw::pattern4(){
 	case 0: // 大サイコロ左上
 		for(int i=0;i<Lnumw;i++){
 			for(int j=0;j<Lnumh;j++){
-				dicedraw.addDice(cv::Point(DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*i
-					,DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*j)
+				dicedraw.addDice(cv::Point(DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*i
+					,DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*j)
 					,rand()%2*90,DiceInfo::large,rand()%6+1);
 			}
 		}
 		for(int i=0;i<DiceInfo::MAX_MW_NUM-Mnumw;i++){
 			for(int j=Mnumh-1;j>=0;j--){
-				dicedraw.addDice(cv::Point(DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*i
-						,DiceInfo::FRAME_H - DiceInfo::DISE_M/2 - (DiceInfo::DISE_M)*(j))
+				dicedraw.addDice(cv::Point(DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*i
+						,DiceInfo::FRAME_H - DiceInfo::DICE_M/2 - (DiceInfo::DICE_M)*(j))
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 			}
 		}
 		for(int i=0;i<Mnumw;i++){
 			for(int j=0;j<DiceInfo::MAX_MH_NUM;j++){
-				dicedraw.addDice(cv::Point((DiceInfo::DISE_L+1)*Lnumw + DiceInfo::DISE_M/2+1 + (DiceInfo::DISE_M)*(i)
-						,DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*j)
+				dicedraw.addDice(cv::Point((DiceInfo::DICE_L+1)*Lnumw + DiceInfo::DICE_M/2+1 + (DiceInfo::DICE_M)*(i)
+						,DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*j)
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 			}
 		}
@@ -139,22 +139,22 @@ void DiceRandomDraw::pattern4(){
 	case 1: // 大サイコロ左下
 		for(int i=0;i<Lnumw;i++){
 			for(int j=0;j<Lnumh;j++){
-				dicedraw.addDice(cv::Point(DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*i
-					,DiceInfo::FRAME_H - DiceInfo::DISE_L/2-1 - (1+DiceInfo::DISE_L)*j)
+				dicedraw.addDice(cv::Point(DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*i
+					,DiceInfo::FRAME_H - DiceInfo::DICE_L/2-1 - (1+DiceInfo::DICE_L)*j)
 					,rand()%2*90,DiceInfo::large,rand()%6+1);
 			}
 		}
 		for(int i=0;i<DiceInfo::MAX_MW_NUM-Mnumw;i++){
 			for(int j=Mnumh-1;j>=0;j--){
-				dicedraw.addDice(cv::Point(DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*i
-						,DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*(j))
+				dicedraw.addDice(cv::Point(DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*i
+						,DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*(j))
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 			}
 		}
 		for(int i=0;i<Mnumw;i++){
 			for(int j=0;j<DiceInfo::MAX_MH_NUM;j++){
-				dicedraw.addDice(cv::Point((DiceInfo::DISE_L+1)*Lnumw + DiceInfo::DISE_M/2+1 + (DiceInfo::DISE_M)*(i)
-						,DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*j)
+				dicedraw.addDice(cv::Point((DiceInfo::DICE_L+1)*Lnumw + DiceInfo::DICE_M/2+1 + (DiceInfo::DICE_M)*(i)
+						,DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*j)
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 			}
 		}
@@ -162,22 +162,22 @@ void DiceRandomDraw::pattern4(){
 	case 2: // 大サイコロ右上
 		for(int i=0;i<Lnumw;i++){
 			for(int j=0;j<Lnumh;j++){
-				dicedraw.addDice(cv::Point(DiceInfo::FRAME_W - DiceInfo::DISE_L/2-1 - (1+DiceInfo::DISE_L)*i
-					,DiceInfo::DISE_L/2-1 + (1+DiceInfo::DISE_L)*j)
+				dicedraw.addDice(cv::Point(DiceInfo::FRAME_W - DiceInfo::DICE_L/2-1 - (1+DiceInfo::DICE_L)*i
+					,DiceInfo::DICE_L/2-1 + (1+DiceInfo::DICE_L)*j)
 					,rand()%2*90,DiceInfo::large,rand()%6+1);
 			}
 		}
 		for(int i=0;i<DiceInfo::MAX_MW_NUM-Mnumw;i++){
 			for(int j=Mnumh-1;j>=0;j--){
-				dicedraw.addDice(cv::Point(DiceInfo::FRAME_W - DiceInfo::DISE_M/2 - (DiceInfo::DISE_M)*i
-						,DiceInfo::FRAME_H - DiceInfo::DISE_M/2 - (DiceInfo::DISE_M)*(j))
+				dicedraw.addDice(cv::Point(DiceInfo::FRAME_W - DiceInfo::DICE_M/2 - (DiceInfo::DICE_M)*i
+						,DiceInfo::FRAME_H - DiceInfo::DICE_M/2 - (DiceInfo::DICE_M)*(j))
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 			}
 		}
 		for(int i=0;i<Mnumw;i++){
 			for(int j=0;j<DiceInfo::MAX_MH_NUM;j++){
-				dicedraw.addDice(cv::Point(DiceInfo::DISE_M/2+1 + (DiceInfo::DISE_M)*(i)
-						,DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*j)
+				dicedraw.addDice(cv::Point(DiceInfo::DICE_M/2+1 + (DiceInfo::DICE_M)*(i)
+						,DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*j)
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 			}
 		}
@@ -185,22 +185,22 @@ void DiceRandomDraw::pattern4(){
 	case 3: // 大サイコロ右下
 		for(int i=0;i<Lnumw;i++){
 			for(int j=0;j<Lnumh;j++){
-				dicedraw.addDice(cv::Point(DiceInfo::FRAME_W - DiceInfo::DISE_L/2-1 - (1+DiceInfo::DISE_L)*i
-					,DiceInfo::FRAME_H - DiceInfo::DISE_L/2-1 - (1+DiceInfo::DISE_L)*j)
+				dicedraw.addDice(cv::Point(DiceInfo::FRAME_W - DiceInfo::DICE_L/2-1 - (1+DiceInfo::DICE_L)*i
+					,DiceInfo::FRAME_H - DiceInfo::DICE_L/2-1 - (1+DiceInfo::DICE_L)*j)
 					,rand()%2*90,DiceInfo::large,rand()%6+1);
 			}
 		}
 		for(int i=0;i<DiceInfo::MAX_MW_NUM-Mnumw;i++){
 			for(int j=Mnumh-1;j>=0;j--){
-				dicedraw.addDice(cv::Point(DiceInfo::FRAME_W - DiceInfo::DISE_M/2 - (DiceInfo::DISE_M)*i
-						,DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*(j))
+				dicedraw.addDice(cv::Point(DiceInfo::FRAME_W - DiceInfo::DICE_M/2 - (DiceInfo::DICE_M)*i
+						,DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*(j))
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 			}
 		}
 		for(int i=0;i<Mnumw;i++){
 			for(int j=0;j<DiceInfo::MAX_MH_NUM;j++){
-				dicedraw.addDice(cv::Point(DiceInfo::DISE_M/2+1 + (DiceInfo::DISE_M)*(i)
-						,DiceInfo::DISE_M/2 + (DiceInfo::DISE_M)*j)
+				dicedraw.addDice(cv::Point(DiceInfo::DICE_M/2+1 + (DiceInfo::DICE_M)*(i)
+						,DiceInfo::DICE_M/2 + (DiceInfo::DICE_M)*j)
 						,rand()%2*90,DiceInfo::middle,rand()%6+1);
 			}
 		}

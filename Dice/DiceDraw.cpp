@@ -3,7 +3,7 @@
 namespace pro{
 
 DiceDraw::DiceDraw(int rate)// : 
-	//DISE_S(6),DISE_M(10),DISE_L(15),FRAME_W(150),FRAME_H(100)
+	//DICE_S(6),DICE_M(10),DICE_L(15),FRAME_W(150),FRAME_H(100)
 {
 	init(rate);
 }
@@ -39,9 +39,9 @@ void DiceDraw::draw(Image& src, bool clear){
 	int rate;
 	rate = this->rate;
 	cv::Scalar red(0,0,255),black(0,0,0);
-	ds = DiceInfo::DISE_S*rate;
-	dm = DiceInfo::DISE_M*rate;
-	dl = DiceInfo::DISE_L*rate;
+	ds = DiceInfo::DICE_S*rate;
+	dm = DiceInfo::DICE_M*rate;
+	dl = DiceInfo::DICE_L*rate;
 
 	DiceInfo n_dice;
 	n_dice = dice;

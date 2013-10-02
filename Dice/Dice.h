@@ -5,8 +5,9 @@
 #include"DiceRandomDraw.h"
 #include"DiceInfo.h"
 
-#include"Dot1Point.h"
+#include"DotPoint.h"
 #include"LineSegment.h"
+#include"Dot3Point.h"
 #include"DiceDetection.h"
 
 namespace pro{

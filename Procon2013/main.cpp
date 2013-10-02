@@ -15,9 +15,14 @@ using namespace boost::property_tree;
 // Testing main
 
 void show(cv::Mat& img){
-	cv::namedWindow("test");
+	cv::namedWindow("test",0);
 	cv::imshow("test",img);
 	cv::waitKey(0);
+}
+
+void show(cv::Mat& img,std::string str){
+	cv::namedWindow(str,0);
+	cv::imshow(str,img);
 }
 
 void set(cv::Mat& img){
@@ -503,7 +508,7 @@ void info(cv::Mat& img){
 //	DiceDraw dd(5);
 //	//for(int i=0;i<9;i++){
 //	//	for(int j=0;j<6;j++){
-//	//		dd.addDice(cv::Point(DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*i,DiceInfo::DISE_L/2+1 + (1+DiceInfo::DISE_L)*j),i*90,DiceInfo::large,j+1);
+//	//		dd.addDice(cv::Point(DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*i,DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*j),i*90,DiceInfo::large,j+1);
 //	//	}
 //	//}
 //
@@ -550,34 +555,64 @@ void info(cv::Mat& img){
 /************************
  * DiceDetection Testing
  */
-//int main(){
-//	// 宣言
-//	DiceDetection dd;
-//	Image img,bin;
-//	LabelingCenter lc;
-//	
-//	// 画像作成
-//	img.load("Dice/Picture 15.jpg");
-//	img.resize(img,cv::Size(1920,1080));
-//	bin.grayeScale(img);
-//	bin.binarization(bin);
-//	
-//	// 重心計算
-//	lc.init(bin);
-//	lc.setCenter(bin);
-//	lc.circleFilter(1,2);
-//	lc.sizeFilter(30,2000);
-//	lc.mouseRangeFilter(img);
-//	//lc.rangeRectangleFilter(cv::Point2f(1000,500),cv::Point2f(1920,1080));
-//
-//	// サイコロの目を検出
-//	dd.init(lc);
-//	dd.drawAllPoints(img,cv::Scalar(255,0,0));
-//
-//	// 表示
-//	show(img);
-//
-//}
+int main(){
+	// 宣言
+	DiceDetection dd;
+	Image img,draw,bin;
+	LabelingCenter lc;
+	Timer timer;
+	
+	// 色
+	cv::Scalar white,red,green,blue,black;
+		white = cv::Scalar::all(255);
+		black = cv::Scalar::all(0);
+		red = cv::Scalar(0,0,255);
+		green = cv::Scalar(0,255,0);
+		blue = cv::Scalar(255,0,0);
+
+	
+	timer.start();
+
+	// 画像作成
+	img.load("Dice/Picture 17.jpg");
+	img.resize(img,cv::Size(1920,1080));
+	
+	draw.clone(img);
+
+	timer.lap();
+	cout << "画像生成:" << (double)timer.getNow()/1000 << endl;
+
+	// サイコロの目を検出
+	dd.init(img);
+	dd.getAllPoints();
+	//dd.drawAllPoints(draw,cv::Scalar(255,0,0));
+	//show(draw,"1");
+	
+	timer.lap();
+	cout << "全点検出:" << (double)timer.getNow()/1000 << endl;
+
+	dd.getDot1Points();
+	dd.drawDot1Points(draw,cv::Scalar(255,255,255));
+
+	timer.lap();
+	cout << "１の目:" << (double)timer.getNow()/1000 << endl;
+
+	dd.drawTruePoints(draw,cv::Scalar(0,255,0));
+	dd.drawFalsePoints(draw,cv::Scalar(0,0,255));
+
+	//dd.getAllLines(6);
+	//dd.drawAllLine(draw,blue,green,1);
+
+	timer.lap();
+	cout << "線分抽出:" << (double)timer.getNow()/1000 << endl;
+
+	// 表示
+	show(draw,"4");
+	cv::waitKey(0);
+
+	//timer.getLapTime();
+
+}
 
 /************************
  * hsvColorExtraction Testing
@@ -620,9 +655,9 @@ void info(cv::Mat& img){
 /************************
  * DiceDraw Random Testing
  */
-int main(){
-	DiceRandomDraw drd;
-	drd.init(5);
-	drd.run();
-}
+//int main(){
+//	DiceRandomDraw drd;
+//	drd.init(5);
+//	drd.run();
+//}
 

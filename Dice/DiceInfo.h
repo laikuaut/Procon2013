@@ -13,13 +13,13 @@ public:
 	 *  型、定数宣言
 	 */
 	typedef enum dice_type{
-		small,middle,large
+		small,middle,large,none
 	}dtype;
 
 	// サイコロサイズ
-	static const int DISE_S = 6;
-	static const int DISE_M = 10;
-	static const int DISE_L = 15;
+	static const int DICE_S = 6;
+	static const int DICE_M = 10;
+	static const int DICE_L = 15;
 
 	// 台フレームサイズ
 	static const int FRAME_W = 150;
