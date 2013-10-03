@@ -5,6 +5,7 @@
 #include"LineSegment.h"
 #include"Dot3Point.h"
 #include"DiceInfo.h"
+#include"Dot4Point.h"
 
 #include"Procon2013\ImageProcessing\LabelingCenter.h"
 
@@ -65,6 +66,8 @@ protected:
 	/***************
 	 *   クラス定義
 	 */
+
+	// 全点クラス
 	class DotPoints{
 	private:
 		int num;
@@ -84,6 +87,7 @@ protected:
 
 	};
 
+	// 全線クラス
 	class LineSegments{
 	private:
 		
@@ -116,26 +120,16 @@ private:
 	Image src;
 
 	// 点群データ
-	//std::vector<DotPoint> allPoints;
-	//std::vector<short> ptFlags;
-	//std::vector<DiceInfo::dtype> ptTypes;
-	//std::vector<int> ptKinds;
-	//int ptNum;
 	DotPoints allPoints;
 
 	// 線分データ
-	//std::vector<LineSegment> allLine;
-	//std::vector<short> lineFlags;
-	//int lineNum;
-	//int maxLineRadius;  // 線分認識の最長半径
 	LineSegments allLines;
-
 
 	// サイコロの目データ
 	std::vector<Dot1Point> dot1Points;
 	std::vector<Dot2Point> dot2Points;
 	std::vector<Dot3Point> dot3Points;
-
+	std::vector<Dot4Point> dot4Points;
 
 public:
 
@@ -160,6 +154,7 @@ public:
 	// 目の判定処理
 	void getDot1Points();
 	void getDot2Points();
+	void getDot4Points();
 
 	// 削除処理
 	void eraseDot1Points();
@@ -206,6 +201,16 @@ public:
 						,cv::Scalar line_col = cv::Scalar::all(0)
 						,int thickness = 1);
 	void drawDot2Center(Image& img,cv::Scalar scal = cv::Scalar::all(0));
+	
+	void drawDot4Points(Image& img
+						,cv::Scalar dot_col = cv::Scalar::all(0)
+						,cv::Scalar line_col = cv::Scalar::all(0)
+						,int thickness = 1);
+	void drawTypeDot4Points(Image& img,DiceInfo::dtype type
+						,cv::Scalar dot_col = cv::Scalar::all(0)
+						,cv::Scalar line_col = cv::Scalar::all(0)
+						,int thickness = 1);
+	void drawDot4Center(Image& img,cv::Scalar scal = cv::Scalar::all(0));
 
 };
 
@@ -226,7 +231,12 @@ public:
 	3.1. 2段目に置いた中サイコロを大サイコロのサイズと誤判定
 	3.2. 周辺にあるサイズの点の数を比べることで修正
  ４．全線分取得:getAllLines()
- 
+	4.1. サイコロのサイズごとに線分を描く
+	4.2. 独立した点を削除(none)
+ ５．2の目の認識
+	5.1. 線分のサイズから2の目を含まない線分を抽出
+	5.2. 先に抽出した線分に使用されていない点を2の目の点候補とする
+	5.3. 角度と距離から2の目を決定
  */
 
 }

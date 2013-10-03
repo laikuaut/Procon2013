@@ -643,9 +643,6 @@ int main(){
 
 
 	dd.getDot2Points();
-
-	timer.lap();
-	cout << "‚Q‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
 	
 	// 2‚Ì–Ú‚ÌŠm”F
 	dd.drawTrueLine(draw,green,blue);
@@ -654,6 +651,17 @@ int main(){
 	dd.drawDot2Center(draw,blue);
 	show(draw,"Dot2");
 	draw.clone(img);
+	
+	timer.lap();
+	cout << "‚Q‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
+	
+	dd.getDot4Points();
+
+
+
+	timer.lap();
+	cout << "‚S‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
+
 
 	// ŒŸo‚µ‚½“_‚ÌŽí—Þ‚²‚Æ
 	dd.drawDot1Points(draw,cv::Scalar(255,255,255));

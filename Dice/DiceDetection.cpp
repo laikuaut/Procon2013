@@ -275,7 +275,7 @@ void DiceDetection::getDot2Points(){
 
 	int minDistance,maxDistance,distance;
 	Dot2Point dot2;
-	vector<int> dot2Num;
+	vector<int> dot2Nums;
 
 	// 2‚Ì–Ú‚Ì“_‚ğŠÜ‚Ü‚È‚¢ü•ª‚ğ’Šo
 	for(int i=0;i<allLines.size();i++){
@@ -292,8 +292,8 @@ void DiceDetection::getDot2Points(){
 
 		if(pow(minDistance,2) < pow(allLines[i].distance,2) && pow(allLines[i].distance,2) < pow(maxDistance,2)){
 			allLines.flags[i] = 1;
-			dot2Num.push_back(allLines.dotNums[0][i]);
-			dot2Num.push_back(allLines.dotNums[1][i]);
+			dot2Nums.push_back(allLines.dotNums[0][i]);
+			dot2Nums.push_back(allLines.dotNums[1][i]);
 		}else{
 			allLines.flags[i] = 0;
 		}
@@ -306,8 +306,8 @@ void DiceDetection::getDot2Points(){
 	for(int i=0;i<allPoints.size();i++){
 		if(allPoints.flags[i]){
 			bool flag = true;
-			for(int j=0;j<dot2Num.size();j++){
-				if(i==dot2Num[j]){
+			for(int j=0;j<dot2Nums.size();j++){
+				if(i==dot2Nums[j]){
 					flag = false;
 					break;
 				}
@@ -361,6 +361,34 @@ void DiceDetection::getDot2Points(){
 		}
 	}
 
+}
+
+void DiceDetection::getDot4Points(){
+
+	int minDistance,maxDistance,distance;
+	vector<int> dot4Nums;
+
+
+	//for(int i=0;i<allLines.size();i++){
+	//	if(allLines.types[i] == DiceInfo::small){
+	//		minDistance = dot2SmallMinDistance;
+	//		maxDistance = dot2SmallMaxDistance;
+	//	}else if(allLines.types[i] == DiceInfo::middle){
+	//		minDistance = dot2MiddleMinDistance;
+	//		maxDistance = dot2MiddleMaxDistance;
+	//	}else if(allLines.types[i] == DiceInfo::large){
+	//		minDistance = dot2LargeMinDistance;
+	//		maxDistance = dot2LargeMaxDistance;
+	//	}
+
+	//	if(pow(minDistance,2) < pow(allLines[i].distance,2) && pow(allLines[i].distance,2) < pow(maxDistance,2)){
+	//		allLines.flags[i] = 1;
+	//		dot4Nums.push_back(allLines.dotNums[0][i]);
+	//		dot4Nums.push_back(allLines.dotNums[1][i]);
+	//	}else{
+	//		allLines.flags[i] = 0;
+	//	}
+	//}
 }
 
 /******************
@@ -517,6 +545,25 @@ void DiceDetection::drawTypeDot2Points(Image& img,DiceInfo::dtype type,cv::Scala
 void DiceDetection::drawDot2Center(Image& img,cv::Scalar scal){
 	for(int i=0;i<dot2Points.size();i++){
 		dot2Points[i].drawCenter(img,scal);
+	}
+}
+
+void DiceDetection::drawDot4Points(Image& img,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+	for(int i=0;i<dot4Points.size();i++){
+		dot4Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawTypeDot4Points(Image& img,DiceInfo::dtype type,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+	for(int i=0;i<dot4Points.size();i++){
+		if(dot4Points[i].type == type)
+			dot4Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawDot4Center(Image& img,cv::Scalar scal){
+	for(int i=0;i<dot4Points.size();i++){
+		dot4Points[i].drawCenter(img,scal);
 	}
 }
 
