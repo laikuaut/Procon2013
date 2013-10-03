@@ -26,6 +26,8 @@ public:
 	static double Vec2fCrossScalar(cv::Vec2f v1,cv::Vec2f v2);
 	// 2点間の距離を求める
 	static double getDistance(cv::Point2f pt1,cv::Point2f pt2);
+	// 2点間の距離の2乗を返す
+	static double getDistance2(cv::Point2f pt1,cv::Point2f pt2);
 	// 内積を用いてベクトルのナス角を返す
 	static double InnerProductAngle(cv::Vec2f v1,cv::Vec2f v2);
 	// 2ベクトルが平行にあるかどうか

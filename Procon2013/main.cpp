@@ -21,6 +21,7 @@ void show(cv::Mat& img){
 }
 
 void show(cv::Mat& img,std::string str){
+	//cv::waitKey(1000);
 	cv::namedWindow(str,0);
 	cv::imshow(str,img);
 }
@@ -558,9 +559,18 @@ void info(cv::Mat& img){
 int main(){
 	// 宣言
 	DiceDetection dd;
-	Image img,draw,bin;
+	Image img,draw,draw1,bin;
 	LabelingCenter lc;
 	Timer timer;
+
+	// デバック時間省略のためのファイル読み込み
+	ifstream ifs;
+	string str,name;
+	ifs.open("img.txt");
+	ifs >> name;
+	ifs >> str;
+	name+=" "+str;
+
 	
 	// 色
 	cv::Scalar white,red,green,blue,black;
@@ -574,10 +584,11 @@ int main(){
 	timer.start();
 
 	// 画像作成
-	img.load("Dice/Picture 17.jpg");
+	img.load(name);
 	img.resize(img,cv::Size(1920,1080));
 	
 	draw.clone(img);
+	//draw1.clone(img);
 
 	timer.lap();
 	cout << "画像生成:" << (double)timer.getNow()/1000 << endl;
@@ -585,29 +596,84 @@ int main(){
 	// サイコロの目を検出
 	dd.init(img);
 	dd.getAllPoints();
-	//dd.drawAllPoints(draw,cv::Scalar(255,0,0));
-	//show(draw,"1");
-	
+
+	// 初期検出
+	dd.drawTypePoints(draw,DiceInfo::none,blue);
+	dd.drawTypePoints(draw,DiceInfo::small,red);
+	dd.drawTypePoints(draw,DiceInfo::middle,green);
+	dd.drawTypePoints(draw,DiceInfo::large,white);
+	show(draw,"first");
+	draw.clone(img);
+
 	timer.lap();
 	cout << "全点検出:" << (double)timer.getNow()/1000 << endl;
 
 	dd.getDot1Points();
-	dd.drawDot1Points(draw,cv::Scalar(255,255,255));
+
+	// 1の目の判別状態
+	dd.drawTypePoints(draw,DiceInfo::none,blue);
+	dd.drawTypePoints(draw,DiceInfo::small,red);
+	dd.drawTypePoints(draw,DiceInfo::middle,green);
+	dd.drawTypePoints(draw,DiceInfo::large,white);
+	show(draw,"dot1");
+	draw.clone(img);
 
 	timer.lap();
 	cout << "１の目:" << (double)timer.getNow()/1000 << endl;
 
-	dd.drawTruePoints(draw,cv::Scalar(0,255,0));
-	dd.drawFalsePoints(draw,cv::Scalar(0,0,255));
 
-	//dd.getAllLines(6);
-	//dd.drawAllLine(draw,blue,green,1);
+	dd.correctPointType();
+
+	// 修正状態の確認
+	dd.drawTypePoints(draw,DiceInfo::none,blue);
+	dd.drawTypePoints(draw,DiceInfo::small,red);
+	dd.drawTypePoints(draw,DiceInfo::middle,green);
+	dd.drawTypePoints(draw,DiceInfo::large,white);
+	show(draw,"correct");
+	draw.clone(img);
+
+
+	timer.lap();
+	cout << "サイズ修正:" << (double)timer.getNow()/1000 << endl;
+
+	dd.getAllLines();
 
 	timer.lap();
 	cout << "線分抽出:" << (double)timer.getNow()/1000 << endl;
 
+
+	dd.getDot2Points();
+
+	timer.lap();
+	cout << "２の目:" << (double)timer.getNow()/1000 << endl;
+	
+	// 2の目の確認
+	dd.drawTrueLine(draw,green,blue);
+	//dd.drawFalseLine(draw,red,red);
+	dd.drawDot2Points(draw,red,green);
+	dd.drawDot2Center(draw,blue);
+	show(draw,"Dot2");
+	draw.clone(img);
+
+	// 検出した点の種類ごと
+	dd.drawDot1Points(draw,cv::Scalar(255,255,255));
+	dd.drawDot2Points(draw,red,green);
+	dd.drawDot2Center(draw,blue);
+	show(draw,"AllDots");
+	draw.clone(img);
+
+	// 検出した点のサイズごと
+	dd.drawTypePoints(draw,DiceInfo::none,cv::Scalar(255,0,0));
+	dd.drawTypePoints(draw,DiceInfo::small,red);
+	dd.drawTypePoints(draw,DiceInfo::middle,green);
+	dd.drawTypePoints(draw,DiceInfo::large,white);
+	show(draw,"AllTypes");
+	draw.clone(img);
+
+	//dd.drawKindPoints(draw,1,blue);
+	//dd.drawKindPoints(draw,2,red);
+
 	// 表示
-	show(draw,"4");
 	cv::waitKey(0);
 
 	//timer.getLapTime();

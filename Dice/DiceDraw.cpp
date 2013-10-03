@@ -13,6 +13,7 @@ DiceDraw::~DiceDraw(void)
 
 }
 
+
 void DiceDraw::init(int rate){
 	w = rate * DiceInfo::FRAME_W;
 	h = rate * DiceInfo::FRAME_H;
@@ -302,7 +303,8 @@ void DiceDraw::setPoint(int x,int y){
 		if(radius < DiceInfo::getDiceSize(dices[i].type))
 			radius = DiceInfo::getDiceSize(dices[i].type);
 		radius *= rate/2;
-		if( pow(dices[i].center.x - x,2) +  pow(dices[i].center.y - y,2) < pow(radius,2) ){
+		//if( pow(dices[i].center.x - x,2) +  pow(dices[i].center.y - y,2) < pow(radius,2) ){
+		if(Calc::getDistance2(dices[i].center,cv::Point2f(x,y)) < pow(radius,2) ){
 			x = dices[i].center.x;
 			y = dices[i].center.y;
 			draw_flag = false;

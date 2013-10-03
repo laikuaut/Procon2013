@@ -61,6 +61,10 @@ double Calc::getDistance(cv::Point2f pt1,cv::Point2f pt2){
 	return sqrt(pow(pt2.x - pt1.x,2) + pow(pt2.y - pt1.y,2));
 }
 
+double Calc::getDistance2(cv::Point2f pt1,cv::Point2f pt2){
+	return pow(pt2.x - pt1.x,2) + pow(pt2.y - pt1.y,2);
+}
+
 double Calc::InnerProductAngle(cv::Vec2f v1,cv::Vec2f v2){
 	double dotv1 = v1.dot(v2);
 	double cosine = dotv1;		// 元が単位ベクトルなので分母が１になっている

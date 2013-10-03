@@ -31,11 +31,19 @@ public:
 // サイコロの2の目のクラス
 class PRO_EXPORTS Dot2Point : public LineSegment
 {
+private:
+
+	void setCenter();
+
 public:
 	DiceInfo::dtype type;
+	DotPoint center;
 
 	void init(DotPoint dot1,DotPoint dot2,DiceInfo::dtype type=DiceInfo::none);
 	void init(DotPoint dot[2],DiceInfo::dtype type=DiceInfo::none);
+	void init(LineSegment lseg,DiceInfo::dtype type=DiceInfo::none);
+
+	void drawCenter(Image& img,cv::Scalar scal = cv::Scalar::all(0));
 
 };
 

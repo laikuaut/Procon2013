@@ -46,6 +46,10 @@ void Dot1Point::init(cv::Point2f pt,int size,DiceInfo::dtype type){
 	this->size = size;
 	this->type = type;
 }
-
+void Dot1Point::init(DotPoint dot,DiceInfo::dtype type){
+	this->pt = dot.pt;
+	this->size = dot.size;
+	this->type = type;
+}
 
 }

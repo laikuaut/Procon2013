@@ -78,7 +78,8 @@ void LabelingCenter::circleFilter(double per,double radius_per){
 	// 円形のフィルター
 	for(y = 0;y < labels.h;y++){
 		for(x = 0;x < labels.w;x++){
-			if(pow(centers[labels(x,y)].x-x,2)+pow(centers[labels(x,y)].y-y,2) < sizes[labels(x,y)]/CV_PI*radius_per){
+			//if(pow(centers[labels(x,y)].x-x,2)+pow(centers[labels(x,y)].y-y,2) < sizes[labels(x,y)]/CV_PI*radius_per){
+			if(Calc::getDistance2(centers[labels(x,y)],cv::Point2f(x,y)) < sizes[labels(x,y)]/CV_PI*radius_per){
 				counts[labels(x,y)]++;
 			}else{
 				//std::cout << x << "," << y << std::endl;

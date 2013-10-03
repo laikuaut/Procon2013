@@ -37,6 +37,7 @@ public:
 
 	void init(float x,float y,int size,DiceInfo::dtype type=DiceInfo::none);
 	void init(cv::Point2f pt,int size,DiceInfo::dtype type=DiceInfo::none);
+	void init(DotPoint dot,DiceInfo::dtype type=DiceInfo::none);
 
 };
 
