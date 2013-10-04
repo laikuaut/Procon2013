@@ -608,6 +608,7 @@ int main(){
 	timer.lap();
 	cout << "全点検出:" << (double)timer.getNow()/1000 << endl;
 
+	// 1の目の取得
 	dd.getDot1Points();
 
 	// 1の目の判別状態
@@ -636,12 +637,13 @@ int main(){
 	timer.lap();
 	cout << "サイズ修正:" << (double)timer.getNow()/1000 << endl;
 
+	// 線分取得
 	dd.getAllLines();
 
 	timer.lap();
 	cout << "線分抽出:" << (double)timer.getNow()/1000 << endl;
 
-
+	// 2の目の取得
 	dd.getDot2Points();
 	
 	// 2の目の確認
@@ -651,16 +653,46 @@ int main(){
 	dd.drawDot2Center(draw,blue);
 	show(draw,"Dot2");
 	draw.clone(img);
-	
+
+
 	timer.lap();
 	cout << "２の目:" << (double)timer.getNow()/1000 << endl;
 	
+	// 4の目の取得
 	dd.getDot4Points();
 
-
+	//dd.drawTrueLine(draw,blue,green);
+	//dd.drawDot1Points(draw,white);
+	//dd.drawKindPoints(draw,2,white);
+	dd.drawKindPoints(draw,4,white);
+	//dd.drawDot4Points(draw,red,blue);
+	dd.drawDot4Center(draw,blue);
+	show(draw,"Dot4");
+	draw.clone(img);
 
 	timer.lap();
 	cout << "４の目:" << (double)timer.getNow()/1000 << endl;
+
+	//保留
+	//dd.clearAllLines();
+	//dd.getAllLines();
+	dd.getAllDot3Points();
+	//dd.drawTrueLine(draw,blue,red);
+	dd.drawAllDot3Points(draw,red,blue);
+	show(draw,"allDot3");
+	draw.clone(img);
+
+	timer.lap();
+	cout << "3点全:" << (double)timer.getNow()/1000 << endl;
+
+
+	// 5の目の取得
+
+
+	// 3の目の取得
+
+
+	// 6の目の取得
 
 
 	// 検出した点の種類ごと

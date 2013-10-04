@@ -79,4 +79,10 @@ void Dot2Point::drawCenter(Image& img,cv::Scalar scal){
 	center.draw(img,scal);
 }
 
+Dot2Point::operator pro::LineSegment(){
+	LineSegment lseg;
+	lseg.init(dot);
+	return lseg;
+}
+
 }

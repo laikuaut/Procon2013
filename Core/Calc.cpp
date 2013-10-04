@@ -79,6 +79,12 @@ double Calc::InnerProductAngle(cv::Vec2f v1,cv::Vec2f v2){
 	return angle;
 }
 
+double Calc::getAngle(cv::Point2f pt1,cv::Point2f pt2){
+	double tan = abs(pt2.y-pt1.y)/abs(pt2.x-pt1.x);
+	double angle = atan(tan);
+	return angle*180/CV_PI;
+}
+
 /*** 2ベクトルが平行にあるかどうか ***/
 bool Calc::Parallel2Vec(double angle){
 	angle = angle*180/CV_PI;

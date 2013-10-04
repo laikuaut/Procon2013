@@ -55,10 +55,30 @@ private:
 	static const int dot2LargeMinDistance = 0;
 	static const int dot2SmallMaxDistance = 23;
 	static const int dot2MiddleMaxDistance = 40;
-	static const int dot2LargeMaxDistance = 58;
+	static const int dot2LargeMaxDistance = 55;
 	static const int dot2SmallDistance = 35;
 	static const int dot2MiddleDistance = 55;
 	static const int dot2LargeDistance = 70;
+
+	// ４の目検出
+	static const int dot4SmallMinDistance = 0;
+	static const int dot4MiddleMinDistance = 0;
+	static const int dot4LargeMinDistance = 0;
+	static const int dot4SmallMaxDistance = 20;
+	static const int dot4MiddleMaxDistance = 30;
+	static const int dot4LargeMaxDistance = 45;
+	static const int dot4SmallDistance = 37;
+	static const int dot4MiddleDistance = 55;
+	static const int dot4LargeDistance = 80;
+
+	// 全3点
+	static const int allDot3Angle = 160;
+	static const int allDot3SmallMinDistance = 0;
+	static const int allDot3MiddleMinDistance = 0;
+	static const int allDot3LargeMinDistance = 0;
+	static const int allDot3SmallMaxDistance = 20;
+	static const int allDot3MiddleMaxDistance = 30;
+	static const int allDot3LargeMaxDistance = 60;
 
 protected:
 
@@ -106,7 +126,32 @@ protected:
 		void add(LineSegment lseg,short flag,DiceInfo::dtype type,int kind,int dotNum1,int dotNum2);
 		int size() const;
 
+		void clear();
+
 		LineSegment operator[](int i) const;
+	};
+
+	// 全3点直線クラス
+	class Dot3Points{
+	private:
+
+		std::vector<Dot3Point> dot3s;
+		int num;
+	public:
+		std::vector<short> flags;
+		std::vector<DiceInfo::dtype> types;
+		std::vector<int> kinds;
+		std::vector<int> dotNums[3];
+	
+	public:
+
+		Dot3Points();
+
+		void add(Dot3Point dot3,short flag,DiceInfo::dtype type,int kind,int dotNum1,int dotNum2,int dotNum3);
+		int size() const;
+
+		Dot3Point operator[](int i);
+
 	};
 
 private:
@@ -124,6 +169,9 @@ private:
 
 	// 線分データ
 	LineSegments allLines;
+
+	// 3点データ
+	Dot3Points allDot3Points;
 
 	// サイコロの目データ
 	std::vector<Dot1Point> dot1Points;
@@ -149,7 +197,7 @@ public:
 	// 必要要素の取得
 	void getAllPoints();
 	void getAllLines();
-	//void getAllDot3Points();
+	void getAllDot3Points();
 
 	// 目の判定処理
 	void getDot1Points();
@@ -158,6 +206,7 @@ public:
 
 	// 削除処理
 	void eraseDot1Points();
+	void clearAllLines();
 
 	// 修正処理
 	void correctPointType();
@@ -212,6 +261,18 @@ public:
 						,int thickness = 1);
 	void drawDot4Center(Image& img,cv::Scalar scal = cv::Scalar::all(0));
 
+	void drawAllDot3Points(Image& img
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
+	void drawTypeDot3Points(Image& img,DiceInfo::dtype type
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
+	void drawKindDot3Points(Image& img,int kind
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
 };
 
 /**

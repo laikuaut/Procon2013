@@ -45,6 +45,8 @@ public:
 
 	void drawCenter(Image& img,cv::Scalar scal = cv::Scalar::all(0));
 
+	operator LineSegment ();
+
 };
 
 

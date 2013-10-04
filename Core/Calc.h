@@ -30,6 +30,8 @@ public:
 	static double getDistance2(cv::Point2f pt1,cv::Point2f pt2);
 	// 内積を用いてベクトルのナス角を返す
 	static double InnerProductAngle(cv::Vec2f v1,cv::Vec2f v2);
+	// ２点から角度を求める。（0～90）
+	static double getAngle(cv::Point2f pt1,cv::Point2f pt2);
 	// 2ベクトルが平行にあるかどうか
 	static bool Parallel2Vec(double angle);
 	// 2ベクトルが垂直であるかどうか
