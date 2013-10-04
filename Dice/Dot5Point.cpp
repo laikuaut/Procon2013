@@ -19,10 +19,11 @@ void Dot5Point::init(Dot3Point dot3p1,Dot3Point dot3p2,DiceInfo::dtype type){
 }
 
 void Dot5Point::draw(Image& img,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
-
+	dot3[0].draw(img,dot_col,line_col,thickness);
+	dot3[1].draw(img,dot_col,line_col,thickness);
 }
 void Dot5Point::drawCenter(Image& img,cv::Scalar scal){
-
+	center.draw(img,scal);
 }
 
 

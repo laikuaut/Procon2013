@@ -5,7 +5,7 @@
 
 namespace pro{
 
-class Dot4Point
+class PRO_EXPORTS Dot4Point
 {
 public:
 

@@ -12,9 +12,10 @@ Dot3Point::~Dot3Point(void)
 }
 
 void Dot3Point::init(LineSegment lseg1,LineSegment lseg2,DiceInfo::dtype type){
+	this->type = type;
 	center.init(lseg1.dot[0],lseg1.dot[0].size);
 	dot[0].init(lseg1.dot[1],lseg1.dot[1].size);
-	dot[1].init(lseg1.dot[1],lseg2.dot[1].size);
+	dot[1].init(lseg2.dot[1],lseg2.dot[1].size);
 	formedAngle = Calc::InnerProductAngle(lseg1.unit,lseg2.unit)/CV_PI*180;
 	angle = Calc::getAngle(dot[0],dot[1]);
 }

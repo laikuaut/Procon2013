@@ -6,9 +6,10 @@
 #include"Dot3Point.h"
 #include"DiceInfo.h"
 #include"Dot4Point.h"
+#include"Dot5Point.h"
+#include"Dot6Point.h"
 
 #include"Procon2013\ImageProcessing\LabelingCenter.h"
-
 
 namespace pro{
 
@@ -79,6 +80,11 @@ private:
 	static const int allDot3SmallMaxDistance = 20;
 	static const int allDot3MiddleMaxDistance = 30;
 	static const int allDot3LargeMaxDistance = 60;
+
+	// 6ÇÃñ⁄
+	static const int dot6SmallRasius = 20;
+	static const int dot6MiddleRasius = 40;
+	static const int dot6LargeRasius = 60;
 
 protected:
 
@@ -178,6 +184,8 @@ private:
 	std::vector<Dot2Point> dot2Points;
 	std::vector<Dot3Point> dot3Points;
 	std::vector<Dot4Point> dot4Points;
+	std::vector<Dot5Point> dot5Points;
+	std::vector<Dot6Point> dot6Points;
 
 public:
 
@@ -203,6 +211,9 @@ public:
 	void getDot1Points();
 	void getDot2Points();
 	void getDot4Points();
+	void getDot5Points();
+	void getDot3Points();
+	void getDot6Points();
 
 	// çÌèúèàóù
 	void eraseDot1Points();
@@ -251,6 +262,7 @@ public:
 						,int thickness = 1);
 	void drawDot2Center(Image& img,cv::Scalar scal = cv::Scalar::all(0));
 	
+
 	void drawDot4Points(Image& img
 						,cv::Scalar dot_col = cv::Scalar::all(0)
 						,cv::Scalar line_col = cv::Scalar::all(0)
@@ -261,7 +273,42 @@ public:
 						,int thickness = 1);
 	void drawDot4Center(Image& img,cv::Scalar scal = cv::Scalar::all(0));
 
+
 	void drawAllDot3Points(Image& img
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
+	void drawAllDot3Center(Image& img,cv::Scalar scal = cv::Scalar::all(0));
+	void drawTrueAllDot3Points(Image& img
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
+	void drawFalseAllDot3Points(Image& img
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
+	void drawTypeAllDot3Points(Image& img,DiceInfo::dtype type
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
+	void drawKindAllDot3Points(Image& img,int kind
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
+
+
+	void drawDot5Points(Image& img
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
+	void drawTypeDot5Points(Image& img,DiceInfo::dtype type
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
+	void drawDot5Center(Image& img,cv::Scalar scal = cv::Scalar::all(0));
+
+
+	void drawDot3Points(Image& img
 			,cv::Scalar dot_col = cv::Scalar::all(0)
 			,cv::Scalar line_col = cv::Scalar::all(0)
 			,int thickness = 1);
@@ -269,10 +316,19 @@ public:
 			,cv::Scalar dot_col = cv::Scalar::all(0)
 			,cv::Scalar line_col = cv::Scalar::all(0)
 			,int thickness = 1);
-	void drawKindDot3Points(Image& img,int kind
+	void drawDot3Center(Image& img,cv::Scalar scal = cv::Scalar::all(0));
+
+
+	void drawDot6Points(Image& img
 			,cv::Scalar dot_col = cv::Scalar::all(0)
 			,cv::Scalar line_col = cv::Scalar::all(0)
 			,int thickness = 1);
+	void drawTypeDot6Points(Image& img,DiceInfo::dtype type
+			,cv::Scalar dot_col = cv::Scalar::all(0)
+			,cv::Scalar line_col = cv::Scalar::all(0)
+			,int thickness = 1);
+	void drawDot6Center(Image& img,cv::Scalar scal = cv::Scalar::all(0));	
+
 };
 
 /**

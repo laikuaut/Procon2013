@@ -6,7 +6,7 @@
 
 namespace pro{
 
-class Dot6Point
+class PRO_EXPORTS Dot6Point
 {
 private:
 

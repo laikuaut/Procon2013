@@ -248,13 +248,17 @@ void DiceDetection::getAllDot3Points(){
 	for(int i=0;i<allLines.size();i++){
 		if(!allLines.flags[i]) continue;
 		for(int j=0;j<allLines.size();j++){
+			if(i==j) continue;
 			if(!allLines.flags[j]) continue;
 			if(allLines.types[i] != allLines.types[j]) continue;
 			//if(Calc::getDistance2(dot2Points[i].dot[0],dot2Points[j].dot[0]) < dot2Points[j].dot[0].size/CV_PI){
 			if(Calc::getDistance2(allLines[i].dot[0],allLines[j].dot[0]) < allLines[j].dot[0].size/CV_PI){
+			//	&& Calc::getDistance2(allLines[i].dot[1],allLines[j].dot[1]) > allLines[i].dot[1].size/CV_PI){
 				dot3.init(allLines[i],allLines[j],allLines.types[i]);
 				if(dot3.formedAngle > allDot3Angle){
 					allDot3Points.add(dot3,1,dot3.type,0,allLines.dotNums[0][i],allLines.dotNums[1][i],allLines.dotNums[1][j]);
+					allLines.flags[i]=0;
+					allLines.flags[j]=0;
 				}
 			}	
 		}
@@ -378,9 +382,9 @@ void DiceDetection::getDot2Points(){
 					dot2.init(dot1s[i],dot1s[j],dot1s[i].type);
 					dot2Points.push_back(dot2);
 					
-					allPoints.flags[dot1Nums[i]] = false;
+					allPoints.flags[dot1Nums[i]] = 0;
 					allPoints.kinds[dot1Nums[i]] = 2;
-					allPoints.flags[dot1Nums[j]] = false;
+					allPoints.flags[dot1Nums[j]] = 0;
 					allPoints.kinds[dot1Nums[j]] = 2;
 					break;
 				}
@@ -502,20 +506,90 @@ void DiceDetection::getDot4Points(){
 				dot4.init(dot2s[i],dot2s[j],dot2s[i].center,dot2s[i].type);
 				dot4Points.push_back(dot4);
 
-				allPoints.flags[dot2Num[0][i]] = false;
-				allPoints.flags[dot2Num[0][j]] = false;
-				allPoints.flags[dot2Num[1][i]] = false;
-				allPoints.flags[dot2Num[1][j]] = false;
-				
-				allPoints.kinds[dot2Num[0][i]] = 4;
-				allPoints.kinds[dot2Num[0][j]] = 4;
-				allPoints.kinds[dot2Num[1][i]] = 4;
-				allPoints.kinds[dot2Num[1][j]] = 4;
 
+				for(int k=0;k<2;k++){
+					allPoints.flags[dot2Num[k][i]] = 0;
+					allPoints.kinds[dot2Num[k][i]] = 4;
+					allPoints.flags[dot2Num[k][j]] = 0;
+					allPoints.kinds[dot2Num[k][j]] = 4;
+				}
 			}
 		}
 	}
 
+}
+
+
+void DiceDetection::getDot5Points(){
+	Dot5Point dot5;
+	for(int i=0;i<allDot3Points.size();i++){
+		for(int j=i+1;j<allDot3Points.size();j++){
+			if(i==j) continue;
+			if(allDot3Points.types[i] != allDot3Points.types[i]) continue;
+			if(Calc::getDistance2(allDot3Points[i].center,allDot3Points[j].center) < allDot3Points[i].center.size/CV_PI){
+				dot5.init(allDot3Points[i],allDot3Points[j],allDot3Points.types[i]);
+				dot5Points.push_back(dot5);
+				
+				allDot3Points.flags[i] = 0;
+				allDot3Points.flags[j] = 0;
+				
+				for(int k=0;k<3;k++){
+					allPoints.flags[allDot3Points.dotNums[k][i]] = 0;
+					allPoints.kinds[allDot3Points.dotNums[k][i]] = 5;
+					allPoints.flags[allDot3Points.dotNums[k][j]] = 0;
+					allPoints.kinds[allDot3Points.dotNums[k][j]] = 5;
+				}
+				break;
+			}
+		}
+	}
+}
+
+void DiceDetection::getDot3Points(){
+	Dot3Point dot3;
+	for(int i=0;i<allDot3Points.size();i++){
+		if(!allDot3Points.flags[i]) continue;
+		if(35<allDot3Points[i].angle && allDot3Points[i].angle<55){
+			dot3Points.push_back(allDot3Points[i]);
+			allDot3Points.flags[i]=0;
+			for(int k=0;k<3;k++){
+				allPoints.flags[allDot3Points.dotNums[k][i]] = 0;
+				allPoints.kinds[allDot3Points.dotNums[k][i]] = 3;
+			}
+		}
+	}
+}
+
+void DiceDetection::getDot6Points(){
+	Dot6Point dot6;
+	int radius=0;
+	for(int i=0;i<allDot3Points.size();i++){
+		if(!allDot3Points.flags[i]) continue;
+		if(allDot3Points.types[i] == DiceInfo::small)
+			radius = dot6SmallRasius;
+		else if(allDot3Points.types[i] == DiceInfo::middle)
+			radius = dot6MiddleRasius;
+		else if(allDot3Points.types[i] == DiceInfo::large)
+			radius = dot6LargeRasius;
+
+		for(int j=0;j<allDot3Points.size();j++){
+			if(i==j) continue;
+			if(!allDot3Points.flags[j]) continue;
+			if(allDot3Points.types[i] != allDot3Points.types[j]) continue;
+			if(Calc::getDistance2(allDot3Points[i].center,allDot3Points[j].center) < pow(radius,2) ){
+				dot6.init(allDot3Points[i],allDot3Points[j],allDot3Points.types[i]);
+				dot6Points.push_back(dot6);
+				allDot3Points.flags[i] = 0;
+				allDot3Points.flags[j] = 0;
+				for(int k=0;k<3;k++){
+					allPoints.flags[allDot3Points.dotNums[k][i]] = 0;
+					allPoints.kinds[allDot3Points.dotNums[k][i]] = 6;
+					allPoints.flags[allDot3Points.dotNums[k][j]] = 0;
+					allPoints.kinds[allDot3Points.dotNums[k][j]] = 6;
+				}
+			}
+		}
+	}
 }
 
 /******************
@@ -767,17 +841,94 @@ void DiceDetection::drawAllDot3Points(Image& img,cv::Scalar dot_col,cv::Scalar l
 	}
 }
 
-void DiceDetection::drawTypeDot3Points(Image& img,DiceInfo::dtype type,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+void DiceDetection::drawAllDot3Center(Image& img,cv::Scalar scal){
+	for(int i=0;i<allDot3Points.size();i++){
+		allDot3Points[i].drawCenter(img,scal);
+	}
+}
+
+void DiceDetection::drawTrueAllDot3Points(Image& img,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+	for(int i=0;i<allDot3Points.size();i++){
+		if(allDot3Points.flags[i])
+			allDot3Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawFalseAllDot3Points(Image& img,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+	for(int i=0;i<allDot3Points.size();i++){
+		if(!allDot3Points.flags[i])
+			allDot3Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawTypeAllDot3Points(Image& img,DiceInfo::dtype type,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
 	for(int i=0;i<allDot3Points.size();i++){
 		if(allDot3Points.types[i] == type)
 			allDot3Points[i].draw(img,dot_col,line_col,thickness);
 	}
 }
 
-void DiceDetection::drawKindDot3Points(Image& img,int kind,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+void DiceDetection::drawKindAllDot3Points(Image& img,int kind,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
 	for(int i=0;i<allDot3Points.size();i++){
 		if(allDot3Points.kinds[i] == kind)
 			allDot3Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawDot5Points(Image& img,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+	for(int i=0;i<dot5Points.size();i++){
+		dot5Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawTypeDot5Points(Image& img,DiceInfo::dtype type,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+	for(int i=0;i<dot5Points.size();i++){
+		if(dot5Points[i].type == type)
+			dot5Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawDot5Center(Image& img,cv::Scalar scal){
+	for(int i=0;i<dot5Points.size();i++){
+		dot5Points[i].drawCenter(img,scal);
+	}
+}
+
+void DiceDetection::drawDot3Points(Image& img,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+	for(int i=0;i<dot3Points.size();i++){
+		dot3Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawTypeDot3Points(Image& img,DiceInfo::dtype type,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+	for(int i=0;i<dot3Points.size();i++){
+		if(dot3Points[i].type == type)
+			dot3Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawDot3Center(Image& img,cv::Scalar scal){
+	for(int i=0;i<dot3Points.size();i++){
+		dot3Points[i].drawCenter(img,scal);
+	}
+}
+
+void DiceDetection::drawDot6Points(Image& img,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+	for(int i=0;i<dot6Points.size();i++){
+		dot6Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawTypeDot6Points(Image& img,DiceInfo::dtype type,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
+	for(int i=0;i<dot6Points.size();i++){
+		if(dot6Points[i].type == type)
+			dot6Points[i].draw(img,dot_col,line_col,thickness);
+	}
+}
+
+void DiceDetection::drawDot6Center(Image& img,cv::Scalar scal){
+	for(int i=0;i<dot6Points.size();i++){
+		dot6Points[i].drawCenter(img,scal);
 	}
 }
 

@@ -673,12 +673,12 @@ int main(){
 	timer.lap();
 	cout << "‚S‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
 
-	//•Û—¯
-	//dd.clearAllLines();
-	//dd.getAllLines();
+	//‚R“_‘S
 	dd.getAllDot3Points();
-	//dd.drawTrueLine(draw,blue,red);
+
+	// 3“_‘S•`Ê
 	dd.drawAllDot3Points(draw,red,blue);
+	dd.drawAllDot3Center(draw,blue);
 	show(draw,"allDot3");
 	draw.clone(img);
 
@@ -687,18 +687,54 @@ int main(){
 
 
 	// 5‚Ì–Ú‚Ìæ“¾
+	dd.getDot5Points();
+	//dd.drawTrueAllDot3Points(draw,red,blue);
+	//dd.drawFalseAllDot3Points(draw,green,blue);
+
+	dd.drawDot5Points(draw,red,blue);
+	show(draw,"dot5");
+	draw.clone(img);
+
+	timer.lap();
+	cout << "5‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
 
 
 	// 3‚Ì–Ú‚Ìæ“¾
+	dd.getDot3Points();
+
+	dd.drawDot3Points(draw,red,blue);
+	show(draw,"dot3");
+	draw.clone(img);
+
+	timer.lap();
+	cout << "3‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
 
 
 	// 6‚Ì–Ú‚Ìæ“¾
+	dd.getDot6Points();
+
+	dd.drawDot6Points(draw,red,blue);
+	dd.drawDot6Center(draw,blue);
+	show(draw,"dot6");
+	draw.clone(img);
+
+	
+	8;timer.lap();
+	cout << "6‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
 
 
 	// ŒŸo‚µ‚½“_‚Ìí—Ş‚²‚Æ
-	dd.drawDot1Points(draw,cv::Scalar(255,255,255));
-	dd.drawDot2Points(draw,red,green);
+	dd.drawDot1Points(draw,white);
+	dd.drawDot2Points(draw,red,red);
 	dd.drawDot2Center(draw,blue);
+	dd.drawDot3Points(draw,green,red);
+	dd.drawDot3Center(draw,blue);
+	dd.drawDot4Points(draw,cv::Scalar(255,255,0),red);
+	dd.drawDot4Center(draw,blue);
+	dd.drawDot5Points(draw,cv::Scalar(255,0,255),red);
+	dd.drawDot5Center(draw,blue);
+	dd.drawDot6Points(draw,cv::Scalar(0,255,255),red);
+	dd.drawDot6Center(draw,blue);
 	show(draw,"AllDots");
 	draw.clone(img);
 
@@ -707,7 +743,7 @@ int main(){
 	dd.drawTypePoints(draw,DiceInfo::small,red);
 	dd.drawTypePoints(draw,DiceInfo::middle,green);
 	dd.drawTypePoints(draw,DiceInfo::large,white);
-	show(draw,"AllTypes");
+	show(draw,"Types");
 	draw.clone(img);
 
 	//dd.drawKindPoints(draw,1,blue);

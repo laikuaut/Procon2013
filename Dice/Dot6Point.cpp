@@ -27,11 +27,11 @@ void Dot6Point::setCenter(){
 	dy = abs(dot3[0].center.pt.y-dot3[1].center.pt.y);
 
 	// À•Wæ“¾
-	if(dx < dot3[0].center.size/CV_PI)
+	if(dx < sqrt(dot3[0].center.size/CV_PI))
 		x = dot3[0].center.pt.x;
 	else
 		x = minx + dx/2;
-	if(dy < dot3[0].center.size/CV_PI)
+	if(dy < sqrt(dot3[0].center.size/CV_PI))
 		y = dot3[0].center.pt.y;
 	else
 		y = miny + dy/2;
@@ -48,11 +48,12 @@ void Dot6Point::init(Dot3Point dot3p1,Dot3Point dot3p2,DiceInfo::dtype type){
 }
 
 void Dot6Point::draw(Image& img,cv::Scalar dot_col,cv::Scalar line_col,int thickness){
-
+	dot3[0].draw(img,dot_col,line_col,thickness);
+	dot3[1].draw(img,dot_col,line_col,thickness);
 }
 
 void Dot6Point::drawCenter(Image& img,cv::Scalar scal){
-
+	center.draw(img,scal);
 }
 
 }
