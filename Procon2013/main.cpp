@@ -662,6 +662,8 @@ int main(){
 	cout <<"num:" << dd.getNumAllLines() << endl;
 
 	dd.drawAllLine(draw,blue,red);
+	//dd.drawFalsePoints(draw,green);
+	//dd.drawTypePoints(draw,DiceInfo::none,green);
 	show(draw,"allLine");
 	draw.clone(img);
 
@@ -796,14 +798,20 @@ int main(){
 	timer.lap();
 	cout << "‚S‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
 
+
+	// ÅIˆ—
+	dd.correctOddMiddleToLarge();
 	dd.clearAllLines();
 	dd.getAllLines();
 	dd.getDot2Points();
+	dd.getAllDot3Points();
+	dd.getDot5Points();
+	dd.getDot3Points();
+	dd.getDot6Points();
+	dd.getDot4Points();
 
 	timer.lap();
-	cout << "‚Q‚Ì–Ú2‰ñ–Ú:" << (double)timer.getNow()/1000 << endl;
-
-
+	cout << "ÅIˆ—:" << (double)timer.getNow()/1000 << endl;
 	
 	dd.getAllDotCenters();
 
@@ -838,9 +846,10 @@ int main(){
 	show(draw,"Types");
 	draw.clone(img);
 
-	//dd.drawTruePoints(draw,blue);
-	//show(draw,"TruePoints");
-	//draw.clone(img);
+
+	dd.drawTruePoints(draw,blue);
+	show(draw,"TruePoints");
+	draw.clone(img);
 
 	//dd.drawKindPoints(draw,1,blue);
 	//dd.drawKindPoints(draw,2,red);

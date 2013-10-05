@@ -63,7 +63,7 @@ private:
 	static const int dot2MiddleMinDistance = 0;
 	static const int dot2LargeMinDistance = 0;
 	static const int dot2SmallMaxDistance = 23;
-	static const int dot2MiddleMaxDistance = 42;
+	static const int dot2MiddleMaxDistance = 40;
 	static const int dot2LargeMaxDistance = 50;
 	static const int dot2SmallDistance = 35;
 	static const int dot2MiddleDistance = 60;
@@ -271,6 +271,7 @@ public:
 	// 修正処理
 	void correctPointType();
 	int correctMiddleDot4Points(); //余り点から4の目の抽出ミスを訂正
+	void correctOddMiddleToLarge();
 
 	// 描写
 	void drawAllPoints(Image& img,cv::Scalar scal = cv::Scalar::all(0));

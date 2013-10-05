@@ -236,8 +236,12 @@ void DiceDetection::getAllLines(){
 	// “Æ—§‚µ‚½“_‚Ìíœ
 	for(int i=0;i<allPoints.size();i++){
 		if(flags[i]){
-			allPoints.flags[i] = 0;
-			allPoints.types[i] = DiceInfo::none;
+
+			// ÅIˆ—•ÛŒ¯
+			if(allPoints.types[i] == DiceInfo::large) continue;
+
+				allPoints.flags[i] = 0;
+				allPoints.types[i] = DiceInfo::none;
 		}
 	}
 
@@ -1035,6 +1039,15 @@ int DiceDetection::correctMiddleDot4Points(){
 	return missNum;
 }
 
+
+void DiceDetection::correctOddMiddleToLarge(){
+	for(int i=0;i<allPoints.size();i++){
+		if(!allPoints.flags[i]) continue;
+		if(allPoints.types[i] == DiceInfo::large ||
+			allPoints.types[i] == DiceInfo::none)
+			allPoints.types[i] = DiceInfo::middle;
+	}
+}
 
 /******************
  *   •`Êˆ—
