@@ -636,6 +636,13 @@ void DiceDetection::_getDot4Points(){
 		dot1Nums.push_back(i);
 	}
 
+		
+	Image draw;
+	draw.clone(src);
+	for(int i=0;i<dots.size();i++)
+		dots[i].draw(draw,cv::Scalar(0,255,0));
+	draw.imshow("dots");
+
 
 	Dot2Point dot2;
 	LineSegments lsegs;
@@ -673,7 +680,7 @@ void DiceDetection::_getDot4Points(){
 					//double tan = abs(dot1s[i].pt.y - dot1s[j].pt.y)/abs(dot1s[i].pt.x - dot1s[j].pt.x);
 					//double sita = atan(tan)*180/CV_PI;
 					double sita = Calc::getAngle(dots[i],dots[j]);
-					if(sita>=40 && sita<=50){
+					if(sita>=35 && sita<=55){
 						dot2.init(dots[i],dots[j],dots.types[i]);
 						bool flag = true;
 						for(int l=0;l<missDotCenters.size();l++){
@@ -691,13 +698,12 @@ void DiceDetection::_getDot4Points(){
 			}
 		}
 		
-		Image draw;
+		//Image draw;
 		draw.clone(src);
 		for(int i=0;i<lsegs.size();i++)
 			lsegs[i].draw(draw,cv::Scalar(255,0,0),cv::Scalar(0,255,0));
 		draw.imshow("lsegs");
 
-		if(dot4CorrectMiddleLoopCount==count++) break;
 
 
 		// 4‚Ì–Ú‚ÌŒˆ’è
@@ -720,6 +726,7 @@ void DiceDetection::_getDot4Points(){
 					//		flag = false;
 					//}
 					//if(flag){
+
 					dot4Points.push_back(dot4);
 					lsegs.flags[i] = 0;
 					lsegs.flags[j] = 0;
@@ -739,6 +746,9 @@ void DiceDetection::_getDot4Points(){
 		for(int i=0;i<missDotCenters.size();i++)
 			missDotCenters[i].draw(draw,cv::Scalar(0,255,255));
 		draw.imshow("missDotCenters");
+
+		if(dot4CorrectMiddleLoopCount==count++) break;
+
 
 	}while(correctMiddleDot4Points());
 }
@@ -956,7 +966,7 @@ void DiceDetection::correctPointType(){
 	for(int i=0;i<allPoints.size();i++){
 		Lmatch=0,Mmatch=0;
 		if(allPoints.types[i] != DiceInfo::middle) continue;
-		if(allPoints.kinds[i] == 1) continue;
+		//if(allPoints.kinds[i] == 1) continue;
 		for(int j=0;j<allPoints.size();j++){
 			if(allPoints.types[j]==DiceInfo::large){
 				if(Calc::getDistance2(allPoints[i],allPoints[j]) < pow(correctLargeRadius,2)){

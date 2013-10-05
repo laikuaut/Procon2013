@@ -316,13 +316,21 @@ void info(cv::Mat& img){
 /************************
  * Cam Testing
  */
-//
+
 //int main(int argc, char* argv[]){
+//
+//	int interval;
+//	int time;
+//
+//	cout << "ŽŽ‡ŽžŠÔ > " << flush;
+//	cin >> time;
+//	cout << "ŠÔŠu > " << flush;
+//	cin >> interval;
 //
 //	try{
 //		Camera camera;
-//		camera.autoCapture(2,60);
-//		camera.manualCapture();
+//		camera.autoCapture(interval,time);
+//		//camera.manualCapture();
 //	}catch(const OutOfRangeException<long>& e){
 //		e.showError();
 //	}catch(const OutOfRangeException<int>& e){
@@ -788,6 +796,15 @@ int main(){
 	timer.lap();
 	cout << "‚S‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
 
+	dd.clearAllLines();
+	dd.getAllLines();
+	dd.getDot2Points();
+
+	timer.lap();
+	cout << "‚Q‚Ì–Ú2‰ñ–Ú:" << (double)timer.getNow()/1000 << endl;
+
+
+	
 	dd.getAllDotCenters();
 
 	dd.drawAllDotCenters(draw,blue);
@@ -821,9 +838,9 @@ int main(){
 	show(draw,"Types");
 	draw.clone(img);
 
-	dd.drawTruePoints(draw,blue);
-	show(draw,"TruePoints");
-	draw.clone(img);
+	//dd.drawTruePoints(draw,blue);
+	//show(draw,"TruePoints");
+	//draw.clone(img);
 
 	//dd.drawKindPoints(draw,1,blue);
 	//dd.drawKindPoints(draw,2,red);

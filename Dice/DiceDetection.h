@@ -50,20 +50,20 @@ private:
 	// 大中サイコロに誤判定した中サイコロの点修正のための半径
 	static const int correctMiddleRadius = 30*3;
 	static const int correctLargeRadius = 50*3;
-	static const int correctMiddleMaxSize = 500;
+	static const int correctMiddleMaxSize = 300;
 	static const int correctLargeMinSize = 230;
 
 	// 線分検出半径
 	static const int lineSmallRadius = 40;
 	static const int lineMiddleRadius = 60;
-	static const int lineLargeRadius = 70;
+	static const int lineLargeRadius = 80;
 
 	// ２の目検出の半径
 	static const int dot2SmallMinDistance = 0;
 	static const int dot2MiddleMinDistance = 0;
 	static const int dot2LargeMinDistance = 0;
 	static const int dot2SmallMaxDistance = 23;
-	static const int dot2MiddleMaxDistance = 40;
+	static const int dot2MiddleMaxDistance = 42;
 	static const int dot2LargeMaxDistance = 50;
 	static const int dot2SmallDistance = 35;
 	static const int dot2MiddleDistance = 60;
@@ -100,7 +100,7 @@ private:
 	static const int dot6MiddleDistance = 30;
 	static const int dot6LargeDistance = 50;
 	static const int dot6SmallRasius = 20;
-	static const int dot6MiddleRasius = 35;
+	static const int dot6MiddleRasius = 37;
 	static const int dot6LargeRasius = 60;
 
 protected:
