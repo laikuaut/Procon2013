@@ -619,6 +619,12 @@ int main(){
 	show(draw,"dot1");
 	draw.clone(img);
 
+	cout << "all:" << dd.getNumDot1Points() << endl;
+	cout << "small:" << dd.getNumDot1Points(DiceInfo::small) << endl;
+	cout << "middle:" << dd.getNumDot1Points(DiceInfo::middle) << endl;
+	cout << "large:" << dd.getNumDot1Points(DiceInfo::large) << endl;
+
+
 	timer.lap();
 	cout << "‚P‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
 
@@ -633,12 +639,23 @@ int main(){
 	show(draw,"correct");
 	draw.clone(img);
 
+	cout << "all:" << dd.getNumAllPoints() << endl;
+	cout << "none:" << dd.getNumTypeAllPoints(DiceInfo::none) << endl;
+	cout << "small:" << dd.getNumTypeAllPoints(DiceInfo::small) << endl;
+	cout << "middnle:" << dd.getNumTypeAllPoints(DiceInfo::middle) << endl;
+	cout << "large:" << dd.getNumTypeAllPoints(DiceInfo::large) << endl;
 
 	timer.lap();
 	cout << "ƒTƒCƒYC³:" << (double)timer.getNow()/1000 << endl;
 
 	// ü•ªŽæ“¾
 	dd.getAllLines();
+
+	cout <<"num:" << dd.getNumAllLines() << endl;
+
+	dd.drawAllLine(draw,blue,red);
+	show(draw,"allLine");
+	draw.clone(img);
 
 	timer.lap();
 	cout << "ü•ª’Šo:" << (double)timer.getNow()/1000 << endl;
@@ -654,24 +671,35 @@ int main(){
 	show(draw,"Dot2");
 	draw.clone(img);
 
+	cout << "all:" << dd.getNumDot2Points() << endl;
+	cout << "small:" << dd.getNumDot2Points(DiceInfo::small) << endl;
+	cout << "middle:" << dd.getNumDot2Points(DiceInfo::middle) << endl;
+	cout << "large:" << dd.getNumDot2Points(DiceInfo::large) << endl;
 
 	timer.lap();
 	cout << "‚Q‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
 	
-	// 4‚Ì–Ú‚ÌŽæ“¾
-	dd.getDot4Points();
+	//// 4‚Ì–Ú‚ÌŽæ“¾
+	//dd.getDot4Points();
 
-	//dd.drawTrueLine(draw,blue,green);
-	//dd.drawDot1Points(draw,white);
-	//dd.drawKindPoints(draw,2,white);
-	dd.drawKindPoints(draw,4,white);
-	//dd.drawDot4Points(draw,red,blue);
-	dd.drawDot4Center(draw,blue);
-	show(draw,"Dot4");
-	draw.clone(img);
+	////dd.drawTrueLine(draw,blue,green);
+	////dd.drawDot1Points(draw,white);
+	////dd.drawKindPoints(draw,2,white);
+	//dd.drawKindPoints(draw,4,white);
+	////dd.drawDot4Points(draw,red,blue);
+	//dd.drawDot4Center(draw,blue);
+	//show(draw,"Dot4");
+	//draw.clone(img);
 
-	timer.lap();
-	cout << "‚S‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
+	//cout << dd.getNumDot4Points() << endl;
+
+	//cout << "all:" << dd.getNumDot4Points() << endl;
+	//cout << "small:" << dd.getNumDot4Points(DiceInfo::small) << endl;
+	//cout << "middle:" << dd.getNumDot4Points(DiceInfo::middle) << endl;
+	//cout << "large:" << dd.getNumDot4Points(DiceInfo::large) << endl;
+
+	//timer.lap();
+	//cout << "‚S‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
 
 	//‚R“_‘S
 	dd.getAllDot3Points();
@@ -682,18 +710,25 @@ int main(){
 	show(draw,"allDot3");
 	draw.clone(img);
 
+	cout << "num:" << dd.getNumAllDot3Points() << endl;
+
 	timer.lap();
 	cout << "3“_‘S:" << (double)timer.getNow()/1000 << endl;
 
 
 	// 5‚Ì–Ú‚ÌŽæ“¾
 	dd.getDot5Points();
-	//dd.drawTrueAllDot3Points(draw,red,blue);
 	//dd.drawFalseAllDot3Points(draw,green,blue);
 
 	dd.drawDot5Points(draw,red,blue);
+	dd.drawTrueAllDot3Points(draw,green,blue);
 	show(draw,"dot5");
 	draw.clone(img);
+
+	cout << "all:" << dd.getNumDot5Points() << endl;
+	cout << "small:" << dd.getNumDot5Points(DiceInfo::small) << endl;
+	cout << "middle:" << dd.getNumDot5Points(DiceInfo::middle) << endl;
+	cout << "large:" << dd.getNumDot5Points(DiceInfo::large) << endl;
 
 	timer.lap();
 	cout << "5‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
@@ -705,6 +740,11 @@ int main(){
 	dd.drawDot3Points(draw,red,blue);
 	show(draw,"dot3");
 	draw.clone(img);
+
+	cout << "all:" << dd.getNumDot3Points() << endl;
+	cout << "small:" << dd.getNumDot3Points(DiceInfo::small) << endl;
+	cout << "middle:" << dd.getNumDot3Points(DiceInfo::middle) << endl;
+	cout << "large:" << dd.getNumDot3Points(DiceInfo::large) << endl;
 
 	timer.lap();
 	cout << "3‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
@@ -718,9 +758,44 @@ int main(){
 	show(draw,"dot6");
 	draw.clone(img);
 
-	
-	8;timer.lap();
+	cout << "all:" << dd.getNumDot6Points() << endl;
+	cout << "small:" << dd.getNumDot6Points(DiceInfo::small) << endl;
+	cout << "middle:" << dd.getNumDot6Points(DiceInfo::middle) << endl;
+	cout << "large:" << dd.getNumDot6Points(DiceInfo::large) << endl;
+
+	timer.lap();
 	cout << "6‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
+
+	// 4‚Ì–Ú‚ÌŽæ“¾
+	dd._getDot4Points();
+
+	//dd.drawTrueLine(draw,blue,green);
+	//dd.drawDot1Points(draw,white);
+	//dd.drawKindPoints(draw,2,white);
+	dd.drawKindPoints(draw,4,white);
+	//dd.drawDot4Points(draw,red,blue);
+	dd.drawDot4Center(draw,blue);
+	show(draw,"Dot4");
+	draw.clone(img);
+
+	cout << dd.getNumDot4Points() << endl;
+
+	cout << "all:" << dd.getNumDot4Points() << endl;
+	cout << "small:" << dd.getNumDot4Points(DiceInfo::small) << endl;
+	cout << "middle:" << dd.getNumDot4Points(DiceInfo::middle) << endl;
+	cout << "large:" << dd.getNumDot4Points(DiceInfo::large) << endl;
+
+	timer.lap();
+	cout << "‚S‚Ì–Ú:" << (double)timer.getNow()/1000 << endl;
+
+	dd.getAllDotCenters();
+
+	dd.drawAllDotCenters(draw,blue);
+	show(draw,"Centers");
+	draw.clone(img);
+
+	timer.lap();
+	cout << "’†S“_:" << (double)timer.getNow()/1000 << endl;
 
 
 	// ŒŸo‚µ‚½“_‚ÌŽí—Þ‚²‚Æ
@@ -746,6 +821,10 @@ int main(){
 	show(draw,"Types");
 	draw.clone(img);
 
+	dd.drawTruePoints(draw,blue);
+	show(draw,"TruePoints");
+	draw.clone(img);
+
 	//dd.drawKindPoints(draw,1,blue);
 	//dd.drawKindPoints(draw,2,red);
 
@@ -762,7 +841,7 @@ int main(){
  */
 //int main(){
 //	Image img,dst,hue1,hue2;
-//	img.load("Dice/Picture 31.jpg");
+//	img.load("Dice/Picture 10.jpg");
 //	img.resize(img,cv::Size(1920,1080));
 //
 //	dst.clone(img);
@@ -784,7 +863,7 @@ int main(){
 //	LabelingCenter lc;
 //	lc.init(dst);
 //	lc.setCenter(dst);
-//	lc.circleFilter(1,2);
+//	lc.circleFilter(1,3);
 //	lc.sizeFilter(200,2000);
 //	lc.draw(img,1,cv::Scalar(255,0,0));
 //	lc.draw(img,0,cv::Scalar(255,255,0));
