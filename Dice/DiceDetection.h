@@ -8,6 +8,7 @@
 #include"Dot4Point.h"
 #include"Dot5Point.h"
 #include"Dot6Point.h"
+#include"Procon2013\ImageProcessing\\MouseEvent.h"
 
 #include"Procon2013\ImageProcessing\LabelingCenter.h"
 
@@ -19,7 +20,7 @@ using namespace boost::property_tree;
 namespace pro{
 
 // サイコロ判定クラス
-class DiceDetection
+class DiceDetection : public MouseEvent
 {
 private:
 
@@ -208,8 +209,8 @@ protected:
 	class DotPoints{
 	private:
 		int num;
-		std::vector<DotPoint> points;
 	public:
+		std::vector<DotPoint> points;
 		std::vector<short> flags;
 		std::vector<DiceInfo::dtype> types;
 		std::vector<int> kinds;
@@ -219,6 +220,7 @@ protected:
 
 		void add(DotPoint dot,short flag,DiceInfo::dtype type,int kind);
 		int size() const;
+		void setKind(int kind,int number);
 
 		DotPoint operator[](int i) const;
 
@@ -249,7 +251,7 @@ protected:
 	};
 
 	// 全3点直線クラス
-	class Dot3Points{
+	class AllDot3Points{
 	private:
 
 		std::vector<Dot3Point> dot3s;
@@ -262,7 +264,7 @@ protected:
 	
 	public:
 
-		Dot3Points();
+		AllDot3Points();
 
 		void add(Dot3Point dot3,short flag,DiceInfo::dtype type,int kind,int dotNum1,int dotNum2,int dotNum3);
 		int size() const;
@@ -271,15 +273,19 @@ protected:
 
 	};
 
+	// 中心点群クラス
 	class DotCenters{
 	private:
 
-		vector<DotPoint> centers;
 		int num;
 
 	public:
+		
+		vector<DotPoint> centers;
+		
 		vector<DiceInfo::dtype> types;
 		vector<int> kinds;
+		vector<int> numbers;
 
 	public:
 
@@ -287,10 +293,188 @@ protected:
 
 		void clear();
 
-		void add(DotPoint center,DiceInfo::dtype type,int kind);
+		void add(DotPoint center,DiceInfo::dtype type,int kind,int number);
 		int size() const;
 
 		DotPoint operator[](int i);
+
+	};
+
+
+	// 各点群クラス
+	class Dot1Points{
+	private:	
+		
+		int num;
+		
+		static const int smallSize = 300;
+		static const int middleSize = 800;
+		static const int largeSize = 900;
+
+	public:
+		
+		vector<Dot1Point> dot1s;
+		vector<int> pointNums;
+
+	public:
+
+		Dot1Points();
+
+		void clear();
+		void erase(int i);
+		void add(Dot1Point dot1,int number);
+		void add(DotPoint center,DiceInfo::dtype type);
+		int size() const;
+
+		Dot1Point operator[](int i);
+
+	};
+
+	class Dot2Points{
+	private:
+		int num;
+		
+		static const int smallSize = 90;
+		static const int middleSize = 250;
+		static const int largeSize = 380;
+		static const int smallRadius = 12;
+		static const int middleRadius = 17;
+		static const int largeRadius = 23;
+
+	public:
+		vector<Dot2Point> dot2s;
+		vector<int> pointNums[2];
+	public:
+		Dot2Points();
+
+		void clear();
+		void erase(int i);
+		void add(Dot2Point dot2,int number1,int number2);
+		void add(DotPoint center,DiceInfo::dtype type);
+		int size() const;
+
+		Dot2Point operator[](int i);
+	};
+
+	class Dot3Points{
+	private:
+		int num;
+		
+		static const int smallSize = 90;
+		static const int middleSize = 250;
+		static const int largeSize = 380;
+		static const int smallRadius = 12;
+		static const int middleRadius = 17;
+		static const int largeRadius = 28;
+
+	public:
+		vector<Dot3Point> dot3s;
+		vector<int> pointNums[3];
+	public:
+		Dot3Points();
+
+		void clear();
+		void erase(int i);
+		void add(Dot3Point dot2,int number1
+			,int number2
+			,int number3);
+		void add(DotPoint center,DiceInfo::dtype type);
+		int size() const;
+
+		Dot3Point operator[](int i);
+
+	};
+
+	class Dot4Points{
+	private:
+		int num;
+		
+		static const int smallSize = 90;
+		static const int middleSize = 250;
+		static const int largeSize = 380;
+		static const int smallRadius = 12;
+		static const int middleRadius = 17;
+		static const int largeRadius = 25;
+
+	public:
+		vector<Dot4Point> dot4s;
+		vector<int> pointNums[4];
+	public:
+		Dot4Points();
+
+		void clear();
+		void erase(int i);
+		void add(Dot4Point dot4,int number1
+			,int number2
+			,int number3
+			,int number4);
+		void add(DotPoint center,DiceInfo::dtype type);
+		int size() const;
+
+		Dot4Point operator[](int i);
+
+	};
+
+	class Dot5Points{
+	private:
+		int num;
+		
+		static const int smallSize = 90;
+		static const int middleSize = 250;
+		static const int largeSize = 380;
+		static const int smallRadius = 12;
+		static const int middleRadius = 17;
+		static const int largeRadius = 29;
+
+	public:
+		vector<Dot5Point> dot5s;
+		vector<int> pointNums[5];
+	public:
+		Dot5Points();
+
+		void clear();
+		void erase(int i);
+		void add(Dot5Point dot5,int number1
+			,int number2
+			,int number3
+			,int number4
+			,int number5);
+		void add(DotPoint center,DiceInfo::dtype type);
+		int size() const;
+
+		Dot5Point operator[](int i);
+
+	};
+
+	class Dot6Points{
+	private:
+		int num;
+		
+		static const int smallSize = 90;
+		static const int middleSize = 250;
+		static const int largeSize = 380;
+		static const int smallRadius = 12*2;
+		static const int middleRadius = 20*2;
+		static const int largeRadius = 33*2;
+
+	public:
+		vector<Dot6Point> dot6s;
+		vector<int> pointNums[6];
+	public:
+		Dot6Points();
+
+		void clear();
+		void erase(int i);
+		void add(Dot6Point dot6,int number1
+			,int number2
+			,int number3
+			,int number4
+			,int number5
+			,int number6);
+		void add(DotPoint center,DiceInfo::dtype type);
+		int size() const;
+
+		Dot6Point operator[](int i);
 
 	};
 
@@ -311,7 +495,7 @@ private:
 	LineSegments allLines;
 
 	// 3点データ
-	Dot3Points allDot3Points;
+	AllDot3Points allDot3Points;
 
 	// サイコロの中心座標
 	DotCenters allDotCenters;
@@ -320,12 +504,17 @@ private:
 	DotCenters missDotCenters;
 
 	// サイコロの目データ
-	std::vector<Dot1Point> dot1Points;
-	std::vector<Dot2Point> dot2Points;
-	std::vector<Dot3Point> dot3Points;
-	std::vector<Dot4Point> dot4Points;
-	std::vector<Dot5Point> dot5Points;
-	std::vector<Dot6Point> dot6Points;
+	Dot1Points dot1Points;
+	//std::vector<Dot2Point> dot2Points;
+	Dot2Points dot2Points;
+	//std::vector<Dot3Point> dot3Points;
+	Dot3Points dot3Points;
+	//std::vector<Dot4Point> dot4Points;
+	Dot4Points dot4Points;
+	//std::vector<Dot5Point> dot5Points;
+	Dot5Points dot5Points;
+	//std::vector<Dot6Point> dot6Points;
+	Dot6Points dot6Points;
 
 	// 設定ファイル名
 	string iniFileName;
@@ -334,20 +523,12 @@ private:
 	// 画像ファイル名
 	string name;
 
-public:
+private:
 
 
 	/***************
 	 *   関数定義
 	 */
-
-	DiceDetection(void);
-	~DiceDetection(void);
-
-	// 初期化
-	//void init(int num,std::vector<cv::Point2f> points,std::vector<int> sizes);
-	//void init(LabelingCenter lc);
-	void init();
 
 	// 必要要素の取得
 	void getAllPoints();
@@ -358,8 +539,8 @@ public:
 	// 目の判定処理
 	void getDot1Points();
 	void getDot2Points();
-	void getDot4Points();	// 124536の順
-	void _getDot4Points();	// 125364の順
+	void getDot4Points();	// 124536の順 2回目
+	void _getDot4Points();	// 125364の順 一回目
 	void getDot5Points();
 	void getDot3Points();
 	void getDot6Points();
@@ -368,9 +549,39 @@ public:
 	void getOddPoints();
 
 	// 削除処理
-	void eraseDot1Points();
+	//void eraseDot1Points();
+	
+	// erase
+	void eraseDot1Points(int i);
+	void eraseTypeDot1Points(DiceInfo::dtype type);
+	void eraseDot2Points(int i);
+	void eraseTypeDot2Points(DiceInfo::dtype type);
+	void eraseDot3Points(int i);
+	void eraseTypeDot3Points(DiceInfo::dtype type);
+	void eraseDot4Points(int i);
+	void eraseTypeDot4Points(DiceInfo::dtype type);
+	void eraseDot5Points(int i);
+	void eraseTypeDot5Points(DiceInfo::dtype type);
+	void eraseDot6Points(int i);
+	void eraseTypeDot6Points(DiceInfo::dtype type);
+
+	// clear
 	void clearAllLines();
 	void clearAllDotCenters();
+	void clearDot1Points();
+	void clearDot2Points();
+	void clearDot3Points();
+	void clearDot4Points();
+	void clearDot5Points();
+	void clearDot6Points();
+
+	// set
+	void setTypeDot1Points(DiceInfo::dtype type,int num);
+	void setTypeDot2Points(DiceInfo::dtype type,int num);
+	void setTypeDot3Points(DiceInfo::dtype type,int num);
+	void setTypeDot4Points(DiceInfo::dtype type,int num);
+	void setTypeDot5Points(DiceInfo::dtype type,int num);
+	void setTypeDot6Points(DiceInfo::dtype type,int num);
 
 	// 修正処理
 	void correctPointType();
@@ -517,20 +728,54 @@ public:
 	int getNumDot5Points(DiceInfo::dtype type = DiceInfo::none) const;
 	int getNumDot6Points(DiceInfo::dtype type = DiceInfo::none) const;
 
-	// パラメータ関連
-	void setDefaultParam();
+private:
+	
+	DiceInfo mode;
+	bool typeFlag;
+	//DiceInfo now_mouse;
+	int centerNum;
+	Image types,kinds;
 
-public:
+	// イベント関連
+	//void onMouseOdd_impl(int event,int x,int y,int flag);
+	//static void onMouseOdd(int event, int x, int y, int flag, void* data);
 
+	void onMouse_impl(int event,int x,int y,int flag);
+	int keyEvent(int key);
+
+	void setMousePointCenter(int x,int y);
+	//void setMousePointDot(int x,int y);
+	void mouseCorrectType();
+	void mouseCorrectKind();
+
+	void mouseCorrect();
+	
 	// 設定ファイル関連
 	void defaultIniFileCreate();
 	void readIniFile();
 
+	// パラメータ関連
+	void setDefaultParam();
+
+	// 実行関連処理
+	void drawRun();
+	void drawMousePoint(Image& src,string winName);
+	void outRun();
+	//void saveRun();
+	
+public:
+
+	DiceDetection(void);
+	~DiceDetection(void);
+
+	// 初期化
+	void init();
+
 	// 実行処理関連
 	void run();
+
+	// テスト用
 	void testRun();
-	void saveRun();
-	void drawRun();
 };
 
 /**

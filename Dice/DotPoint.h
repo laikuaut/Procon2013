@@ -21,7 +21,7 @@ public:
 	void init(cv::Point2f pt,int size=0);
 
 	void draw(Image& img,cv::Scalar scal = cv::Scalar::all(0));
-
+	void draw(Image& img,double sizeRate,cv::Scalar scal = cv::Scalar::all(0));
 	
 	operator cv::Point ();
 	operator cv::Point2f ();

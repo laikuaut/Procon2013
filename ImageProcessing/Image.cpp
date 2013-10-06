@@ -178,6 +178,7 @@ void Image::triangle(cv::Point pt1,cv::Point pt2,cv::Point pt3,cv::Scalar scal,i
 }
 
 void Image::imshow(string windowName){
+	cv::namedWindow(windowName,0);
 	cv::imshow(windowName,img);
 }
 

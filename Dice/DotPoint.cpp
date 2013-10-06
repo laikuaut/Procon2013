@@ -25,6 +25,10 @@ void DotPoint::draw(Image& img,cv::Scalar scal){
 	img.circle(pt,sqrt(size/CV_PI),scal);
 }
 
+void DotPoint::draw(Image& img,double sizeRate,cv::Scalar scal){
+	img.circle(pt,sqrt(size*sizeRate/CV_PI),scal);
+}
+
 DotPoint::operator cv::Point(){
 	return pt;
 }
