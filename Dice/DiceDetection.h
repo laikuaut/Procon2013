@@ -731,7 +731,7 @@ private:
 private:
 	
 	DiceInfo mode;
-	bool typeFlag;
+	int modeFlag; // 0:T 1:K 2:C
 	//DiceInfo now_mouse;
 	int centerNum;
 	Image types,kinds;
@@ -747,8 +747,8 @@ private:
 	//void setMousePointDot(int x,int y);
 	void mouseCorrectType();
 	void mouseCorrectKind();
+	void mouseCreateKind();
 
-	void mouseCorrect();
 	
 	// 設定ファイル関連
 	void defaultIniFileCreate();

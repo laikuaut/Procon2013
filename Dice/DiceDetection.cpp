@@ -23,7 +23,7 @@ void DiceDetection::init(){
 
 	// ƒCƒxƒ“ƒgŒn
 	mode.init(cv::Point(0,0),0,DiceInfo::middle,1);
-	typeFlag = true;
+	modeFlag = 0;
 	centerNum = -1;
 }
 
@@ -411,6 +411,7 @@ void DiceDetection::Dot4Points::add(DotPoint center,DiceInfo::dtype type){
 		size = 0;
 		radius = 0;
 	}
+	center.init(center,size);
 	dots[0].init(cv::Point2f(center.pt.x + radius,center.pt.y + radius),size);
 	dots[1].init(cv::Point2f(center.pt.x - radius,center.pt.y - radius),size);
 	dots[2].init(cv::Point2f(center.pt.x + radius,center.pt.y - radius),size);
@@ -476,7 +477,7 @@ void DiceDetection::Dot5Points::add(Dot5Point dot5,int number1
 
 void DiceDetection::Dot5Points::add(DotPoint center,DiceInfo::dtype type){
 	Dot5Point dot5;
-	DotPoint dots[4];
+	DotPoint dots[5];
 	LineSegment lsegs[4];
 	Dot3Point dot3s[2];
 	int radius,size;
@@ -497,10 +498,11 @@ void DiceDetection::Dot5Points::add(DotPoint center,DiceInfo::dtype type){
 	dots[1].init(cv::Point2f(center.pt.x - radius,center.pt.y - radius),size);
 	dots[2].init(cv::Point2f(center.pt.x + radius,center.pt.y - radius),size);
 	dots[3].init(cv::Point2f(center.pt.x - radius,center.pt.y + radius),size);
-	lsegs[0].init(center,dots[0]);
-	lsegs[1].init(center,dots[1]);
-	lsegs[2].init(center,dots[2]);
-	lsegs[3].init(center,dots[3]);
+	dots[4].init(center,size);
+	lsegs[0].init(dots[4],dots[0]);
+	lsegs[1].init(dots[4],dots[1]);
+	lsegs[2].init(dots[4],dots[2]);
+	lsegs[3].init(dots[4],dots[3]);
 	dot3s[0].init(lsegs[0],lsegs[1],type);
 	dot3s[1].init(lsegs[2],lsegs[3],type);
 	dot5.init(dot3s[0],dot3s[1],type);
@@ -2163,11 +2165,20 @@ void DiceDetection::onMouse_impl(int event,int x,int y,int flag){
 		setMousePointCenter(x,y);
 		break;
 	case cv::EVENT_LBUTTONDOWN:
-		if(typeFlag)
+		switch (modeFlag)
+		{
+		case 0:
 			mouseCorrectType();
-		else
+			break;
+		case 1:
 			mouseCorrectKind();
-		break;
+			break;
+		case 2:
+			mouseCreateKind();
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -2207,10 +2218,13 @@ int DiceDetection::keyEvent(int key){
 		mode.type = DiceInfo::none;
 		break;
 	case 't':
-		typeFlag = true;
+		modeFlag = 0;
 		break;
 	case 'k':
-		typeFlag = false;
+		modeFlag = 1;
+		break;
+	case 'c':
+		modeFlag = 2;
 		break;
 	case 'q':
 		return 0;
@@ -2365,14 +2379,39 @@ void DiceDetection::mouseCorrectKind(){
 
 }
 
-void DiceDetection::mouseCorrect(){
+void DiceDetection::mouseCreateKind(){
+	if(centerNum != -1) return;
 
-	if(centerNum==-1) return;
-	if(allDotCenters.kinds[centerNum] == mode.kind &&
-		allDotCenters.types[centerNum] == mode.type) return;
+	DotPoint center;
+	center.init(cv::Point2f(x,y),0);
 
+	switch (mode.kind)
+	{	
+	case 1:
+		dot1Points.add(center,mode.type);
+		break;
+	case 2:		
+		dot2Points.add(center,mode.type);
+		break;
+	case 3:
+		dot3Points.add(center,mode.type);
+		break;
+	case 4:
+		dot4Points.add(center,mode.type);
+		break;
+	case 5:
+		dot5Points.add(center,mode.type);
+		break;
+	case 6:
+		dot6Points.add(center,mode.type);
+		break;
+	default:
+		break;
+	}
 
+	getAllDotCenters();
 
+	drawRun();
 }
 
 //void DiceDetection::setMousePointDot(int x,int y){
@@ -3136,26 +3175,59 @@ void DiceDetection::drawRun(){
 	//drawTruePoints(odds,cv::Scalar(255,0,0));
 	//drawTypePoints(odds,DiceInfo::none,cv::Scalar(0,0,255));
 	
-	drawTypePoints(kinds,DiceInfo::none,cv::Scalar(0,200,200));
-	drawTypePoints(kinds,DiceInfo::small,cv::Scalar(0,0,255));
-	drawTypePoints(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
-	drawTypePoints(kinds,DiceInfo::large,cv::Scalar(255,0,0));
+	//drawTypePoints(kinds,DiceInfo::none,cv::Scalar(0,200,200));
+	//drawTypePoints(kinds,DiceInfo::small,cv::Scalar(0,0,255));
+	//drawTypePoints(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
+	//drawTypePoints(kinds,DiceInfo::large,cv::Scalar(255,0,0));
+
 	//drawKindAllDotCenters(kinds,1,cv::Scalar(255,255,255));
 	//drawKindAllDotCenters(kinds,2,cv::Scalar(0,0,255));
 	//drawKindAllDotCenters(kinds,3,cv::Scalar(0,255,0));
 	//drawKindAllDotCenters(kinds,4,cv::Scalar(255,255,0));
 	//drawKindAllDotCenters(kinds,5,cv::Scalar(255,0,255));
 	//drawKindAllDotCenters(kinds,6,cv::Scalar(0,255,255));
+
+	drawTypeDot1Points(kinds,DiceInfo::none,cv::Scalar(0,200,200));
+	drawTypeDot2Points(kinds,DiceInfo::none,cv::Scalar(0,200,200));
+	drawTypeDot3Points(kinds,DiceInfo::none,cv::Scalar(0,200,200));
+	drawTypeDot4Points(kinds,DiceInfo::none,cv::Scalar(0,200,200));
+	drawTypeDot5Points(kinds,DiceInfo::none,cv::Scalar(0,200,200));
+	drawTypeDot6Points(kinds,DiceInfo::none,cv::Scalar(0,200,200));
+	
+	drawTypeDot1Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
+	drawTypeDot2Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
+	drawTypeDot3Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
+	drawTypeDot4Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
+	drawTypeDot5Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
+	drawTypeDot6Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
+	
+	drawTypeDot1Points(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
+	drawTypeDot2Points(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
+	drawTypeDot3Points(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
+	drawTypeDot4Points(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
+	drawTypeDot5Points(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
+	drawTypeDot6Points(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
+	
+	drawTypeDot1Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
+	drawTypeDot2Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
+	drawTypeDot3Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
+	drawTypeDot4Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
+	drawTypeDot5Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
+	drawTypeDot6Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
+
+
 }
 
 void DiceDetection::drawMousePoint(Image& src,string winName){
 	Image dst;
 	src.imshow(winName);
 	dst.clone(src);
-	if(typeFlag)
+	if(modeFlag==0)
 		dst.circle(cv::Point(x,y),10,cv::Scalar(0,200,255));
-	else
+	else if(modeFlag == 1)
 		dst.circle(cv::Point(x,y),10,cv::Scalar(0,0,255));
+	else if(modeFlag == 2)
+		dst.circle(cv::Point(x,y),10,cv::Scalar(100,255,0));
 	dst.imshow(winName);
 }
 
