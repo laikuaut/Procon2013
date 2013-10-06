@@ -562,303 +562,313 @@ void info(cv::Mat& img){
 //}
 
 /************************
- * DiceDetection Testing
+ * DiceDetection Testing01
+ */
+//int main(){
+//	// 宣言
+//	DiceDetection dd;
+//	Image img,draw,draw1,bin;
+//	LabelingCenter lc;
+//	Timer timer;
+//
+//	// デバック時間省略のためのファイル読み込み
+//	ifstream ifs;
+//	char* c_str = new char[10];
+//	ifs.open("img.txt");
+//	ifs.getline(c_str,100);
+//
+//	
+//	// 色
+//	cv::Scalar white,red,green,blue,black;
+//		white = cv::Scalar::all(255);
+//		black = cv::Scalar::all(0);
+//		red = cv::Scalar(0,0,255);
+//		green = cv::Scalar(0,255,0);
+//		blue = cv::Scalar(255,0,0);
+//
+//	
+//	timer.start();
+//
+//	// 画像作成
+//	img.load(c_str);
+//	img.resize(img,cv::Size(1920,1080));
+//	
+//	draw.clone(img);
+//	//draw1.clone(img);
+//
+//	timer.lap();
+//	cout << "画像生成:" << (double)timer.getNow()/1000 << endl;
+//
+//	// サイコロの目を検出
+//	dd.init(img);
+//	dd.getAllPoints();
+//
+//	// 初期検出
+//	dd.drawTypePoints(draw,DiceInfo::none,blue);
+//	dd.drawTypePoints(draw,DiceInfo::small,red);
+//	dd.drawTypePoints(draw,DiceInfo::middle,green);
+//	dd.drawTypePoints(draw,DiceInfo::large,white);
+//	show(draw,"first");
+//	draw.clone(img);
+//
+//	timer.lap();
+//	cout << "全点検出:" << (double)timer.getNow()/1000 << endl;
+//
+//	// 1の目の取得
+//	dd.getDot1Points();
+//
+//	// 1の目の判別状態
+//	dd.drawTypePoints(draw,DiceInfo::none,blue);
+//	dd.drawTypePoints(draw,DiceInfo::small,red);
+//	dd.drawTypePoints(draw,DiceInfo::middle,green);
+//	dd.drawTypePoints(draw,DiceInfo::large,white);
+//	show(draw,"dot1");
+//	draw.clone(img);
+//
+//	cout << "all:" << dd.getNumDot1Points() << endl;
+//	cout << "small:" << dd.getNumDot1Points(DiceInfo::small) << endl;
+//	cout << "middle:" << dd.getNumDot1Points(DiceInfo::middle) << endl;
+//	cout << "large:" << dd.getNumDot1Points(DiceInfo::large) << endl;
+//
+//
+//	timer.lap();
+//	cout << "１の目:" << (double)timer.getNow()/1000 << endl;
+//
+//
+//	dd.correctPointType();
+//
+//	// 修正状態の確認
+//	dd.drawTypePoints(draw,DiceInfo::none,blue);
+//	dd.drawTypePoints(draw,DiceInfo::small,red);
+//	dd.drawTypePoints(draw,DiceInfo::middle,green);
+//	dd.drawTypePoints(draw,DiceInfo::large,white);
+//	show(draw,"correct");
+//	draw.clone(img);
+//
+//	cout << "all:" << dd.getNumAllPoints() << endl;
+//	cout << "none:" << dd.getNumTypeAllPoints(DiceInfo::none) << endl;
+//	cout << "small:" << dd.getNumTypeAllPoints(DiceInfo::small) << endl;
+//	cout << "middnle:" << dd.getNumTypeAllPoints(DiceInfo::middle) << endl;
+//	cout << "large:" << dd.getNumTypeAllPoints(DiceInfo::large) << endl;
+//
+//	timer.lap();
+//	cout << "サイズ修正:" << (double)timer.getNow()/1000 << endl;
+//
+//	// 線分取得
+//	dd.getAllLines();
+//
+//	cout <<"num:" << dd.getNumAllLines() << endl;
+//
+//	dd.drawAllLine(draw,blue,red);
+//	//dd.drawFalsePoints(draw,green);
+//	//dd.drawTypePoints(draw,DiceInfo::none,green);
+//	show(draw,"allLine");
+//	draw.clone(img);
+//
+//	timer.lap();
+//	cout << "線分抽出:" << (double)timer.getNow()/1000 << endl;
+//
+//	// 2の目の取得
+//	dd.getDot2Points();
+//	
+//	// 2の目の確認
+//	dd.drawTrueLine(draw,green,blue);
+//	//dd.drawFalseLine(draw,red,red);
+//	dd.drawDot2Points(draw,red,green);
+//	dd.drawDot2Center(draw,blue);
+//	show(draw,"Dot2");
+//	draw.clone(img);
+//
+//	cout << "all:" << dd.getNumDot2Points() << endl;
+//	cout << "small:" << dd.getNumDot2Points(DiceInfo::small) << endl;
+//	cout << "middle:" << dd.getNumDot2Points(DiceInfo::middle) << endl;
+//	cout << "large:" << dd.getNumDot2Points(DiceInfo::large) << endl;
+//
+//	timer.lap();
+//	cout << "２の目:" << (double)timer.getNow()/1000 << endl;
+//	
+//	//// 4の目の取得
+//	//dd.getDot4Points();
+//
+//	////dd.drawTrueLine(draw,blue,green);
+//	////dd.drawDot1Points(draw,white);
+//	////dd.drawKindPoints(draw,2,white);
+//	//dd.drawKindPoints(draw,4,white);
+//	////dd.drawDot4Points(draw,red,blue);
+//	//dd.drawDot4Center(draw,blue);
+//	//show(draw,"Dot4");
+//	//draw.clone(img);
+//
+//	//cout << dd.getNumDot4Points() << endl;
+//
+//	//cout << "all:" << dd.getNumDot4Points() << endl;
+//	//cout << "small:" << dd.getNumDot4Points(DiceInfo::small) << endl;
+//	//cout << "middle:" << dd.getNumDot4Points(DiceInfo::middle) << endl;
+//	//cout << "large:" << dd.getNumDot4Points(DiceInfo::large) << endl;
+//
+//	//timer.lap();
+//	//cout << "４の目:" << (double)timer.getNow()/1000 << endl;
+//
+//	//３点全
+//	dd.getAllDot3Points();
+//
+//	// 3点全描写
+//	dd.drawAllDot3Points(draw,red,blue);
+//	dd.drawAllDot3Center(draw,blue);
+//	show(draw,"allDot3");
+//	draw.clone(img);
+//
+//	cout << "num:" << dd.getNumAllDot3Points() << endl;
+//
+//	timer.lap();
+//	cout << "3点全:" << (double)timer.getNow()/1000 << endl;
+//
+//
+//	// 5の目の取得
+//	dd.getDot5Points();
+//	//dd.drawFalseAllDot3Points(draw,green,blue);
+//
+//	dd.drawDot5Points(draw,red,blue);
+//	dd.drawTrueAllDot3Points(draw,green,blue);
+//	show(draw,"dot5");
+//	draw.clone(img);
+//
+//	cout << "all:" << dd.getNumDot5Points() << endl;
+//	cout << "small:" << dd.getNumDot5Points(DiceInfo::small) << endl;
+//	cout << "middle:" << dd.getNumDot5Points(DiceInfo::middle) << endl;
+//	cout << "large:" << dd.getNumDot5Points(DiceInfo::large) << endl;
+//
+//	timer.lap();
+//	cout << "5の目:" << (double)timer.getNow()/1000 << endl;
+//
+//
+//	// 3の目の取得
+//	dd.getDot3Points();
+//
+//	dd.drawDot3Points(draw,red,blue);
+//	show(draw,"dot3");
+//	draw.clone(img);
+//
+//	cout << "all:" << dd.getNumDot3Points() << endl;
+//	cout << "small:" << dd.getNumDot3Points(DiceInfo::small) << endl;
+//	cout << "middle:" << dd.getNumDot3Points(DiceInfo::middle) << endl;
+//	cout << "large:" << dd.getNumDot3Points(DiceInfo::large) << endl;
+//
+//	timer.lap();
+//	cout << "3の目:" << (double)timer.getNow()/1000 << endl;
+//
+//
+//	// 6の目の取得
+//	dd.getDot6Points();
+//
+//	dd.drawDot6Points(draw,red,blue);
+//	dd.drawDot6Center(draw,blue);
+//	show(draw,"dot6");
+//	draw.clone(img);
+//
+//	cout << "all:" << dd.getNumDot6Points() << endl;
+//	cout << "small:" << dd.getNumDot6Points(DiceInfo::small) << endl;
+//	cout << "middle:" << dd.getNumDot6Points(DiceInfo::middle) << endl;
+//	cout << "large:" << dd.getNumDot6Points(DiceInfo::large) << endl;
+//
+//	timer.lap();
+//	cout << "6の目:" << (double)timer.getNow()/1000 << endl;
+//
+//	// 4の目の取得
+//	dd._getDot4Points();
+//
+//	//dd.drawTrueLine(draw,blue,green);
+//	//dd.drawDot1Points(draw,white);
+//	//dd.drawKindPoints(draw,2,white);
+//	dd.drawKindPoints(draw,4,white);
+//	//dd.drawDot4Points(draw,red,blue);
+//	dd.drawDot4Center(draw,blue);
+//	show(draw,"Dot4");
+//	draw.clone(img);
+//
+//	cout << dd.getNumDot4Points() << endl;
+//
+//	cout << "all:" << dd.getNumDot4Points() << endl;
+//	cout << "small:" << dd.getNumDot4Points(DiceInfo::small) << endl;
+//	cout << "middle:" << dd.getNumDot4Points(DiceInfo::middle) << endl;
+//	cout << "large:" << dd.getNumDot4Points(DiceInfo::large) << endl;
+//
+//	timer.lap();
+//	cout << "４の目:" << (double)timer.getNow()/1000 << endl;
+//
+//
+//	// 最終処理
+//	dd.correctOddMiddleToLarge();
+//	dd.clearAllLines();
+//	dd.getAllLines();
+//	dd.getDot2Points();
+//	dd.getAllDot3Points();
+//	dd.getDot5Points();
+//	dd.getDot3Points();
+//	dd.getDot6Points();
+//	dd.getDot4Points();
+//
+//	timer.lap();
+//	cout << "最終処理:" << (double)timer.getNow()/1000 << endl;
+//	
+//	dd.getAllDotCenters();
+//
+//	dd.drawAllDotCenters(draw,blue);
+//	show(draw,"Centers");
+//	draw.clone(img);
+//
+//	timer.lap();
+//	cout << "中心点:" << (double)timer.getNow()/1000 << endl;
+//
+//
+//	// 検出した点の種類ごと
+//	dd.drawDot1Points(draw,white);
+//	dd.drawDot2Points(draw,red,red);
+//	dd.drawDot2Center(draw,blue);
+//	dd.drawDot3Points(draw,green,red);
+//	dd.drawDot3Center(draw,blue);
+//	dd.drawDot4Points(draw,cv::Scalar(255,255,0),red);
+//	dd.drawDot4Center(draw,blue);
+//	dd.drawDot5Points(draw,cv::Scalar(255,0,255),red);
+//	dd.drawDot5Center(draw,blue);
+//	dd.drawDot6Points(draw,cv::Scalar(0,255,255),red);
+//	dd.drawDot6Center(draw,blue);
+//	show(draw,"AllDots");
+//	draw.clone(img);
+//
+//	// 検出した点のサイズごと
+//	dd.drawTypePoints(draw,DiceInfo::none,cv::Scalar(255,0,0));
+//	dd.drawTypePoints(draw,DiceInfo::small,red);
+//	dd.drawTypePoints(draw,DiceInfo::middle,green);
+//	dd.drawTypePoints(draw,DiceInfo::large,white);
+//	show(draw,"Types");
+//	draw.clone(img);
+//
+//
+//	dd.drawTruePoints(draw,blue);
+//	show(draw,"TruePoints");
+//	draw.clone(img);
+//
+//	//dd.drawKindPoints(draw,1,blue);
+//	//dd.drawKindPoints(draw,2,red);
+//
+//	// 表示
+//	cv::waitKey(0);
+//
+//	//timer.getLapTime();
+//
+//}
+
+/************************
+ * DiceDetection Testing02
  */
 int main(){
 	// 宣言
 	DiceDetection dd;
 	Image img,draw,draw1,bin;
-	LabelingCenter lc;
-	Timer timer;
-
-	// デバック時間省略のためのファイル読み込み
-	ifstream ifs;
-	string str,name;
-	ifs.open("img.txt");
-	ifs >> name;
-	ifs >> str;
-	name+=" "+str;
-
 	
-	// 色
-	cv::Scalar white,red,green,blue,black;
-		white = cv::Scalar::all(255);
-		black = cv::Scalar::all(0);
-		red = cv::Scalar(0,0,255);
-		green = cv::Scalar(0,255,0);
-		blue = cv::Scalar(255,0,0);
-
-	
-	timer.start();
-
-	// 画像作成
-	img.load(name);
-	img.resize(img,cv::Size(1920,1080));
-	
-	draw.clone(img);
-	//draw1.clone(img);
-
-	timer.lap();
-	cout << "画像生成:" << (double)timer.getNow()/1000 << endl;
-
-	// サイコロの目を検出
-	dd.init(img);
-	dd.getAllPoints();
-
-	// 初期検出
-	dd.drawTypePoints(draw,DiceInfo::none,blue);
-	dd.drawTypePoints(draw,DiceInfo::small,red);
-	dd.drawTypePoints(draw,DiceInfo::middle,green);
-	dd.drawTypePoints(draw,DiceInfo::large,white);
-	show(draw,"first");
-	draw.clone(img);
-
-	timer.lap();
-	cout << "全点検出:" << (double)timer.getNow()/1000 << endl;
-
-	// 1の目の取得
-	dd.getDot1Points();
-
-	// 1の目の判別状態
-	dd.drawTypePoints(draw,DiceInfo::none,blue);
-	dd.drawTypePoints(draw,DiceInfo::small,red);
-	dd.drawTypePoints(draw,DiceInfo::middle,green);
-	dd.drawTypePoints(draw,DiceInfo::large,white);
-	show(draw,"dot1");
-	draw.clone(img);
-
-	cout << "all:" << dd.getNumDot1Points() << endl;
-	cout << "small:" << dd.getNumDot1Points(DiceInfo::small) << endl;
-	cout << "middle:" << dd.getNumDot1Points(DiceInfo::middle) << endl;
-	cout << "large:" << dd.getNumDot1Points(DiceInfo::large) << endl;
-
-
-	timer.lap();
-	cout << "１の目:" << (double)timer.getNow()/1000 << endl;
-
-
-	dd.correctPointType();
-
-	// 修正状態の確認
-	dd.drawTypePoints(draw,DiceInfo::none,blue);
-	dd.drawTypePoints(draw,DiceInfo::small,red);
-	dd.drawTypePoints(draw,DiceInfo::middle,green);
-	dd.drawTypePoints(draw,DiceInfo::large,white);
-	show(draw,"correct");
-	draw.clone(img);
-
-	cout << "all:" << dd.getNumAllPoints() << endl;
-	cout << "none:" << dd.getNumTypeAllPoints(DiceInfo::none) << endl;
-	cout << "small:" << dd.getNumTypeAllPoints(DiceInfo::small) << endl;
-	cout << "middnle:" << dd.getNumTypeAllPoints(DiceInfo::middle) << endl;
-	cout << "large:" << dd.getNumTypeAllPoints(DiceInfo::large) << endl;
-
-	timer.lap();
-	cout << "サイズ修正:" << (double)timer.getNow()/1000 << endl;
-
-	// 線分取得
-	dd.getAllLines();
-
-	cout <<"num:" << dd.getNumAllLines() << endl;
-
-	dd.drawAllLine(draw,blue,red);
-	//dd.drawFalsePoints(draw,green);
-	//dd.drawTypePoints(draw,DiceInfo::none,green);
-	show(draw,"allLine");
-	draw.clone(img);
-
-	timer.lap();
-	cout << "線分抽出:" << (double)timer.getNow()/1000 << endl;
-
-	// 2の目の取得
-	dd.getDot2Points();
-	
-	// 2の目の確認
-	dd.drawTrueLine(draw,green,blue);
-	//dd.drawFalseLine(draw,red,red);
-	dd.drawDot2Points(draw,red,green);
-	dd.drawDot2Center(draw,blue);
-	show(draw,"Dot2");
-	draw.clone(img);
-
-	cout << "all:" << dd.getNumDot2Points() << endl;
-	cout << "small:" << dd.getNumDot2Points(DiceInfo::small) << endl;
-	cout << "middle:" << dd.getNumDot2Points(DiceInfo::middle) << endl;
-	cout << "large:" << dd.getNumDot2Points(DiceInfo::large) << endl;
-
-	timer.lap();
-	cout << "２の目:" << (double)timer.getNow()/1000 << endl;
-	
-	//// 4の目の取得
-	//dd.getDot4Points();
-
-	////dd.drawTrueLine(draw,blue,green);
-	////dd.drawDot1Points(draw,white);
-	////dd.drawKindPoints(draw,2,white);
-	//dd.drawKindPoints(draw,4,white);
-	////dd.drawDot4Points(draw,red,blue);
-	//dd.drawDot4Center(draw,blue);
-	//show(draw,"Dot4");
-	//draw.clone(img);
-
-	//cout << dd.getNumDot4Points() << endl;
-
-	//cout << "all:" << dd.getNumDot4Points() << endl;
-	//cout << "small:" << dd.getNumDot4Points(DiceInfo::small) << endl;
-	//cout << "middle:" << dd.getNumDot4Points(DiceInfo::middle) << endl;
-	//cout << "large:" << dd.getNumDot4Points(DiceInfo::large) << endl;
-
-	//timer.lap();
-	//cout << "４の目:" << (double)timer.getNow()/1000 << endl;
-
-	//３点全
-	dd.getAllDot3Points();
-
-	// 3点全描写
-	dd.drawAllDot3Points(draw,red,blue);
-	dd.drawAllDot3Center(draw,blue);
-	show(draw,"allDot3");
-	draw.clone(img);
-
-	cout << "num:" << dd.getNumAllDot3Points() << endl;
-
-	timer.lap();
-	cout << "3点全:" << (double)timer.getNow()/1000 << endl;
-
-
-	// 5の目の取得
-	dd.getDot5Points();
-	//dd.drawFalseAllDot3Points(draw,green,blue);
-
-	dd.drawDot5Points(draw,red,blue);
-	dd.drawTrueAllDot3Points(draw,green,blue);
-	show(draw,"dot5");
-	draw.clone(img);
-
-	cout << "all:" << dd.getNumDot5Points() << endl;
-	cout << "small:" << dd.getNumDot5Points(DiceInfo::small) << endl;
-	cout << "middle:" << dd.getNumDot5Points(DiceInfo::middle) << endl;
-	cout << "large:" << dd.getNumDot5Points(DiceInfo::large) << endl;
-
-	timer.lap();
-	cout << "5の目:" << (double)timer.getNow()/1000 << endl;
-
-
-	// 3の目の取得
-	dd.getDot3Points();
-
-	dd.drawDot3Points(draw,red,blue);
-	show(draw,"dot3");
-	draw.clone(img);
-
-	cout << "all:" << dd.getNumDot3Points() << endl;
-	cout << "small:" << dd.getNumDot3Points(DiceInfo::small) << endl;
-	cout << "middle:" << dd.getNumDot3Points(DiceInfo::middle) << endl;
-	cout << "large:" << dd.getNumDot3Points(DiceInfo::large) << endl;
-
-	timer.lap();
-	cout << "3の目:" << (double)timer.getNow()/1000 << endl;
-
-
-	// 6の目の取得
-	dd.getDot6Points();
-
-	dd.drawDot6Points(draw,red,blue);
-	dd.drawDot6Center(draw,blue);
-	show(draw,"dot6");
-	draw.clone(img);
-
-	cout << "all:" << dd.getNumDot6Points() << endl;
-	cout << "small:" << dd.getNumDot6Points(DiceInfo::small) << endl;
-	cout << "middle:" << dd.getNumDot6Points(DiceInfo::middle) << endl;
-	cout << "large:" << dd.getNumDot6Points(DiceInfo::large) << endl;
-
-	timer.lap();
-	cout << "6の目:" << (double)timer.getNow()/1000 << endl;
-
-	// 4の目の取得
-	dd._getDot4Points();
-
-	//dd.drawTrueLine(draw,blue,green);
-	//dd.drawDot1Points(draw,white);
-	//dd.drawKindPoints(draw,2,white);
-	dd.drawKindPoints(draw,4,white);
-	//dd.drawDot4Points(draw,red,blue);
-	dd.drawDot4Center(draw,blue);
-	show(draw,"Dot4");
-	draw.clone(img);
-
-	cout << dd.getNumDot4Points() << endl;
-
-	cout << "all:" << dd.getNumDot4Points() << endl;
-	cout << "small:" << dd.getNumDot4Points(DiceInfo::small) << endl;
-	cout << "middle:" << dd.getNumDot4Points(DiceInfo::middle) << endl;
-	cout << "large:" << dd.getNumDot4Points(DiceInfo::large) << endl;
-
-	timer.lap();
-	cout << "４の目:" << (double)timer.getNow()/1000 << endl;
-
-
-	// 最終処理
-	dd.correctOddMiddleToLarge();
-	dd.clearAllLines();
-	dd.getAllLines();
-	dd.getDot2Points();
-	dd.getAllDot3Points();
-	dd.getDot5Points();
-	dd.getDot3Points();
-	dd.getDot6Points();
-	dd.getDot4Points();
-
-	timer.lap();
-	cout << "最終処理:" << (double)timer.getNow()/1000 << endl;
-	
-	dd.getAllDotCenters();
-
-	dd.drawAllDotCenters(draw,blue);
-	show(draw,"Centers");
-	draw.clone(img);
-
-	timer.lap();
-	cout << "中心点:" << (double)timer.getNow()/1000 << endl;
-
-
-	// 検出した点の種類ごと
-	dd.drawDot1Points(draw,white);
-	dd.drawDot2Points(draw,red,red);
-	dd.drawDot2Center(draw,blue);
-	dd.drawDot3Points(draw,green,red);
-	dd.drawDot3Center(draw,blue);
-	dd.drawDot4Points(draw,cv::Scalar(255,255,0),red);
-	dd.drawDot4Center(draw,blue);
-	dd.drawDot5Points(draw,cv::Scalar(255,0,255),red);
-	dd.drawDot5Center(draw,blue);
-	dd.drawDot6Points(draw,cv::Scalar(0,255,255),red);
-	dd.drawDot6Center(draw,blue);
-	show(draw,"AllDots");
-	draw.clone(img);
-
-	// 検出した点のサイズごと
-	dd.drawTypePoints(draw,DiceInfo::none,cv::Scalar(255,0,0));
-	dd.drawTypePoints(draw,DiceInfo::small,red);
-	dd.drawTypePoints(draw,DiceInfo::middle,green);
-	dd.drawTypePoints(draw,DiceInfo::large,white);
-	show(draw,"Types");
-	draw.clone(img);
-
-
-	dd.drawTruePoints(draw,blue);
-	show(draw,"TruePoints");
-	draw.clone(img);
-
-	//dd.drawKindPoints(draw,1,blue);
-	//dd.drawKindPoints(draw,2,red);
-
-	// 表示
-	cv::waitKey(0);
-
-	//timer.getLapTime();
-
+	dd.init();
+	dd.run();
 }
 
 /************************

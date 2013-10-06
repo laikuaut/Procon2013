@@ -14,8 +14,11 @@ DiceDetection::~DiceDetection(void)
 /******************
  *   初期化
  */
-void DiceDetection::init(Image src){
-	this->src.clone(src);
+void DiceDetection::init(){
+	this->iniFileName = "DiceDetection.ini";
+	readIniFile();
+	src.path = dir;
+	src.load(name);
 }
 
 /******************
@@ -641,19 +644,16 @@ void DiceDetection::_getDot4Points(){
 	}
 
 		
-	Image draw;
-	draw.clone(src);
-	for(int i=0;i<dots.size();i++)
-		dots[i].draw(draw,cv::Scalar(0,255,0));
-	draw.imshow("dots");
+	//Image draw;
+	//draw.clone(src);
+	//for(int i=0;i<dots.size();i++)
+	//	dots[i].draw(draw,cv::Scalar(0,255,0));
+	//draw.imshow("dots");
 
 
 	Dot2Point dot2;
 	LineSegments lsegs;
 	int count=0;
-
-
-	
 
 	do{
 		for(int i=0;i<dots.size();i++)
@@ -684,7 +684,7 @@ void DiceDetection::_getDot4Points(){
 					//double tan = abs(dot1s[i].pt.y - dot1s[j].pt.y)/abs(dot1s[i].pt.x - dot1s[j].pt.x);
 					//double sita = atan(tan)*180/CV_PI;
 					double sita = Calc::getAngle(dots[i],dots[j]);
-					if(sita>=35 && sita<=55){
+					if(sita>=dot4MinAngle && sita<=dot4MaxAngle){
 						dot2.init(dots[i],dots[j],dots.types[i]);
 						bool flag = true;
 						for(int l=0;l<missDotCenters.size();l++){
@@ -703,12 +703,10 @@ void DiceDetection::_getDot4Points(){
 		}
 		
 		//Image draw;
-		draw.clone(src);
-		for(int i=0;i<lsegs.size();i++)
-			lsegs[i].draw(draw,cv::Scalar(255,0,0),cv::Scalar(0,255,0));
-		draw.imshow("lsegs");
-
-
+		//draw.clone(src);
+		//for(int i=0;i<lsegs.size();i++)
+		//	lsegs[i].draw(draw,cv::Scalar(255,0,0),cv::Scalar(0,255,0));
+		//draw.imshow("lsegs");
 
 		// 4の目の決定
 		Dot4Point dot4;
@@ -746,10 +744,10 @@ void DiceDetection::_getDot4Points(){
 		}
 
 		//Image draw;
-		draw.clone(src);
-		for(int i=0;i<missDotCenters.size();i++)
-			missDotCenters[i].draw(draw,cv::Scalar(0,255,255));
-		draw.imshow("missDotCenters");
+		//draw.clone(src);
+		//for(int i=0;i<missDotCenters.size();i++)
+		//	missDotCenters[i].draw(draw,cv::Scalar(0,255,255));
+		//draw.imshow("missDotCenters");
 
 		if(dot4CorrectMiddleLoopCount==count++) break;
 
@@ -822,11 +820,11 @@ void DiceDetection::getDot6Points(){
 	for(int i=0;i<allDot3Points.size();i++){
 		if(!allDot3Points.flags[i]) continue;
 		if(allDot3Points.types[i] == DiceInfo::small)
-			radius = dot6SmallRasius;
+			radius = dot6SmallRadius;
 		else if(allDot3Points.types[i] == DiceInfo::middle)
-			radius = dot6MiddleRasius;
+			radius = dot6MiddleRadius;
 		else if(allDot3Points.types[i] == DiceInfo::large)
-			radius = dot6LargeRasius;
+			radius = dot6LargeRadius;
 
 		for(int j=0;j<allDot3Points.size();j++){
 			if(i==j) continue;
@@ -846,6 +844,18 @@ void DiceDetection::getDot6Points(){
 			}
 		}
 	}
+}
+
+void DiceDetection::getOddPoints(){
+	correctOddMiddleToLarge();
+	clearAllLines();
+	getAllLines();
+	getDot2Points();
+	getAllDot3Points();
+	getDot5Points();
+	getDot3Points();
+	getDot6Points();
+	getDot4Points();
 }
 
 /******************
@@ -1300,7 +1310,7 @@ int DiceDetection::getNumAllPoints() const{
 	return allPoints.size();
 }
 
-int DiceDetection::getNumTrueAllPoints(){
+int DiceDetection::getNumTrueAllPoints() const{
 	int count=0;
 	for(int i=0;i<allPoints.size();i++){
 		if(allPoints.flags[i]) count++;
@@ -1308,7 +1318,7 @@ int DiceDetection::getNumTrueAllPoints(){
 	return count;
 }
 
-int DiceDetection::getNumFalseAllPoints(){
+int DiceDetection::getNumFalseAllPoints() const{
 	int count=0;
 	for(int i=0;i<allPoints.size();i++){
 		if(!allPoints.flags[i]) count++;
@@ -1316,7 +1326,7 @@ int DiceDetection::getNumFalseAllPoints(){
 	return count;
 }
 
-int DiceDetection::getNumTypeAllPoints(DiceInfo::dtype type){
+int DiceDetection::getNumTypeAllPoints(DiceInfo::dtype type) const{
 	int count=0;
 	for(int i=0;i<allPoints.size();i++){
 		if(allPoints.types[i] == type) count++;
@@ -1324,7 +1334,7 @@ int DiceDetection::getNumTypeAllPoints(DiceInfo::dtype type){
 	return count;
 }
 
-int DiceDetection::getNumKindAllPoints(int kind){
+int DiceDetection::getNumKindAllPoints(int kind) const{
 	int count=0;
 	for(int i=0;i<allPoints.size();i++){
 		if(allPoints.kinds[i] == kind) count++;
@@ -1332,11 +1342,11 @@ int DiceDetection::getNumKindAllPoints(int kind){
 	return count;
 }
 
-int DiceDetection::getNumAllLines(){
+int DiceDetection::getNumAllLines() const{
 	return allLines.size();
 }
 
-int DiceDetection::getNumTrueAllLines(){
+int DiceDetection::getNumTrueAllLines() const{
 	int count=0;
 	for(int i=0;i<allLines.size();i++){
 		if(allLines.flags[i]) count++;
@@ -1344,7 +1354,7 @@ int DiceDetection::getNumTrueAllLines(){
 	return count;
 }
 
-int DiceDetection::getNumFalseAllLines(){
+int DiceDetection::getNumFalseAllLines() const{
 	int count=0;
 	for(int i=0;i<allLines.size();i++){
 		if(!allLines.flags[i]) count++;
@@ -1352,7 +1362,7 @@ int DiceDetection::getNumFalseAllLines(){
 	return count;
 }
 
-int DiceDetection::getNumTypeAllLines(DiceInfo::dtype type){
+int DiceDetection::getNumTypeAllLines(DiceInfo::dtype type) const{
 	int count=0;
 	for(int i=0;i<allLines.size();i++){
 		if(allLines.types[i] == type) count++;
@@ -1360,7 +1370,7 @@ int DiceDetection::getNumTypeAllLines(DiceInfo::dtype type){
 	return count;
 }
 
-int DiceDetection::getNumKindAllLines(int kind){
+int DiceDetection::getNumKindAllLines(int kind) const{
 	int count=0;
 	for(int i=0;i<allLines.size();i++){
 		if(allLines.kinds[i] == kind) count++;
@@ -1368,11 +1378,11 @@ int DiceDetection::getNumKindAllLines(int kind){
 	return count;
 }
 
-int DiceDetection::getNumAllDot3Points(){
+int DiceDetection::getNumAllDot3Points() const{
 	return allDot3Points.size();
 }
 
-int DiceDetection::getNumTrueAllDot3Points(){
+int DiceDetection::getNumTrueAllDot3Points() const{
 	int count=0;
 	for(int i=0;i<allDot3Points.size();i++){
 		if(allDot3Points.flags[i]) count++;
@@ -1380,7 +1390,7 @@ int DiceDetection::getNumTrueAllDot3Points(){
 	return count;
 }
 
-int DiceDetection::getNumFalseAllDot3Points(){
+int DiceDetection::getNumFalseAllDot3Points() const{
 	int count=0;
 	for(int i=0;i<allDot3Points.size();i++){
 		if(!allDot3Points.flags[i]) count++;
@@ -1388,7 +1398,7 @@ int DiceDetection::getNumFalseAllDot3Points(){
 	return count;
 }
 
-int DiceDetection::getNumTypeAllDot3Points(DiceInfo::dtype type){
+int DiceDetection::getNumTypeAllDot3Points(DiceInfo::dtype type) const{
 	int count=0;
 	for(int i=0;i<allDot3Points.size();i++){
 		if(allDot3Points.types[i] == type) count++;
@@ -1396,7 +1406,7 @@ int DiceDetection::getNumTypeAllDot3Points(DiceInfo::dtype type){
 	return count;
 }
 
-int DiceDetection::getNumKindAllDot3Points(int kind){
+int DiceDetection::getNumKindAllDot3Points(int kind) const{
 	int count=0;
 	for(int i=0;i<allDot3Points.size();i++){
 		if(allDot3Points.kinds[i] == kind) count++;
@@ -1404,11 +1414,11 @@ int DiceDetection::getNumKindAllDot3Points(int kind){
 	return count;
 }
 
-int DiceDetection::getNumAllDotCenters(){
+int DiceDetection::getNumAllDotCenters() const{
 	return allDotCenters.size();
 }
 
-int DiceDetection::getNumTypeAllDotCenters(DiceInfo::dtype type){
+int DiceDetection::getNumTypeAllDotCenters(DiceInfo::dtype type) const{
 	int count = 0;
 	for(int i=0;i<allDotCenters.size();i++){
 		if(allDotCenters.types[i] == type) count++;
@@ -1416,7 +1426,7 @@ int DiceDetection::getNumTypeAllDotCenters(DiceInfo::dtype type){
 	return count;
 }
 
-int DiceDetection::getNumKindAllDotCenters(int kind){
+int DiceDetection::getNumKindAllDotCenters(int kind) const{
 	int count = 0;
 	for(int i=0;i<allDotCenters.size();i++){
 		if(allDotCenters.kinds[i] == kind) count++;
@@ -1424,7 +1434,7 @@ int DiceDetection::getNumKindAllDotCenters(int kind){
 	return count;
 }
 
-int DiceDetection::getNumDot1Points(DiceInfo::dtype type){
+int DiceDetection::getNumDot1Points(DiceInfo::dtype type) const{
 	int count = 0;
 	if(type == DiceInfo::none) 
 		return dot1Points.size();
@@ -1434,7 +1444,7 @@ int DiceDetection::getNumDot1Points(DiceInfo::dtype type){
 	return count;
 }
 
-int DiceDetection::getNumDot2Points(DiceInfo::dtype type){
+int DiceDetection::getNumDot2Points(DiceInfo::dtype type) const{
 	int count = 0;
 	if(type == DiceInfo::none) 
 		return dot2Points.size();
@@ -1444,7 +1454,7 @@ int DiceDetection::getNumDot2Points(DiceInfo::dtype type){
 	return count;
 }
 
-int DiceDetection::getNumDot3Points(DiceInfo::dtype type){
+int DiceDetection::getNumDot3Points(DiceInfo::dtype type) const{
 	int count = 0;
 	if(type == DiceInfo::none) 
 		return dot3Points.size();
@@ -1454,7 +1464,7 @@ int DiceDetection::getNumDot3Points(DiceInfo::dtype type){
 	return count;
 }
 
-int DiceDetection::getNumDot4Points(DiceInfo::dtype type){
+int DiceDetection::getNumDot4Points(DiceInfo::dtype type) const{
 	int count = 0;
 	if(type == DiceInfo::none) 
 		return dot4Points.size();
@@ -1464,7 +1474,7 @@ int DiceDetection::getNumDot4Points(DiceInfo::dtype type){
 	return count;
 }
 
-int DiceDetection::getNumDot5Points(DiceInfo::dtype type){
+int DiceDetection::getNumDot5Points(DiceInfo::dtype type) const{
 	int count = 0;
 	if(type == DiceInfo::none) 
 		return dot5Points.size();
@@ -1474,7 +1484,7 @@ int DiceDetection::getNumDot5Points(DiceInfo::dtype type){
 	return count;
 }
 
-int DiceDetection::getNumDot6Points(DiceInfo::dtype type){
+int DiceDetection::getNumDot6Points(DiceInfo::dtype type) const{
 	int count = 0;
 	if(type == DiceInfo::none) 
 		return dot6Points.size();
@@ -1483,6 +1493,590 @@ int DiceDetection::getNumDot6Points(DiceInfo::dtype type){
 	}
 	return count;
 }
+
+
+
+/******************
+ *   パラメータ関連
+ */
+
+void DiceDetection::setDefaultParam(){
+
+	// ファイル関連
+	dir = Dir();
+	this->name = "img.jpg";
+
+	// サイコロのサイズ判別に使用する定数群
+	dotSmallMinSize				= default_dotSmallMinSize			;
+	dotSmallMaxSize				= default_dotSmallMaxSize			;		
+	dotMiddleMinSize			= default_dotMiddleMinSize			;
+	dotMiddleMaxSize			= default_dotMiddleMaxSize			;	
+	dotLargeMinSize				= default_dotLargeMinSize			;
+	dotLargeMaxSize				= default_dotLargeMaxSize			;
+	dotNoneMinSize				= default_dotNoneMinSize			;
+	dotNoneMaxSize				= default_dotNoneMaxSize			;
+	dot1MinSize					= default_dot1MinSize				;
+	dot1MaxSize					= default_dot1MaxSize				;
+	dotCircleFilterPer			= default_dotCircleFilterPer		;
+	dotCircleFilterRadiusPer	= default_dotCircleFilterRadiusPer	;
+
+	// 1の目の抽出
+	dot1CircleFilterPer			= default_dot1CircleFilterPer		;
+	dot1CircleFilterRadiusPer	= default_dot1CircleFilterRadiusPer	;
+	dot1LMDetectRadius			= default_dot1LMDetectRadius		;
+	dot1LMCorrectRadius			= default_dot1LMCorrectRadius		;
+
+	// 大中サイコロに誤判定した中サイコロの点修正のための半径
+	correctMiddleRadius		= default_correctMiddleRadius	;
+	correctLargeRadius		= default_correctLargeRadius	;
+	correctMiddleMaxSize	= default_correctMiddleMaxSize	;
+	correctLargeMinSize		= default_correctLargeMinSize	;
+
+	// 線分検出半径
+	lineSmallRadius			= default_lineSmallRadius	;
+	lineMiddleRadius		= default_lineMiddleRadius	;
+	lineLargeRadius			= default_lineLargeRadius	;
+
+	// ２の目検出の半径
+	dot2SmallMinDistance	= default_dot2SmallMinDistance	;
+	dot2MiddleMinDistance	= default_dot2MiddleMinDistance	;
+	dot2LargeMinDistance	= default_dot2LargeMinDistance	;
+	dot2SmallMaxDistance	= default_dot2SmallMaxDistance	;
+	dot2MiddleMaxDistance	= default_dot2MiddleMaxDistance	;
+	dot2LargeMaxDistance	= default_dot2LargeMaxDistance	;
+	dot2SmallDistance		= default_dot2SmallDistance		;
+	dot2MiddleDistance		= default_dot2MiddleDistance	;
+	dot2LargeDistance		= default_dot2LargeDistance		;
+	dot2MinAngle			= default_dot2MinAngle			;
+	dot2MaxAngle			= default_dot2MaxAngle			;
+
+	// ４の目検出
+	dot4SmallMinDistance		= default_dot4SmallMinDistance		;
+	dot4MiddleMinDistance		= default_dot4MiddleMinDistance		;
+	dot4LargeMinDistance		= default_dot4LargeMinDistance		;
+	dot4SmallMaxDistance		= default_dot4SmallMaxDistance		;
+	dot4MiddleMaxDistance		= default_dot4MiddleMaxDistance		;
+	dot4LargeMaxDistance		= default_dot4LargeMaxDistance		;
+	dot4SmallDistance			= default_dot4SmallDistance			;
+	dot4MiddleDistance			= default_dot4MiddleDistance		;
+	dot4LargeDistance			= default_dot4LargeDistance			;
+	dot4MinAngle				= default_dot4MinAngle				;
+	dot4MaxAngle				= default_dot4MaxAngle				;
+	dot4CorrectMiddleDistance	= default_dot4CorrectMiddleDistance	;
+	dot4CorrectMiddleLoopCount	= default_dot4CorrectMiddleLoopCount;
+
+	// 全3点
+	allDot3Angle				= default_allDot3Angle				;
+	allDot3SmallMinDistance		= default_allDot3SmallMinDistance	;
+	allDot3MiddleMinDistance	= default_allDot3MiddleMinDistance	;
+	allDot3LargeMinDistance		= default_allDot3LargeMinDistance	;
+	allDot3SmallMaxDistance		= default_allDot3SmallMaxDistance	;
+	allDot3MiddleMaxDistance	= default_allDot3MiddleMaxDistance	;
+	allDot3LargeMaxDistance		= default_allDot3LargeMaxDistance	;
+
+	// 6の目
+	dot6SmallDistance	= default_dot6SmallDistance	;
+	dot6MiddleDistance	= default_dot6MiddleDistance;
+	dot6LargeDistance	= default_dot6LargeDistance	;
+	dot6SmallRadius		= default_dot6SmallRadius	;
+	dot6MiddleRadius	= default_dot6MiddleRadius	;
+	dot6LargeRadius		= default_dot6LargeRadius	;
+
+	// 色
+}
+
+/******************
+ *   設定ファイル関連
+ */
+
+void DiceDetection::defaultIniFileCreate(){
+	ptree pt;
+	string name = "default_" + this->iniFileName;
+	string brank = "";
+	
+	// コメント書き込める。
+	//pt.put(";ppp",brank);
+
+	// ファイル関連
+	pt.put("file.dir",dir.pwd());
+	pt.put("file.name",this->name);
+
+	// 全点処理のパラメータ群
+	//pt.put("allDot.", 1);
+	pt.put("allDot.SmallMinSize", default_dotSmallMinSize			);
+	pt.put("allDot.SmallMaxSize", default_dotSmallMaxSize			);
+	pt.put("allDot.MiddleMinSize", default_dotMiddleMinSize			);
+	pt.put("allDot.MiddleMaxSize", default_dotMiddleMaxSize			);
+	pt.put("allDot.LargeMinSize", default_dotLargeMinSize			);
+	pt.put("allDot.LargeMaxSize", default_dotLargeMaxSize			);
+	pt.put("allDot.NoneMinSize", default_dotNoneMinSize			);
+	pt.put("allDot.NoneMaxSize", default_dotNoneMaxSize			);
+	pt.put("allDot.dot1MinSize", default_dot1MinSize				);
+	pt.put("allDot.dot1MaxSize", default_dot1MaxSize				);
+	pt.put("allDot.CircleFilterPer", default_dotCircleFilterPer		);
+	pt.put("allDot.CircleFilterRadiusPer", default_dotCircleFilterRadiusPer);
+	
+	// タイプ修正のパラメータ群
+	//pt.put("correct.", 1);
+	pt.put("correct.MiddleRadius",	default_correctMiddleRadius	);
+	pt.put("correct.LargeRadius",	default_correctLargeRadius	);
+	pt.put("correct.MiddleMaxSize", default_correctMiddleMaxSize	);
+	pt.put("correct.LargeMinSize",	default_correctLargeMinSize	);
+
+	// 全線分処理のパラメータ群
+	pt.put("allLine.SmallRadius",	default_lineSmallRadius	);
+	pt.put("allLine.MiddleRadius",	default_lineMiddleRadius	);
+	pt.put("allLine.LargeRadius",	default_lineLargeRadius	);
+	
+	// 全3点処理のパラメータ群
+	//pt.put("allDot3.", 1);
+	pt.put("allDot3.Angle",				default_allDot3Angle				);
+	pt.put("allDot3.SmallMinDistance",	default_allDot3SmallMinDistance	);
+	pt.put("allDot3.MiddleMinDistance",	default_allDot3MiddleMinDistance	);
+	pt.put("allDot3.LargeMinDistance",	default_allDot3LargeMinDistance	);
+	pt.put("allDot3.SmallMaxDistance",	default_allDot3SmallMaxDistance	);
+	pt.put("allDot3.MiddleMaxDistance",	default_allDot3MiddleMaxDistance	);
+	pt.put("allDot3.LargeMaxDistance",	default_allDot3LargeMaxDistance	);
+
+	// １の目処理のパラメータ群
+	//pt.put("dot1.", 1);
+	pt.put("dot1.CircleFilterPer",		default_dot1CircleFilterPer		);
+	pt.put("dot1.CircleFilterRadiusPer",default_dot1CircleFilterRadiusPer	);
+	pt.put("dot1.LMDetectRadius",		default_dot1LMDetectRadius		);
+	pt.put("dot1.LMCorrectRadius",		default_dot1LMCorrectRadius		);
+
+	// ２の目処理のパラメータ群
+	//pt.put("dot2.", 1);
+	pt.put("dot2.SmallMinDistance",		default_dot2SmallMinDistance	);
+	pt.put("dot2.MiddleMinDistance",	default_dot2MiddleMinDistance	);
+	pt.put("dot2.LargeMinDistance",		default_dot2LargeMinDistance	);
+	pt.put("dot2.SmallMaxDistance",		default_dot2SmallMaxDistance	);
+	pt.put("dot2.MiddleMaxDistance",	default_dot2MiddleMaxDistance	);
+	pt.put("dot2.LargeMaxDistance",		default_dot2LargeMaxDistance	);
+	pt.put("dot2.SmallDistance",		default_dot2SmallDistance		);
+	pt.put("dot2.MiddleDistance",		default_dot2MiddleDistance		);
+	pt.put("dot2.LargeDistance",		default_dot2LargeDistance		);
+	pt.put("dot2.MinAngle",				default_dot2MinAngle			);
+	pt.put("dot2.MaxAngle",				default_dot2MaxAngle			);
+
+	// ３の目処理のパラメータ群
+	//pt.put("dot3.", 1);
+
+	// ４の目処理のパラメータ群
+	//pt.put("dot4.",1);
+	pt.put("dot4.SmallMinDistance",			default_dot4SmallMinDistance		);
+	pt.put("dot4.MiddleMinDistance",		default_dot4MiddleMinDistance		);
+	pt.put("dot4.LargeMinDistance",			default_dot4LargeMinDistance		);
+	pt.put("dot4.SmallMaxDistance",			default_dot4SmallMaxDistance		);
+	pt.put("dot4.MiddleMaxDistance",		default_dot4MiddleMaxDistance		);
+	pt.put("dot4.LargeMaxDistance",			default_dot4LargeMaxDistance		);
+	pt.put("dot4.SmallDistance",			default_dot4SmallDistance			);
+	pt.put("dot4.MiddleDistance",			default_dot4MiddleDistance		);
+	pt.put("dot4.LargeDistance",			default_dot4LargeDistance			);
+	pt.put("dot4.MinAngle",					default_dot4MinAngle				);
+	pt.put("dot4.MaxAngle",					default_dot4MaxAngle				);
+	pt.put("dot4.CorrectMiddleDistance",	default_dot4CorrectMiddleDistance	);
+	pt.put("dot4.CorrectMiddleLoopCount",	default_dot4CorrectMiddleLoopCount);
+
+	// ５の目処理のパラメータ群
+	//pt.put("dot5.", 1);
+
+	// ６の目処理のパラメータ群
+	//pt.put("dot6.",1);
+	pt.put("dot6.SmallDistance",	default_dot6SmallDistance	);
+	pt.put("dot6.MiddleDistance",	default_dot6MiddleDistance);
+	pt.put("dot6.LargeDistance",	default_dot6LargeDistance	);
+	pt.put("dot6.SmallRadius",		default_dot6SmallRadius	);
+	pt.put("dot6.MiddleRadius",		default_dot6MiddleRadius	);
+	pt.put("dot6.LargeRadius",		default_dot6LargeRadius	);
+
+	write_ini(name,pt);
+
+}
+
+void DiceDetection::readIniFile(){
+
+	Dir path = Dir();
+
+	// DiceDetection.iniの存在確認
+	if(!path.isExist(iniFileName)){
+		std::cout << "default_DiceDetection.iniを作成します。" << std::endl;
+		std::cout << "DiceDetection.iniを作成してください。" << std::endl;
+		defaultIniFileCreate();
+		setDefaultParam();
+		return;
+	}
+
+	//std::cout << iniFileName << std::endl;
+
+	ptree pt;
+	read_ini(iniFileName,pt);
+
+
+	// ファイル関連
+	if (boost::optional<string> value = pt.get_optional<string>("file.dir")) {
+		dir.cd(value.get());
+		//std::cout << "file.dir : " << dir.pwd() << std::endl;
+    }
+	if (boost::optional<string> value = pt.get_optional<string>("file.name")) {
+		name = value.get();
+		//std::cout << "file.name : " << name << std::endl;
+    }
+
+	
+	
+	// 全点処理のパラメータ群
+	if (boost::optional<int> value = pt.get_optional<int>("allDot.SmallMinSize")) {
+		dotSmallMinSize = value.get();
+		//std::cout << "allDot.SmallMinSize : " << dotSmallMinSize << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("allDot.SmallMaxSize")) {
+		dotSmallMaxSize = value.get();
+		//std::cout << "allDot.SmallMaxSize : " << dotSmallMaxSize << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("allDot.MiddleMinSize")) {
+		dotMiddleMinSize = value.get();
+		//std::cout << "allDot.MiddleMinSize : " << dotMiddleMinSize << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("allDot.MiddleMaxSize")) {
+		dotMiddleMaxSize = value.get();
+		//std::cout << "allDot.MiddleMaxSize : " << dotMiddleMaxSize << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("allDot.LargeMinSize")) {
+		dotLargeMinSize = value.get();
+		//std::cout << "allDot.LargeMinSize : " << dotLargeMinSize << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("allDot.LargeMaxSize")) {
+		dotLargeMaxSize = value.get();
+		//std::cout << "allDot.LargeMaxSize : " << dotLargeMaxSize << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("allDot.NoneMinSize")) {
+		dotNoneMinSize = value.get();
+		//std::cout << "allDot.NoneMinSize : " << dotNoneMinSize << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("allDot.NoneMaxSize")) {
+		dotNoneMaxSize = value.get();
+		//std::cout << "allDot.NoneMaxSize : " << dotNoneMaxSize << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("allDot.dot1MinSize")) {
+		dot1MinSize = value.get();
+		//std::cout << "allDot.dot1MinSize : " << dot1MinSize << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("allDot.dot1MaxSize")) {
+		dot1MaxSize = value.get();
+		//std::cout << "allDot.dot1MaxSize : " << dot1MaxSize << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("allDot.CircleFilterPer")) {
+		dotCircleFilterPer = value.get();
+		//std::cout << "allDot.dotCircleFilterPer : " << dotCircleFilterPer << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("allDot.CircleFilterRadiusPer")) {
+		dotCircleFilterRadiusPer = value.get();
+		//std::cout << "allDot.CircleFilterRadiusPer : " << dotCircleFilterRadiusPer << std::endl;
+    }
+
+	
+	
+	// タイプ修正のパラメータ群
+	if (boost::optional<double> value = pt.get_optional<double>("correct.MiddleRadius")) {
+		correctMiddleRadius = value.get();
+		//std::cout << "correct.MiddleRadius : " << correctMiddleRadius << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("correct.LargeRadius")) {
+		correctLargeRadius = value.get();
+		//std::cout << "correct.LargeRadius : " << correctLargeRadius << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("correct.MiddleMaxSize")) {
+		correctMiddleMaxSize = value.get();
+		//std::cout << "correct.MiddleMaxSize : " << correctMiddleMaxSize << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("correct.LargeMinSize")) {
+		correctLargeMinSize = value.get();
+		//std::cout << "correct.LargeMinSize : " << correctLargeMinSize << std::endl;
+    }
+	
+	// 全線分処理のパラメータ群
+	if (boost::optional<double> value = pt.get_optional<double>("allLine.SmallRadius")) {
+		lineSmallRadius = value.get();
+		//std::cout << "allLine.SmallRadius : " << lineSmallRadius << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("allLine.MiddleRadius")) {
+		lineMiddleRadius = value.get();
+		//std::cout << "allLine.MiddleRadius : " << lineMiddleRadius << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("allLine.LargeRadius")) {
+		lineLargeRadius = value.get();
+		//std::cout << "allLine.LargeRadius : " << lineLargeRadius << std::endl;
+    }
+	
+	
+	
+	// 全3点処理のパラメータ群
+	if (boost::optional<double> value = pt.get_optional<double>("allDot3.Angle")) {
+		allDot3Angle = value.get();
+		//std::cout << "allDot3.Angle : " << allDot3Angle << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("allDot3.SmallMinDistance")) {
+		allDot3SmallMinDistance = value.get();
+		//std::cout << "allDot3.SmallMinDistance : " << allDot3SmallMinDistance << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("allDot3.MiddleMinDistance")) {
+		allDot3MiddleMinDistance = value.get();
+		//std::cout << "allDot3.MiddleMinDistance : " << allDot3MiddleMinDistance << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("allDot3.LargeMinDistance")) {
+		allDot3LargeMinDistance = value.get();
+		//std::cout << "allDot3.LargeMinDistance : " << allDot3LargeMinDistance << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("allDot3.SmallMaxDistance")) {
+		allDot3SmallMaxDistance = value.get();
+		//std::cout << "allDot3.SmallMaxDistance : " << allDot3SmallMaxDistance << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("allDot3.MiddleMaxDistance")) {
+		allDot3MiddleMaxDistance = value.get();
+		//std::cout << "allDot3.MiddleMaxDistance : " << allDot3MiddleMaxDistance << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("allDot3.LargeMaxDistance")) {
+		allDot3LargeMaxDistance = value.get();
+		//std::cout << "allDot3.LargeMaxDistance : " << allDot3LargeMaxDistance << std::endl;
+    }
+	
+	
+	// １の目処理のパラメータ群
+	if (boost::optional<double> value = pt.get_optional<double>("dot1.CircleFilterPer")) {
+		dot1CircleFilterPer = value.get();
+		//std::cout << "dot1.dotCircleFilterPer : " << dot1CircleFilterPer << std::endl;
+    }
+	if (boost::optional<double> value = pt.get_optional<double>("dot1.CircleFilterRadiusPer")) {
+		dot1CircleFilterRadiusPer = value.get();
+		//std::cout << "dot1.CircleFilterRadiusPer : " << dot1CircleFilterRadiusPer << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot1.LMDetectRadius")) {
+		dot1LMDetectRadius = value.get();
+		//std::cout << "dot1.LMDetectRadius : " << dot1LMDetectRadius << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot1.LMCorrectRadius")) {
+		dot1LMCorrectRadius = value.get();
+		//std::cout << "dot1.LMCorrectRadius : " << dot1LMCorrectRadius << std::endl;
+    }
+
+
+
+	// ２の目処理のパラメータ群
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.SmallMinDistance")) {
+		dot2SmallMinDistance = value.get();
+		//std::cout << "dot2.SmallMinDistance : " << dot2SmallMinDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.MiddleMinDistance")) {
+		dot2MiddleMinDistance = value.get();
+		//std::cout << "dot2.MiddleMinDistance : " << dot2MiddleMinDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.LargeMinDistance")) {
+		dot2LargeMinDistance = value.get();
+		//std::cout << "dot2.LargeMinDistance : " << dot2LargeMinDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.SmallMaxDistance")) {
+		dot2SmallMaxDistance = value.get();
+		//std::cout << "dot2.SmallMaxDistance : " << dot2SmallMaxDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.MiddleMaxDistance")) {
+		dot2MiddleMaxDistance = value.get();
+		//std::cout << "dot2.MiddleMaxDistance : " << dot2MiddleMaxDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.LargeMaxDistance")) {
+		dot2LargeMaxDistance = value.get();
+		//std::cout << "dot2.LargeMaxDistance : " << dot2LargeMaxDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.SmallDistance")) {
+		dot2SmallDistance = value.get();
+		//std::cout << "dot2.SmallDistance : " << dot2SmallDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.MiddleDistance")) {
+		dot2MiddleDistance = value.get();
+		//std::cout << "dot2.MiddleDistance : " << dot2MiddleDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.LargeDistance")) {
+		dot2LargeDistance = value.get();
+		//std::cout << "dot2.LargeDistance : " << dot2LargeDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.MinAngle")) {
+		dot2MinAngle = value.get();
+		//std::cout << "dot2.MinAngle : " << dot2MinAngle << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot2.MaxAngle")) {
+		dot2MaxAngle = value.get();
+		//std::cout << "dot2.MaxAngle : " << dot2MaxAngle << std::endl;
+    }
+
+
+
+	// ４の目処理のパラメータ群
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.SmallMinDistance")) {
+		dot4SmallMinDistance = value.get();
+		//std::cout << "dot4.SmallMinDistance : " << dot4SmallMinDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.MiddleMinDistance")) {
+		dot4MiddleMinDistance = value.get();
+		//std::cout << "dot4.MiddleMinDistance : " << dot4MiddleMinDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.LargeMinDistance")) {
+		dot4LargeMinDistance = value.get();
+		//std::cout << "dot4.LargeMinDistance : " << dot4LargeMinDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.SmallMaxDistance")) {
+		dot4SmallMaxDistance = value.get();
+		//std::cout << "dot4.SmallMaxDistance : " << dot4SmallMaxDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.MiddleMaxDistance")) {
+		dot4MiddleMaxDistance = value.get();
+		//std::cout << "dot4.MiddleMaxDistance : " << dot4MiddleMaxDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.LargeMaxDistance")) {
+		dot4LargeMaxDistance = value.get();
+		//std::cout << "dot4.LargeMaxDistance : " << dot4LargeMaxDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.SmallDistance")) {
+		dot4SmallDistance = value.get();
+		//std::cout << "dot4.SmallDistance : " << dot4SmallDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.MiddleDistance")) {
+		dot4MiddleDistance = value.get();
+		//std::cout << "dot4.MiddleDistance : " << dot4MiddleDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.LargeDistance")) {
+		dot4LargeDistance = value.get();
+		//std::cout << "dot4.LargeDistance : " << dot4LargeDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.MinAngle")) {
+		dot4MinAngle = value.get();
+		//std::cout << "dot4.MinAngle : " << dot4MinAngle << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.MaxAngle")) {
+		dot4MaxAngle = value.get();
+		//std::cout << "dot4.MaxAngle : " << dot4MaxAngle << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.CorrectMiddleDistance")) {
+		dot4CorrectMiddleDistance = value.get();
+		//std::cout << "dot4.CorrectMiddleDistance : " << dot4CorrectMiddleDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot4.CorrectMiddleLoopCount")) {
+		dot4CorrectMiddleLoopCount = value.get();
+		//std::cout << "dot4.CorrectMiddleLoopCount : " << dot4CorrectMiddleLoopCount << std::endl;
+    }
+
+	
+	
+	// ６の目処理のパラメータ群
+	if (boost::optional<int> value = pt.get_optional<int>("dot6.SmallDistance")) {
+		dot6SmallDistance = value.get();
+		//std::cout << "dot6.SmallDistance : " << dot6SmallDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot6.MiddleDistance")) {
+		dot6MiddleDistance = value.get();
+		//std::cout << "dot6.MiddleDistance : " << dot6MiddleDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot6.LargeDistance")) {
+		dot6LargeDistance = value.get();
+		//std::cout << "dot6.LargeDistance : " << dot6LargeDistance << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot6.SmallRadius")) {
+		dot6SmallRadius = value.get();
+		//std::cout << "dot6.SmallRadius : " << dot6SmallRadius << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot6.MiddleRadius")) {
+		dot6MiddleRadius = value.get();
+		//std::cout << "dot6.MiddleRadius : " << dot6MiddleRadius << std::endl;
+    }
+	if (boost::optional<int> value = pt.get_optional<int>("dot6.LargeRadius")) {
+		dot6LargeRadius = value.get();
+		//std::cout << "dot6.LargeRadius : " << dot6LargeRadius << std::endl;
+    }
+
+
+}
+
+/******************
+ *   実行処理関連
+ */
+
+void DiceDetection::run(){
+	
+	
+	std::cout << "点検出" << std::endl;
+	getAllPoints();
+
+	std::cout << "1の目検出" << std::endl;
+	getDot1Points();
+
+	std::cout << "線分検出" << std::endl;
+	getAllLines();
+
+	std::cout << "2の目検出" << std::endl;
+	getDot2Points();
+	
+	std::cout << "3点検出" << std::endl;
+	getAllDot3Points();
+
+	std::cout << "5の目検出" << std::endl;
+	getDot5Points();
+
+	std::cout << "3の目検出" << std::endl;
+	getDot3Points();
+	
+	std::cout << "6の目検出" << std::endl;
+	getDot6Points();
+
+	std::cout << "4の目検出" << std::endl;
+	_getDot4Points();
+
+	std::cout << "余り点検出" << std::endl;
+	getOddPoints();
+
+	std::cout << "中心点検出" << std::endl;
+	getAllDotCenters();
+
+	// 描写
+	Image draw;
+	draw.clone(src);
+
+	// 余り点の描写
+	drawTruePoints(draw,cv::Scalar(255,0,0));
+	drawTypePoints(draw,DiceInfo::none,cv::Scalar(0,0,255));
+	cv::namedWindow("OddPoints",0);
+	draw.imshow("OddPoints");
+	draw.clone(src);
+
+	// 目の種類ごとの描写
+	drawDot1Points(draw,cv::Scalar(255,255,255));
+	drawDot2Points(draw,cv::Scalar(0,0,255),cv::Scalar(0,0,255));
+	drawDot2Center(draw,cv::Scalar(255,0,0));
+	drawDot3Points(draw,cv::Scalar(0,255,0),cv::Scalar(0,0,255));
+	drawDot3Center(draw,cv::Scalar(255,0,0));
+	drawDot4Points(draw,cv::Scalar(255,255,0),cv::Scalar(0,0,255));
+	drawDot4Center(draw,cv::Scalar(255,0,0));
+	drawDot5Points(draw,cv::Scalar(255,0,255),cv::Scalar(0,0,255));
+	drawDot5Center(draw,cv::Scalar(255,0,0));
+	drawDot6Points(draw,cv::Scalar(0,255,255),cv::Scalar(0,0,255));
+	drawDot6Center(draw,cv::Scalar(255,0,0));
+	cv::namedWindow("AllDots",0);
+	draw.imshow("AllDots");
+	draw.clone(src);
+
+	// サイコロサイズごとの描写
+	drawTypePoints(draw,DiceInfo::none,cv::Scalar(255,0,0));
+	drawTypePoints(draw,DiceInfo::small,cv::Scalar(0,0,255));
+	drawTypePoints(draw,DiceInfo::middle,cv::Scalar(0,255,0));
+	drawTypePoints(draw,DiceInfo::large,cv::Scalar(255,255,255));
+	cv::namedWindow("Types",0);
+	draw.imshow("Types");
+	draw.clone(src);
+
+	cv::waitKey(0);
+}
+
+
+
+
 
 
 }

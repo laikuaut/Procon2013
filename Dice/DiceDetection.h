@@ -11,6 +11,11 @@
 
 #include"Procon2013\ImageProcessing\LabelingCenter.h"
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+#include <boost/optional.hpp>
+using namespace boost::property_tree;
+
 namespace pro{
 
 // サイコロ判定クラス
@@ -19,89 +24,178 @@ class DiceDetection
 private:
 
 	/***************
-	 *   定数定義
+	 *   パラメータデフォルト定数定義
 	 */
 
 	// サイコロのサイズ判別に使用する定数群
-	static const int dotSmallMinSize = 30;
-	static const int dotSmallMaxSize = 99;
-	static const int dotMiddleMinSize = 100;
-	static const int dotMiddleMaxSize = 280;
-	static const int dotLargeMinSize = 281;
-	static const int dotLargeMaxSize = 600;
-	static const int dotNoneMinSize = 601;
-	static const int dotNoneMaxSize = 2000;
-	static const int dot1MinSize = 200;
-	static const int dot1MaxSize = 2000;
+	static const int default_dotSmallMinSize	= 30;
+	static const int default_dotSmallMaxSize	= 99;
+	static const int default_dotMiddleMinSize	= 100;
+	static const int default_dotMiddleMaxSize	= 280;
+	static const int default_dotLargeMinSize	= 281;
+	static const int default_dotLargeMaxSize	= 600;
+	static const int default_dotNoneMinSize		= 601;
+	static const int default_dotNoneMaxSize		= 2000;
+	static const int default_dot1MinSize		= 200;
+	static const int default_dot1MaxSize		= 2000;
 	// double
-	static const int dotCircleFilterPer = 1;
-	static const int dotCircleFilterRadiusPer = 2;
+	static const int default_dotCircleFilterPer			= 1;
+	static const int default_dotCircleFilterRadiusPer	= 2;
 
 	// 1の目の抽出
 	// double
-	static const int dot1CircleFilterPer = 1;
-	static const int dot1CircleFilterRadiusPer = 3;
-
+	static const int default_dot1CircleFilterPer		= 1;
+	static const int default_dot1CircleFilterRadiusPer	= 3;
 	// 大中サイコロの1の目の判別に使用
 	//	-> 隣接するサイコロとの交わり距離
-	static const int dot1LMDetectRadius = 73;
-	static const int dot1LMCorrectRadius = 90;
+	static const int default_dot1LMDetectRadius		= 73;
+	static const int default_dot1LMCorrectRadius	= 90;
 
 	// 大中サイコロに誤判定した中サイコロの点修正のための半径
-	static const int correctMiddleRadius = 30*3;
-	static const int correctLargeRadius = 50*3;
-	static const int correctMiddleMaxSize = 300;
-	static const int correctLargeMinSize = 230;
+	static const int default_correctMiddleRadius	= 30*3;
+	static const int default_correctLargeRadius		= 50*3;
+	static const int default_correctMiddleMaxSize	= 300;
+	static const int default_correctLargeMinSize	= 230;
 
 	// 線分検出半径
-	static const int lineSmallRadius = 40;
-	static const int lineMiddleRadius = 60;
-	static const int lineLargeRadius = 80;
+	static const int default_lineSmallRadius	= 40;
+	static const int default_lineMiddleRadius	= 60;
+	static const int default_lineLargeRadius	= 80;
 
 	// ２の目検出の半径
-	static const int dot2SmallMinDistance = 0;
-	static const int dot2MiddleMinDistance = 0;
-	static const int dot2LargeMinDistance = 0;
-	static const int dot2SmallMaxDistance = 23;
-	static const int dot2MiddleMaxDistance = 40;
-	static const int dot2LargeMaxDistance = 50;
-	static const int dot2SmallDistance = 35;
-	static const int dot2MiddleDistance = 60;
-	static const int dot2LargeDistance = 70;
-	static const int dot2MinAngle = 35;
-	static const int dot2MaxAngle = 55;
+	static const int default_dot2SmallMinDistance	= 0;
+	static const int default_dot2MiddleMinDistance	= 0;
+	static const int default_dot2LargeMinDistance	= 0;
+	static const int default_dot2SmallMaxDistance	= 23;
+	static const int default_dot2MiddleMaxDistance	= 40;
+	static const int default_dot2LargeMaxDistance	= 50;
+	static const int default_dot2SmallDistance		= 35;
+	static const int default_dot2MiddleDistance		= 60;
+	static const int default_dot2LargeDistance		= 70;
+	static const int default_dot2MinAngle			= 35;
+	static const int default_dot2MaxAngle			= 55;
 
 	// ４の目検出
-	static const int dot4SmallMinDistance = 0;
-	static const int dot4MiddleMinDistance = 0;
-	static const int dot4LargeMinDistance = 0;
-	static const int dot4SmallMaxDistance = 20;
-	static const int dot4MiddleMaxDistance = 33;
-	static const int dot4LargeMaxDistance = 45;
-	static const int dot4SmallDistance = 37;
-	static const int dot4MiddleDistance = 60;
-	static const int dot4LargeDistance = 80;
-	//static const int dot4MinAngle = 35;
-	//static const int dot4MaxAngle = 55;
-	static const int dot4CorrectMiddleDistance = 85;
-	static const int dot4CorrectMiddleLoopCount = 5;
+	static const int default_dot4SmallMinDistance	= 0;
+	static const int default_dot4MiddleMinDistance	= 0;
+	static const int default_dot4LargeMinDistance	= 0;
+	static const int default_dot4SmallMaxDistance	= 20;
+	static const int default_dot4MiddleMaxDistance	= 33;
+	static const int default_dot4LargeMaxDistance	= 45;
+	static const int default_dot4SmallDistance		= 37;
+	static const int default_dot4MiddleDistance		= 60;
+	static const int default_dot4LargeDistance		= 80;
+	static const int default_dot4MinAngle			= 35;
+	static const int default_dot4MaxAngle			= 55;
+	static const int default_dot4CorrectMiddleDistance = 85;
+	static const int default_dot4CorrectMiddleLoopCount = 5;
 
 	// 全3点
-	static const int allDot3Angle = 160;
-	static const int allDot3SmallMinDistance = 0;
-	static const int allDot3MiddleMinDistance = 0;
-	static const int allDot3LargeMinDistance = 0;
-	static const int allDot3SmallMaxDistance = 20;
-	static const int allDot3MiddleMaxDistance = 35;
-	static const int allDot3LargeMaxDistance = 50;
+	static const int default_allDot3Angle				= 160;
+	static const int default_allDot3SmallMinDistance	= 0;
+	static const int default_allDot3MiddleMinDistance	= 0;
+	static const int default_allDot3LargeMinDistance	= 0;
+	static const int default_allDot3SmallMaxDistance	= 20;
+	static const int default_allDot3MiddleMaxDistance	= 35;
+	static const int default_allDot3LargeMaxDistance	= 50;
 
 	// 6の目
-	static const int dot6SmallDistance = 20;
-	static const int dot6MiddleDistance = 30;
-	static const int dot6LargeDistance = 50;
-	static const int dot6SmallRasius = 20;
-	static const int dot6MiddleRasius = 37;
-	static const int dot6LargeRasius = 60;
+	static const int default_dot6SmallDistance	= 20;
+	static const int default_dot6MiddleDistance = 30;
+	static const int default_dot6LargeDistance	= 50;
+	static const int default_dot6SmallRadius	= 20;
+	static const int default_dot6MiddleRadius	= 37;
+	static const int default_dot6LargeRadius	= 60;
+
+	// 色
+
+private:
+
+	/***************
+	 *   パラメータ定義
+	 */
+
+	// サイコロのサイズ判別に使用する定数群
+	int dotSmallMinSize;
+	int dotSmallMaxSize;
+	int dotMiddleMinSize;
+	int dotMiddleMaxSize;
+	int dotLargeMinSize;
+	int dotLargeMaxSize;
+	int dotNoneMinSize;
+	int dotNoneMaxSize;
+	int dot1MinSize;
+	int dot1MaxSize;
+	// double
+	double dotCircleFilterPer;
+	double dotCircleFilterRadiusPer;
+
+	// 1の目の抽出
+	// double
+	double dot1CircleFilterPer;
+	double dot1CircleFilterRadiusPer;
+	// 大中サイコロの1の目の判別に使用
+	//	-> 隣接するサイコロとの交わり距離
+	int dot1LMDetectRadius;
+	int dot1LMCorrectRadius;
+
+	// 大中サイコロに誤判定した中サイコロの点修正のための半径
+	int correctMiddleRadius;
+	int correctLargeRadius;
+	int correctMiddleMaxSize;
+	int correctLargeMinSize;
+
+	// 線分検出半径
+	int lineSmallRadius;
+	int lineMiddleRadius;
+	int lineLargeRadius;
+
+	// ２の目検出の半径
+	int dot2SmallMinDistance;
+	int dot2MiddleMinDistance;
+	int dot2LargeMinDistance;
+	int dot2SmallMaxDistance;
+	int dot2MiddleMaxDistance;
+	int dot2LargeMaxDistance;
+	int dot2SmallDistance;
+	int dot2MiddleDistance;
+	int dot2LargeDistance;
+	int dot2MinAngle;
+	int dot2MaxAngle;
+
+	// ４の目検出
+	int dot4SmallMinDistance;
+	int dot4MiddleMinDistance;
+	int dot4LargeMinDistance;
+	int dot4SmallMaxDistance;
+	int dot4MiddleMaxDistance;
+	int dot4LargeMaxDistance;
+	int dot4SmallDistance;
+	int dot4MiddleDistance;
+	int dot4LargeDistance;
+	int dot4MinAngle;
+	int dot4MaxAngle;
+	int dot4CorrectMiddleDistance;
+	int dot4CorrectMiddleLoopCount;
+
+	// 全3点
+	int allDot3Angle;
+	int allDot3SmallMinDistance;
+	int allDot3MiddleMinDistance;
+	int allDot3LargeMinDistance;
+	int allDot3SmallMaxDistance;
+	int allDot3MiddleMaxDistance;
+	int allDot3LargeMaxDistance;
+
+	// 6の目
+	int dot6SmallDistance;
+	int dot6MiddleDistance;
+	int dot6LargeDistance;
+	int dot6SmallRadius;
+	int dot6MiddleRadius;
+	int dot6LargeRadius;
+
+	// 色
 
 protected:
 
@@ -233,6 +327,13 @@ private:
 	std::vector<Dot5Point> dot5Points;
 	std::vector<Dot6Point> dot6Points;
 
+	// 設定ファイル名
+	string iniFileName;
+	// 画像ディレクトリ
+	Dir dir;
+	// 画像ファイル名
+	string name;
+
 public:
 
 
@@ -246,7 +347,7 @@ public:
 	// 初期化
 	//void init(int num,std::vector<cv::Point2f> points,std::vector<int> sizes);
 	//void init(LabelingCenter lc);
-	void init(Image src);
+	void init();
 
 	// 必要要素の取得
 	void getAllPoints();
@@ -263,6 +364,9 @@ public:
 	void getDot3Points();
 	void getDot6Points();
 
+	// 余り点からの検出処理
+	void getOddPoints();
+
 	// 削除処理
 	void eraseDot1Points();
 	void clearAllLines();
@@ -272,6 +376,7 @@ public:
 	void correctPointType();
 	int correctMiddleDot4Points(); //余り点から4の目の抽出ミスを訂正
 	void correctOddMiddleToLarge();
+
 
 	// 描写
 	void drawAllPoints(Image& img,cv::Scalar scal = cv::Scalar::all(0));
@@ -388,30 +493,44 @@ public:
 
 	// 個数取得
 	int getNumAllPoints() const;
-	int getNumTrueAllPoints();
-	int getNumFalseAllPoints();
-	int getNumTypeAllPoints(DiceInfo::dtype type);
-	int getNumKindAllPoints(int kind);
-	int getNumAllLines();
-	int getNumTrueAllLines();
-	int getNumFalseAllLines();
-	int getNumTypeAllLines(DiceInfo::dtype type);
-	int getNumKindAllLines(int kind);
-	int getNumAllDot3Points();
-	int getNumTrueAllDot3Points();
-	int getNumFalseAllDot3Points();
-	int getNumTypeAllDot3Points(DiceInfo::dtype type);
-	int getNumKindAllDot3Points(int kind);
-	int getNumAllDotCenters();
-	int getNumTypeAllDotCenters(DiceInfo::dtype type);
-	int getNumKindAllDotCenters(int kind);
-	int getNumDot1Points(DiceInfo::dtype type = DiceInfo::none);
-	int getNumDot2Points(DiceInfo::dtype type = DiceInfo::none);
-	int getNumDot3Points(DiceInfo::dtype type = DiceInfo::none);
-	int getNumDot4Points(DiceInfo::dtype type = DiceInfo::none);
-	int getNumDot5Points(DiceInfo::dtype type = DiceInfo::none);
-	int getNumDot6Points(DiceInfo::dtype type = DiceInfo::none);
+	int getNumTrueAllPoints() const;
+	int getNumFalseAllPoints() const;
+	int getNumTypeAllPoints(DiceInfo::dtype type) const;
+	int getNumKindAllPoints(int kind) const;
+	int getNumAllLines() const;
+	int getNumTrueAllLines() const;
+	int getNumFalseAllLines() const;
+	int getNumTypeAllLines(DiceInfo::dtype type) const;
+	int getNumKindAllLines(int kind) const;
+	int getNumAllDot3Points() const;
+	int getNumTrueAllDot3Points() const;
+	int getNumFalseAllDot3Points() const;
+	int getNumTypeAllDot3Points(DiceInfo::dtype type) const;
+	int getNumKindAllDot3Points(int kind) const;
+	int getNumAllDotCenters() const;
+	int getNumTypeAllDotCenters(DiceInfo::dtype type) const;
+	int getNumKindAllDotCenters(int kind) const;
+	int getNumDot1Points(DiceInfo::dtype type = DiceInfo::none) const;
+	int getNumDot2Points(DiceInfo::dtype type = DiceInfo::none) const;
+	int getNumDot3Points(DiceInfo::dtype type = DiceInfo::none) const;
+	int getNumDot4Points(DiceInfo::dtype type = DiceInfo::none) const;
+	int getNumDot5Points(DiceInfo::dtype type = DiceInfo::none) const;
+	int getNumDot6Points(DiceInfo::dtype type = DiceInfo::none) const;
 
+	// パラメータ関連
+	void setDefaultParam();
+
+public:
+
+	// 設定ファイル関連
+	void defaultIniFileCreate();
+	void readIniFile();
+
+	// 実行処理関連
+	void run();
+	void testRun();
+	void saveRun();
+	void drawRun();
 };
 
 /**

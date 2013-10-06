@@ -387,7 +387,7 @@ void Camera::autoCapture(long interval,long time){
 	Set();
 
 	createAutoDirectory();
-	createManualDirectory();
+	//createManualDirectory();
 
 	pro::Timer timer;
 	
@@ -434,7 +434,7 @@ void Camera::autoCapture(long interval,long time){
 			}
 			break;
 		case 'c':  // 手動キャプチャ
-			m_capture();
+			//m_capture();
 			break;
 		case 'r':  // リセット
 			timer.reset();
