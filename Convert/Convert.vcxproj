@@ -46,6 +46,7 @@
     <ClCompile Include="OutPaiMatch.cpp" />
     <ClCompile Include="PaiMatch.cpp" />
     <ClCompile Include="PaiDivide.cpp" />
+    <ClCompile Include="Quinary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin.h" />
@@ -60,6 +61,7 @@
     <ClInclude Include="OutPaiMatch.h" />
     <ClInclude Include="PaiMatch.h" />
     <ClInclude Include="PaiDivide.h" />
+    <ClInclude Include="Quinary.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">

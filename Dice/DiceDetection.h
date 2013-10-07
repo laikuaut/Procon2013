@@ -20,7 +20,7 @@ using namespace boost::property_tree;
 namespace pro{
 
 // サイコロ判定クラス
-class DiceDetection : public MouseEvent
+class PRO_EXPORTS DiceDetection : public MouseEvent
 {
 private:
 
@@ -737,19 +737,14 @@ private:
 	Image types,kinds;
 
 	// イベント関連
-	//void onMouseOdd_impl(int event,int x,int y,int flag);
-	//static void onMouseOdd(int event, int x, int y, int flag, void* data);
-
 	void onMouse_impl(int event,int x,int y,int flag);
 	int keyEvent(int key);
 
 	void setMousePointCenter(int x,int y);
-	//void setMousePointDot(int x,int y);
 	void mouseCorrectType();
 	void mouseCorrectKind();
 	void mouseCreateKind();
-
-	
+		
 	// 設定ファイル関連
 	void defaultIniFileCreate();
 	void readIniFile();
@@ -761,7 +756,6 @@ private:
 	void drawRun();
 	void drawMousePoint(Image& src,string winName);
 	void outRun();
-	//void saveRun();
 	
 public:
 

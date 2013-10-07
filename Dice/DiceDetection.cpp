@@ -2978,7 +2978,6 @@ void DiceDetection::run(){
 	// •`Ê‚ÆC³ˆ—	
 	drawRun();
 	
-	int key;
 	while(keyEvent(cv::waitKey(30))){
 		// —]‚è“_‚Ì•`Ê
 		//drawMousePoint(odds,"OddPoint");
