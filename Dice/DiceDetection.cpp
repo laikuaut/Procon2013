@@ -2229,6 +2229,9 @@ int DiceDetection::keyEvent(int key){
 	case 'c':
 		modeFlag = 2;
 		break;
+	case 'o':
+		outEncode();
+		break;
 	case 'q':
 		return 0;
 		break;

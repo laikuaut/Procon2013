@@ -9,6 +9,7 @@
 #include"LineSegment.h"
 #include"Dot3Point.h"
 #include"DiceDetection.h"
+#include"DiceEncode.h"
 
 namespace pro{
 

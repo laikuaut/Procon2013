@@ -322,15 +322,15 @@ void info(cv::Mat& img){
 //	int interval;
 //	int time;
 //
-//	//cout << "ŽŽ‡ŽžŠÔ > " << flush;
-//	//cin >> time;
-//	//cout << "ŠÔŠu > " << flush;
-//	//cin >> interval;
+//	cout << "ŽŽ‡ŽžŠÔ > " << flush;
+//	cin >> time;
+//	cout << "ŠÔŠu > " << flush;
+//	cin >> interval;
 //
 //	try{
 //		Camera camera;
-//		//camera.autoCapture(interval,time);
-//		camera.manualCapture();
+//		camera.autoCapture(interval,time);
+//		//camera.manualCapture();
 //	}catch(const OutOfRangeException<long>& e){
 //		e.showError();
 //	}catch(const OutOfRangeException<int>& e){
@@ -862,13 +862,13 @@ void info(cv::Mat& img){
 /************************
  * DiceDetection Testing02
  */
-int main(){
-	DiceDetection dd;
-	Image img,draw,draw1,bin;
-	
-	dd.init();
-	dd.run();
-}
+//int main(){
+//	DiceDetection dd;
+//	Image img,draw,draw1,bin;
+//	
+//	dd.init();
+//	dd.run();
+//}
 
 /************************
  * hsvColorExtraction Testing
@@ -1049,8 +1049,19 @@ int main(){
 // }
 
 
+/************************
+ * DiceEncode Testing
+ */
+int main(){
+	DiceEncode de;
+	de.init("DiceToEncode2.txt");
 
+	//DiceDraw dd;
 
+	//dd.init(5,true);
+	de.drawing();	
+
+}
 
 
 

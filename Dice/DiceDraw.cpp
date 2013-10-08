@@ -14,11 +14,19 @@ DiceDraw::~DiceDraw(void)
 }
 
 
-void DiceDraw::init(int rate){
-	w = rate * DiceInfo::FRAME_W;
-	h = rate * DiceInfo::FRAME_H;
-	base.init(w,h);
-	base.oneColor(cv::Scalar::all(255));
+void DiceDraw::init(int rate,bool whFlag){
+	if(whFlag){
+		w = rate * DiceInfo::FRAME_H;
+		h = rate * DiceInfo::FRAME_W;
+		base.init(w,h);
+		base.oneColor(cv::Scalar::all(255));
+	
+	}else{
+		w = rate * DiceInfo::FRAME_W;
+		h = rate * DiceInfo::FRAME_H;
+		base.init(w,h);
+		base.oneColor(cv::Scalar::all(255));
+	}
 
 	this->rate = rate;
 
@@ -236,9 +244,9 @@ void DiceDraw::allClear(){
 	base.oneColor(cv::Scalar::all(255));
 }
 
-void DiceDraw::show(){
-	cv::namedWindow("DiceDraw", CV_WINDOW_AUTOSIZE|CV_WINDOW_FREERATIO);
-	base.imshow("DiceDraw");
+void DiceDraw::show(string winName){
+	cv::namedWindow(winName, CV_WINDOW_AUTOSIZE|CV_WINDOW_FREERATIO);
+	base.imshow(winName);
 }
 
 void DiceDraw::keyEvent(){
@@ -414,6 +422,10 @@ void DiceDraw::output(){
 		ofs<<dices[i].kind << " ";
 		ofs<<std::endl;
 	}
+}
+
+int DiceDraw::size() const{
+	return dices.size();
 }
 
 }

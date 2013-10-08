@@ -10,7 +10,7 @@ namespace pro{
 	
 class PRO_EXPORTS DiceDraw : public MouseEvent
 {
-private:
+protected:
 
 	Image dst;
 	Image base;
@@ -26,7 +26,7 @@ private:
 	bool draw_flag;
 	int label;
 
-private:
+protected:
 
 	void onMouse_impl(int event,int x,int y,int flag);
 	
@@ -40,16 +40,19 @@ public:
 	DiceDraw(int rate=5);
 	~DiceDraw(void);
 
-	void init(int rate);
+	// whFlag=true ècíuÇ´ wfFlag=false â°íuÇ´
+	void init(int rate,bool whFlag=false);
 	
 	void drawing();
 	void allClear();
-	void show();
+	void show(string winName = "DiceDraw");
 
 	void addDice(cv::Point pt,int angle,DiceInfo::dtype type,int kind);
 	void addDice(DiceInfo dinfo);
 
 	void output();
+
+	int size() const;
 
 };
 
