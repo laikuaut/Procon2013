@@ -808,7 +808,7 @@ void DiceDetection::getDot1Points(){
 	hue2.hsvColorExtraction(src,120,180,100,100);
 	dst.bitwiseOr(hue1,hue2);
 
-	dst.imshow("hsv");
+	//dst.imshow("hsv");
 
 	// 重心特徴点抽出
 	LabelingCenter lc;
@@ -2231,6 +2231,7 @@ int DiceDetection::keyEvent(int key){
 		break;
 	case 'o':
 		outEncode();
+		std::cout << "Out Put Encode" << std::endl; 
 		break;
 	case 'q':
 		return 0;
@@ -2999,10 +3000,6 @@ void DiceDetection::run(){
 		cv::setMouseCallback("Types", onMouse, this);
 
 	}
-
-	outRun();
-	outEncode();
-
 }
 
 
@@ -3175,12 +3172,12 @@ void DiceDetection::drawRun(){
 	drawTypeDot5Points(kinds,DiceInfo::none,cv::Scalar(0,200,200));
 	drawTypeDot6Points(kinds,DiceInfo::none,cv::Scalar(0,200,200));
 	
-	drawTypeDot1Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
-	drawTypeDot2Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
-	drawTypeDot3Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
-	drawTypeDot4Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
-	drawTypeDot5Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
-	drawTypeDot6Points(kinds,DiceInfo::small,cv::Scalar(0,0,255));
+	drawTypeDot1Points(kinds,DiceInfo::small,cv::Scalar(0,255,255));
+	drawTypeDot2Points(kinds,DiceInfo::small,cv::Scalar(0,255,255));
+	drawTypeDot3Points(kinds,DiceInfo::small,cv::Scalar(0,255,255));
+	drawTypeDot4Points(kinds,DiceInfo::small,cv::Scalar(0,255,255));
+	drawTypeDot5Points(kinds,DiceInfo::small,cv::Scalar(0,255,255));
+	drawTypeDot6Points(kinds,DiceInfo::small,cv::Scalar(0,255,255));
 	
 	drawTypeDot1Points(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
 	drawTypeDot2Points(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
@@ -3278,7 +3275,7 @@ void DiceDetection::outEncode(){
 					}
 					if(!flag) continue;
 					if(allDotCenters.types[i]==DiceInfo::small) dotSize = 50;
-					else if(allDotCenters.types[i]==DiceInfo::middle) dotSize = 500;
+					else if(allDotCenters.types[i]==DiceInfo::middle) dotSize = 1000;
 					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 800;
 					else dotSize = 0;
 					if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
@@ -3289,7 +3286,7 @@ void DiceDetection::outEncode(){
 							for(int y=ymin;y<=ymax;y++){
 								for(int i=0;i<allDotCenters.size();i++){
 									if(now_type!=allDotCenters.types[i]) continue;
-									if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
+									if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize){
 										flag = true;
 										for(int j=0;j<nums.size();j++){
 											if(i==nums[j]) flag=false;
@@ -3301,6 +3298,7 @@ void DiceDetection::outEncode(){
 									}
 								}
 							}
+							ofs<<std::endl;
 						}
 					}
 				}
@@ -3317,7 +3315,7 @@ void DiceDetection::outEncode(){
 					}
 					if(!flag) continue;
 					if(allDotCenters.types[i]==DiceInfo::small) dotSize = 50;
-					else if(allDotCenters.types[i]==DiceInfo::middle) dotSize = 500;
+					else if(allDotCenters.types[i]==DiceInfo::middle) dotSize = 1000;
 					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 800;
 					else dotSize = 0;
 					if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
@@ -3328,7 +3326,7 @@ void DiceDetection::outEncode(){
 							for(int y=ymax;y>=ymin;y--){
 								for(int i=0;i<allDotCenters.size();i++){
 									if(now_type!=allDotCenters.types[i]) continue;
-									if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
+									if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize){
 										flag = true;
 										for(int j=0;j<nums.size();j++){
 											if(i==nums[j]) flag=false;
@@ -3340,6 +3338,7 @@ void DiceDetection::outEncode(){
 									}
 								}
 							}
+							ofs<<std::endl;
 						}
 					}
 				}

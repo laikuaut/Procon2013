@@ -20,7 +20,7 @@ void StringCalc::randomStringOutput(int length,string filename){
 	// 文字列生成
 	char *c_str = new char[length+1];
 	for(int i=0;i<length;i++){
-		c_str[i] = rand()%STRNUM;
+		c_str[i] = rand()%RANDSTRNUM;
 		if(c_str[i]<91-33)
 			c_str[i]+=33;
 		else
@@ -37,5 +37,35 @@ void StringCalc::randomStringOutput(int length,string filename){
 
 	delete[] c_str;
 }
+
+
+int StringCalc::fileStringMatching(string ansfile,string file){
+
+	// マッチング処理
+	int count=0;
+	char *ans_str,*str;
+	std::ifstream ans_ifs,ifs;
+	
+	ans_str = new char[MAXSTRLENGTH+1];
+	str = new char[MAXSTRLENGTH+1];
+
+	ans_ifs.open(ansfile);
+	ifs.open(file);
+
+	ans_ifs.getline(ans_str,MAXSTRLENGTH);
+	ifs.getline(str,MAXSTRLENGTH);
+
+	while(ans_str[count]==str[count]){
+		if(ans_str[count]=='\0') break;
+		count++;
+	}
+
+	ans_ifs.close();
+	ifs.close();
+
+	return count;
+
+}
+
 
 }

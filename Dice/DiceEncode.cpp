@@ -18,11 +18,12 @@ void DiceEncode::init(string name){
 	
 	// DiceDraw.init
 	DiceDraw::init(5,true);	
-
-	while(!ifs.eof()){
-		ifs >> kind;
+	
+	ifs >> kind;
+	do{
 		kinds.push_back(kind);
-	}
+		ifs >> kind;
+	}while(!ifs.eof());
 
 	now = 0;
 	packetNum=1;
@@ -123,15 +124,15 @@ void DiceEncode::createPacketPattern03(int &x,int &y){
 }
 
 void DiceEncode::reCreatePacket(int pat){
+	now-=dices.size()-diceDraws.size()-1;
 	allClear();
-	now-=nowPacketDiceNum();
 	pattern=pat;
 	packetNum--;
 	createPacket();
 }
 
 void DiceEncode::backPacket(){
-	int num=diceDraws[diceDraws.size()-1].size()-diceDraws.size();
+	int num=diceDraws[diceDraws.size()-1].size()-diceDraws.size()-1;
 	now-=num;
 	diceDraws.pop_back();
 	if(watch_num!=0&&watch_num==diceDraws.size())

@@ -21,7 +21,8 @@ public:
 	Dice(void);
 	~Dice(void);
 
-	static PRO_EXPORTS void disPlay();
+	static int diceKindMatching(string ans,string src);
+
 };
 
 }

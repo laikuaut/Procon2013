@@ -1052,15 +1052,96 @@ void info(cv::Mat& img){
 /************************
  * DiceEncode Testing
  */
+//int main(){
+//	string name;
+//	Dir dir = Dir();
+//	ptree pt;
+//	if(!dir.isExist("DiceEncode.ini")){
+//		cout << "DiceEncode.iniを作成します。" << endl;
+//		pt.put("File.name","");
+//		write_ini("DiceEncode.ini",pt);
+//		exit(EXIT_SUCCESS);
+//	}
+//	
+//	read_ini("DiceEncode.ini",pt);
+//	if (boost::optional<string> value = pt.get_optional<string>("File.name")) {
+//		name = value.get();
+//	}
+//
+//	DiceEncode de;
+//	de.init(name);
+//
+//	de.drawing();	
+//
+//}
+
+/************************
+ * FileStringMatching Testing
+ */
+//int main(){
+//
+//	string ans,src;
+//	Dir dir = Dir();
+//	ptree pt;
+//	if(!dir.isExist("StringMatching.ini")){
+//		cout << "StringMatching.iniを作成します。" << endl;
+//		pt.put("File.ans","");
+//		pt.put("File.src","");
+//		write_ini("StringMatching.ini",pt);
+//		exit(EXIT_SUCCESS);
+//	}
+//
+//	read_ini("StringMatching.ini",pt);
+//	if (boost::optional<string> value = pt.get_optional<string>("File.ans")) {
+//		ans = value.get();
+//	}
+//	if (boost::optional<string> value = pt.get_optional<string>("File.src")) {
+//		src = value.get();
+//	}
+//
+//	if(!dir.isExist(ans)){
+//		cout << ans << "がありません。" <<endl;
+//	}
+//	else if(!dir.isExist(src)){
+//		cout << src << "がありません。" <<endl;
+//	}else{
+//		cout << StringCalc::fileStringMatching(ans,src) << endl;
+//	}
+//}
+//
+
+/************************
+ * DiceKindMatching Testing
+ */
 int main(){
-	DiceEncode de;
-	de.init("DiceToEncode2.txt");
 
-	//DiceDraw dd;
+	string ans,src;
+	Dir dir = Dir();
+	ptree pt;
+	if(!dir.isExist("DiceKindMatching.ini")){
+		cout << "DiceKindMatching.iniを作成します。" << endl;
+		pt.put("File.ans","");
+		pt.put("File.src","");
+		write_ini("DiceKindMatching.ini",pt);
+		exit(EXIT_SUCCESS);
+	}
 
-	//dd.init(5,true);
-	de.drawing();	
+	read_ini("DiceKindMatching.ini",pt);
+	if (boost::optional<string> value = pt.get_optional<string>("File.ans")) {
+		ans = value.get();
+	}
+	if (boost::optional<string> value = pt.get_optional<string>("File.src")) {
+		src = value.get();
+	}
 
+	if(!dir.isExist(ans)){
+		cout << ans << "がありません。" <<endl;
+	}
+	else if(!dir.isExist(src)){
+		cout << src << "がありません。" <<endl;
+	}else{
+		cout << Dice::diceKindMatching(ans,src) << endl;
+	}
 }
 
 
