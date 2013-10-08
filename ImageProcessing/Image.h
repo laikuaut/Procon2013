@@ -68,6 +68,8 @@ public:
 
 	void imshow(string windowName);
 
+	cv::Size size();
+
 	operator cv::Mat &(); 
 	operator const unsigned char* ();
 	operator unsigned char* ();

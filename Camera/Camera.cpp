@@ -82,7 +82,7 @@ void Camera::initCap(f_kind aFk,
 	setAutoCaptureFileName("aCap");
 	setManualCaptureFileName("mCap");
 
-	w_name = "Capture";
+	w_name = "Capture001";
 
 	a_dir = Dir("Auto_Cap",false);
 	m_dir = Dir("Manual_Cap",false);

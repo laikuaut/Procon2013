@@ -37,7 +37,7 @@ private:
 	static const int default_dotLargeMaxSize	= 600;
 	static const int default_dotNoneMinSize		= 601;
 	static const int default_dotNoneMaxSize		= 2000;
-	static const int default_dot1MinSize		= 200;
+	static const int default_dot1MinSize		= 100;
 	static const int default_dot1MaxSize		= 2000;
 	// double
 	static const int default_dotCircleFilterPer			= 1;
@@ -756,6 +756,7 @@ private:
 	void drawRun();
 	void drawMousePoint(Image& src,string winName);
 	void outRun();
+	void outEncode();
 	
 public:
 

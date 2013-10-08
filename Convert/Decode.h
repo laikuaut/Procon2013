@@ -4,11 +4,14 @@
 
 namespace pro{
 
+// ƒTƒCƒRƒ->•¶Žš—ñ
+
 class Decode
 {
 public:
 	Decode(void);
 	~Decode(void);
+
 };
 
 }

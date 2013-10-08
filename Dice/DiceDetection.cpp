@@ -808,6 +808,8 @@ void DiceDetection::getDot1Points(){
 	hue2.hsvColorExtraction(src,120,180,100,100);
 	dst.bitwiseOr(hue1,hue2);
 
+	dst.imshow("hsv");
+
 	// 重心特徴点抽出
 	LabelingCenter lc;
 	lc.init(dst);
@@ -2163,6 +2165,7 @@ void DiceDetection::onMouse_impl(int event,int x,int y,int flag){
 	switch(event) {
 	case cv::EVENT_MOUSEMOVE:
 		setMousePointCenter(x,y);
+		//std::cout<<x<<","<<y<<std::endl;
 		break;
 	case cv::EVENT_LBUTTONDOWN:
 		switch (modeFlag)
@@ -2995,6 +2998,7 @@ void DiceDetection::run(){
 	}
 
 	outRun();
+	outEncode();
 
 }
 
@@ -3026,11 +3030,19 @@ void DiceDetection::testRun(){
 	getAllPoints();
 	std::cout << (double)timer.getDiff()/Timer::PER_SEC << std::endl;
 	timer.lap();
+
+	drawAllPoints(alldot,cv::Scalar(0,255,0));
+	alldot.imshow("alldot");
 	
 	std::cout << "1の目検出 : " << std::flush;
 	getDot1Points();
 	std::cout << (double)timer.getDiff()/Timer::PER_SEC << std::endl;
 	timer.lap();
+	
+	alldot.clone(src);
+	drawDot1Points(alldot,cv::Scalar(0,255,0));
+	alldot.imshow("all1dot");
+
 
 	std::cout << "サイズ修正 : " << std::flush;
 	correctPointType();
@@ -3086,39 +3098,6 @@ void DiceDetection::testRun(){
 	// 描写
 	Image draw;
 	draw.clone(src);
-
-	// 余り点の描写
-	drawTruePoints(draw,cv::Scalar(255,0,0));
-	drawTypePoints(draw,DiceInfo::none,cv::Scalar(0,0,255));
-	draw.imshow("OddPoints");
-	draw.clone(src);
-
-	// 目の種類ごとの描写
-	drawDot1Points(draw,cv::Scalar(255,255,255));
-	drawDot2Points(draw,cv::Scalar(0,0,255),cv::Scalar(0,0,255));
-	drawDot2Center(draw,cv::Scalar(255,0,0));
-	drawDot3Points(draw,cv::Scalar(0,255,0),cv::Scalar(0,0,255));
-	drawDot3Center(draw,cv::Scalar(255,0,0));
-	drawDot4Points(draw,cv::Scalar(255,255,0),cv::Scalar(0,0,255));
-	drawDot4Center(draw,cv::Scalar(255,0,0));
-	drawDot5Points(draw,cv::Scalar(255,0,255),cv::Scalar(0,0,255));
-	drawDot5Center(draw,cv::Scalar(255,0,0));
-	drawDot6Points(draw,cv::Scalar(0,255,255),cv::Scalar(0,0,255));
-	drawDot6Center(draw,cv::Scalar(255,0,0));
-	draw.imshow("AllDots");
-	draw.clone(src);
-
-	// サイコロサイズごとの描写
-	drawTypePoints(draw,DiceInfo::none,cv::Scalar(255,0,0));
-	drawTypePoints(draw,DiceInfo::small,cv::Scalar(0,0,255));
-	drawTypePoints(draw,DiceInfo::middle,cv::Scalar(0,255,0));
-	drawTypePoints(draw,DiceInfo::large,cv::Scalar(255,255,255));
-	draw.imshow("Types");
-	draw.clone(src);
-
-	cv::waitKey(0);
-
-	eraseTypeDot2Points(DiceInfo::large);
 
 	// 余り点の描写
 	drawTruePoints(draw,cv::Scalar(255,0,0));
@@ -3242,9 +3221,132 @@ void DiceDetection::outRun(){
 			<< allDotCenters.kinds[i] << " "
 			<< std::endl;
 	}
+	ofs.close();
 }
 
+void DiceDetection::outEncode(){
+	cv::Size size = src.size();
+	int dotSize;
+	DotPoint leftUpDot;
+	DiceInfo::dtype leftUpType;
+	DiceInfo::dtype now_type;
+	bool flag = false;
+	vector<int> nums;
+	std::ofstream ofs;
+	ofs.open("DiceToEncode.txt");
 
+	// 検索開始枠を決める
+	int xmin=size.width,xmax=0,ymin=size.height,ymax=0;
+	for(int i=0;i<allDotCenters.size();i++){
+		if(allDotCenters.centers[i].pt.x < xmin) xmin = allDotCenters.centers[i].pt.x;
+		if(allDotCenters.centers[i].pt.x > xmax) xmax = allDotCenters.centers[i].pt.x;
+		if(allDotCenters.centers[i].pt.y < ymin) ymin = allDotCenters.centers[i].pt.y;
+		if(allDotCenters.centers[i].pt.y > ymax) ymax = allDotCenters.centers[i].pt.y;
+	}
+	
+	// 左上の最初の点を検出
+	for(int x=xmin;x<=xmax;x++){
+		for(int y=ymin;y<=ymax;y++){
+			for(int i=0;i<allDotCenters.size();i++){
+				if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<allDotCenters.centers[i].size/CV_PI){
+					leftUpDot.init(allDotCenters[i],allDotCenters.centers.size());
+					leftUpType = allDotCenters.types[i];
+					flag = true;
+				}
+				if(flag) break;
+			}
+			if(flag) break;
+		}
+		if(flag) break;
+	}
+
+	// 小サイコロの1の目の数を取得
+	ofs << getNumDot1Points(DiceInfo::small) << std::endl;
+	
+	// 他の点を順番に並べる
+	if(leftUpType == DiceInfo::small){
+		// 右上から
+		for(int x=xmax;x>=xmin;x--){
+			for(int y=ymin;y<=ymax;y++){
+				for(int i=0;i<allDotCenters.size();i++){
+					flag = true;
+					for(int j=0;j<nums.size();j++){
+						if(i==nums[j]) flag=false;
+					}
+					if(!flag) continue;
+					if(allDotCenters.types[i]==DiceInfo::small) dotSize = 50;
+					else if(allDotCenters.types[i]==DiceInfo::middle) dotSize = 500;
+					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 800;
+					else dotSize = 0;
+					if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
+						if(allDotCenters.types[i] != DiceInfo::small &&
+							allDotCenters.types[i] != DiceInfo::none){
+							x=allDotCenters.centers[i].pt.x;
+							now_type = allDotCenters.types[i];
+							for(int y=ymin;y<=ymax;y++){
+								for(int i=0;i<allDotCenters.size();i++){
+									if(now_type!=allDotCenters.types[i]) continue;
+									if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
+										flag = true;
+										for(int j=0;j<nums.size();j++){
+											if(i==nums[j]) flag=false;
+										}
+										if(!flag) continue;
+										ofs << allDotCenters.kinds[i] << " " << std::flush;
+										//std::cout << x << "," << y << "," << allDotCenters.kinds[i] <<"," << allDotCenters.types[i] << std::endl;
+										nums.push_back(i);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}else{
+		// 左下から
+		for(int x=xmin;x<=xmax;x++){
+			for(int y=ymax;y>=ymin;y--){
+				for(int i=0;i<allDotCenters.size();i++){
+					flag = true;
+					for(int j=0;j<nums.size();j++){
+						if(i==nums[j]) flag=false;
+					}
+					if(!flag) continue;
+					if(allDotCenters.types[i]==DiceInfo::small) dotSize = 50;
+					else if(allDotCenters.types[i]==DiceInfo::middle) dotSize = 500;
+					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 800;
+					else dotSize = 0;
+					if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
+						if(allDotCenters.types[i] != DiceInfo::small &&
+							allDotCenters.types[i] != DiceInfo::none){
+							x=allDotCenters.centers[i].pt.x;
+							now_type = allDotCenters.types[i];
+							for(int y=ymax;y>=ymin;y--){
+								for(int i=0;i<allDotCenters.size();i++){
+									if(now_type!=allDotCenters.types[i]) continue;
+									if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
+										flag = true;
+										for(int j=0;j<nums.size();j++){
+											if(i==nums[j]) flag=false;
+										}
+										if(!flag) continue;
+										ofs << allDotCenters.kinds[i] << " " << std::flush;
+										//std::cout << x << "," << y << "," << allDotCenters.kinds[i] <<"," << allDotCenters.types[i] << std::endl;
+										nums.push_back(i);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	ofs.close();
+
+}
 
 
 }

@@ -182,6 +182,10 @@ void Image::imshow(string windowName){
 	cv::imshow(windowName,img);
 }
 
+cv::Size Image::size(){
+	return cv::Size(w,h);
+}
+
 Image::operator cv::Mat &(){
 	return img;
 }

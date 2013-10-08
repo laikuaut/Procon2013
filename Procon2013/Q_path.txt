@@ -1,0 +1,1 @@
+Resource\RandomString20\randStr20.txt

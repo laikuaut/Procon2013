@@ -4,6 +4,8 @@
 
 namespace pro{
 	
+// ï∂éöóÒ->ÉTÉCÉRÉç
+
 class Encode
 {
 public:

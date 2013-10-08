@@ -11,3 +11,4 @@
 #include"OutPaiMatch.h"
 #include"InPaiMatch.h"
 #include"CharArrayNumeric.h"
+#include"Quinary.h"

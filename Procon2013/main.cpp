@@ -322,15 +322,15 @@ void info(cv::Mat& img){
 //	int interval;
 //	int time;
 //
-//	cout << "ŽŽ‡ŽžŠÔ > " << flush;
-//	cin >> time;
-//	cout << "ŠÔŠu > " << flush;
-//	cin >> interval;
+//	//cout << "ŽŽ‡ŽžŠÔ > " << flush;
+//	//cin >> time;
+//	//cout << "ŠÔŠu > " << flush;
+//	//cin >> interval;
 //
 //	try{
 //		Camera camera;
-//		camera.autoCapture(interval,time);
-//		//camera.manualCapture();
+//		//camera.autoCapture(interval,time);
+//		camera.manualCapture();
 //	}catch(const OutOfRangeException<long>& e){
 //		e.showError();
 //	}catch(const OutOfRangeException<int>& e){
@@ -513,17 +513,17 @@ void info(cv::Mat& img){
 /************************
  * DiceDraw Testing
  */
-int main(){
-	DiceDraw dd(5);
-	//for(int i=0;i<9;i++){
-	//	for(int j=0;j<6;j++){
-	//		dd.addDice(cv::Point(DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*i,DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*j),i*90,DiceInfo::large,j+1);
-	//	}
-	//}
-
-	dd.drawing();
-	dd.output();
-}
+//int main(){
+//	DiceDraw dd(5);
+//	//for(int i=0;i<9;i++){
+//	//	for(int j=0;j<6;j++){
+//	//		dd.addDice(cv::Point(DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*i,DiceInfo::DICE_L/2+1 + (1+DiceInfo::DICE_L)*j),i*90,DiceInfo::large,j+1);
+//	//	}
+//	//}
+//
+//	dd.drawing();
+//	dd.output();
+//}
 
 /************************
  * Image Binaly Testing
@@ -862,14 +862,13 @@ int main(){
 /************************
  * DiceDetection Testing02
  */
-//int main(){
-//	// éŒ¾
-//	DiceDetection dd;
-//	Image img,draw,draw1,bin;
-//	
-//	dd.init();
-//	dd.run();
-//}
+int main(){
+	DiceDetection dd;
+	Image img,draw,draw1,bin;
+	
+	dd.init();
+	dd.run();
+}
 
 /************************
  * hsvColorExtraction Testing
@@ -918,9 +917,9 @@ int main(){
 //	drd.run();
 //}
 
-/************************
- * RandomStringOutput Testing
- */
+///************************
+// * RandomStringOutput Testing
+// */
 //int main(){
 //
 //	int mode;
@@ -1012,3 +1011,47 @@ int main(){
 //	}
 //
 //}
+
+
+/************************
+ * Quinary Testing
+ */
+//int main(){
+//
+//	const int N = 4001;
+//
+//	char* path = new char[N];
+//	char* qqq = new char[N];
+//
+//	ifstream ifs_ini,ifs;
+//	ifs_ini.open("Q_path.txt");
+//	ifs_ini.getline(path,N);
+//
+//	ifs.open(path);
+//	ifs.getline(qqq,N);
+//
+//	int count=0;
+//	while(qqq[count++]!='\0');
+//
+//	for(int i=0;i<count;i++){
+//		Quinary q;
+//		q.init(qqq[i]);
+//		q.display();
+//	}
+//
+//	//for(int i=0;i<125;i++){
+//	//	Quinary q;
+//	//	q.init(i);
+//	//	//cout << i << " : " << flush;
+//	//	cout << q.getDec() << " : " << flush;
+//	//	q.display();
+//	//}
+// }
+
+
+
+
+
+
+
+
