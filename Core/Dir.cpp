@@ -76,6 +76,34 @@ const std::string Dir::getDrive() const{
 	return path.root_name().string();
 }
 
+const vector<string> Dir::getIntoPaths() const{
+	vector<string> names;
+	// カレントディレクトリのファイル一覧してみよう
+	fs::directory_iterator end;
+	for( fs::directory_iterator it(path); it!=end; ++it )
+	{
+		names.push_back(it->path().string());
+		//if( fs::is_directory(*it) )
+		//	cout << "D ";
+		//else
+		//	cout << "F ";
+		//// leaf() パス情報を切って、ファイルの名前部分のみ取り出し
+		//cout << it->leaf() << endl;
+	}
+	return names;
+}
+
+const string Dir::getExtention(const string path){
+	fs::path p(path);
+	return p.extension().string();
+}
+
+const string Dir::getFileName(const string path){
+	fs::path p(path);
+	return p.filename().string();
+}
+
+
 bool Dir::create(int flag){
 	try{
 		if(fs::exists(path)){

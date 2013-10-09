@@ -4,7 +4,9 @@
 #include"Procon2013/Exception/Exceptions.h"
 
 #include<string>
-#include<boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 // ディレクトリにあってはいけない文字を探索する正規表現
 #define DIR_REGEX_STR "[:*?\"<>|]"
@@ -64,6 +66,10 @@ public:
 	
 	const std::string getFilename() const;
 	const std::string getDrive() const;
+	const vector<string> getIntoPaths() const;
+	
+	static const string getExtention(const string path);
+	static const string getFileName(const string path);
 
 	void cd(const boost::filesystem::path& path);
 	void cd(const boost::filesystem::path& path,const DirException& e);

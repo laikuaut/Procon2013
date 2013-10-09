@@ -248,6 +248,18 @@ void info(cv::Mat& img){
 
 //}
 
+/************************
+ * Dir.getIntoFileNames Testring
+ */
+//int main(){
+//	Dir dir = Dir();
+//	vector<string> names = dir.getIntoPaths();
+//	for(int i=0;i<names.size();i++){
+//		if(Dir::getExtention(names[i])==".jpg"){
+//			cout << Dir::getFileName(names[i]) << endl;
+//		}
+//	}
+//}
 
 
 /************************
@@ -317,34 +329,34 @@ void info(cv::Mat& img){
  * Cam Testing
  */
 
-//int main(int argc, char* argv[]){
-//
-//	int interval;
-//	int time;
-//
-//	cout << "試合時間 > " << flush;
-//	cin >> time;
-//	cout << "間隔 > " << flush;
-//	cin >> interval;
-//
-//	try{
-//		Camera camera;
-//		camera.autoCapture(interval,time);
-//		//camera.manualCapture();
-//	}catch(const OutOfRangeException<long>& e){
-//		e.showError();
-//	}catch(const OutOfRangeException<int>& e){
-//		e.showError();
-//	}catch(const DirException& e){
-//		e.showError();
-//	}catch(const boost::filesystem::filesystem_error& e){
-//		cout << e.what() <<endl;
-//	}catch(const CameraException& e){
-//		e.showError();
-//	}
-//
-//	return 0;
-//}
+int main(int argc, char* argv[]){
+
+	int interval;
+	int time;
+
+	cout << "試合時間 > " << flush;
+	cin >> time;
+	cout << "間隔 > " << flush;
+	cin >> interval;
+
+	try{
+		Camera camera;
+		camera.autoCapture(interval,time);
+		//camera.manualCapture();
+	}catch(const OutOfRangeException<long>& e){
+		e.showError();
+	}catch(const OutOfRangeException<int>& e){
+		e.showError();
+	}catch(const DirException& e){
+		e.showError();
+	}catch(const boost::filesystem::filesystem_error& e){
+		cout << e.what() <<endl;
+	}catch(const CameraException& e){
+		e.showError();
+	}
+
+	return 0;
+}
 
 /************************
  * Label Testing
@@ -1113,37 +1125,36 @@ void info(cv::Mat& img){
 /************************
  * DiceKindMatching Testing
  */
-int main(){
-
-	string ans,src;
-	Dir dir = Dir();
-	ptree pt;
-	if(!dir.isExist("DiceKindMatching.ini")){
-		cout << "DiceKindMatching.iniを作成します。" << endl;
-		pt.put("File.ans","");
-		pt.put("File.src","");
-		write_ini("DiceKindMatching.ini",pt);
-		exit(EXIT_SUCCESS);
-	}
-
-	read_ini("DiceKindMatching.ini",pt);
-	if (boost::optional<string> value = pt.get_optional<string>("File.ans")) {
-		ans = value.get();
-	}
-	if (boost::optional<string> value = pt.get_optional<string>("File.src")) {
-		src = value.get();
-	}
-
-	if(!dir.isExist(ans)){
-		cout << ans << "がありません。" <<endl;
-	}
-	else if(!dir.isExist(src)){
-		cout << src << "がありません。" <<endl;
-	}else{
-		cout << Dice::diceKindMatching(ans,src) << endl;
-	}
-}
-
+//int main(){
+//
+//	string ans,src;
+//	Dir dir = Dir();
+//	ptree pt;
+//	if(!dir.isExist("DiceKindMatching.ini")){
+//		cout << "DiceKindMatching.iniを作成します。" << endl;
+//		pt.put("File.ans","");
+//		pt.put("File.src","");
+//		write_ini("DiceKindMatching.ini",pt);
+//		exit(EXIT_SUCCESS);
+//	}
+//
+//	read_ini("DiceKindMatching.ini",pt);
+//	if (boost::optional<string> value = pt.get_optional<string>("File.ans")) {
+//		ans = value.get();
+//	}
+//	if (boost::optional<string> value = pt.get_optional<string>("File.src")) {
+//		src = value.get();
+//	}
+//
+//	if(!dir.isExist(ans)){
+//		cout << ans << "がありません。" <<endl;
+//	}
+//	else if(!dir.isExist(src)){
+//		cout << src << "がありません。" <<endl;
+//	}else{
+//		cout << Dice::diceKindMatching(ans,src) << endl;
+//	}
+//}
 
 
 
