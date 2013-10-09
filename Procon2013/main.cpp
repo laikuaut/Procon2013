@@ -329,34 +329,34 @@ void info(cv::Mat& img){
  * Cam Testing
  */
 
-int main(int argc, char* argv[]){
-
-	int interval;
-	int time;
-
-	cout << "ŽŽ‡ŽžŠÔ > " << flush;
-	cin >> time;
-	cout << "ŠÔŠu > " << flush;
-	cin >> interval;
-
-	try{
-		Camera camera;
-		camera.autoCapture(interval,time);
-		//camera.manualCapture();
-	}catch(const OutOfRangeException<long>& e){
-		e.showError();
-	}catch(const OutOfRangeException<int>& e){
-		e.showError();
-	}catch(const DirException& e){
-		e.showError();
-	}catch(const boost::filesystem::filesystem_error& e){
-		cout << e.what() <<endl;
-	}catch(const CameraException& e){
-		e.showError();
-	}
-
-	return 0;
-}
+//int main(int argc, char* argv[]){
+//
+//	int interval;
+//	int time;
+//
+//	cout << "ŽŽ‡ŽžŠÔ > " << flush;
+//	cin >> time;
+//	cout << "ŠÔŠu > " << flush;
+//	cin >> interval;
+//
+//	try{
+//		Camera camera;
+//		camera.autoCapture(interval,time);
+//		//camera.manualCapture();
+//	}catch(const OutOfRangeException<long>& e){
+//		e.showError();
+//	}catch(const OutOfRangeException<int>& e){
+//		e.showError();
+//	}catch(const DirException& e){
+//		e.showError();
+//	}catch(const boost::filesystem::filesystem_error& e){
+//		cout << e.what() <<endl;
+//	}catch(const CameraException& e){
+//		e.showError();
+//	}
+//
+//	return 0;
+//}
 
 /************************
  * Label Testing
@@ -879,7 +879,7 @@ int main(int argc, char* argv[]){
 //	Image img,draw,draw1,bin;
 //	
 //	dd.init();
-//	dd.run();
+//	dd.drawing();
 //}
 
 /************************
@@ -1156,5 +1156,12 @@ int main(int argc, char* argv[]){
 //	}
 //}
 
-
+/************************
+ * DiceDecode Testing
+ */
+int main(){
+	DiceDecode dd;
+	dd.init();
+	dd.drawing();
+}
 

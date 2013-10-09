@@ -757,6 +757,9 @@ private:
 	void drawMousePoint(Image& src,string winName);
 	void outRun();
 	void outEncode();
+
+	// 実行処理関連
+	void run();
 	
 public:
 
@@ -765,9 +768,23 @@ public:
 
 	// 初期化
 	void init();
+	void init(Dir dir,string name);
 
-	// 実行処理関連
-	void run();
+	// 描写操作処理
+	void drawing();
+	void draw();
+
+	// 外部からのキー操作
+	void setMode(int key);
+
+	// 外部へパケット数を渡す
+	int getPacket() const;
+	// 外部へ現在のモードを渡す
+	int getMode() const;
+	// 外部へ現在のモードのサイコロの目を渡す
+	int getModeKind() const;
+	// 外部へ現在のモードのサイコロの種類を渡す
+	int getModeType() const;
 
 	// テスト用
 	void testRun();

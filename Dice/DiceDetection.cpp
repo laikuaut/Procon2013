@@ -23,8 +23,27 @@ void DiceDetection::init(){
 
 	// イベント系
 	mode.init(cv::Point(0,0),0,DiceInfo::middle,1);
-	modeFlag = 0;
+	modeFlag = 2;
 	centerNum = -1;
+
+	run();
+
+}
+
+void DiceDetection::init(Dir dir,string name){
+	this->iniFileName = "DiceDetection.ini";
+	readIniFile();
+	src.path = dir;
+	src.load(name);
+	src.resize(src,cv::Size(1920,1080));
+
+	// イベント系
+	mode.init(cv::Point(0,0),0,DiceInfo::middle,1);
+	modeFlag = 2;
+	centerNum = -1;
+
+	run();
+
 }
 
 /******************
@@ -2182,6 +2201,13 @@ void DiceDetection::onMouse_impl(int event,int x,int y,int flag){
 		default:
 			break;
 		}
+		break;
+	case cv::EVENT_RBUTTONDOWN:
+		int kind = mode.kind;
+		mode.kind=0;
+		mouseCorrectKind();
+		mode.kind = kind;
+		break;
 	}
 }
 
@@ -2387,7 +2413,12 @@ void DiceDetection::mouseCorrectKind(){
 }
 
 void DiceDetection::mouseCreateKind(){
-	if(centerNum != -1) return;
+	if(centerNum != -1){
+		int kind = mode.kind;
+		mode.kind=0;
+		mouseCorrectKind();
+		mode.kind=kind;
+	}
 
 	DotPoint center;
 	center.init(cv::Point2f(x,y),0);
@@ -2984,6 +3015,10 @@ void DiceDetection::run(){
 
 	// 描写と修正処理	
 	drawRun();
+
+}
+
+void DiceDetection::drawing(){
 	
 	while(keyEvent(cv::waitKey(30))){
 		// 余り点の描写
@@ -3002,6 +3037,40 @@ void DiceDetection::run(){
 	}
 }
 
+void DiceDetection::draw(){
+	// 
+	drawMousePoint(src,"src");
+
+	// 目の種類ごとの描写
+	drawMousePoint(types,"AllDots");
+
+	// サイコロサイズごとの描写
+	drawMousePoint(kinds,"Types");
+		
+	cv::setMouseCallback("src", onMouse, this);
+	cv::setMouseCallback("AllDots", onMouse, this);
+	cv::setMouseCallback("Types", onMouse, this);
+}
+
+void DiceDetection::setMode(int key){
+	keyEvent(key);
+}
+
+int DiceDetection::getPacket() const{
+	return getNumDot1Points(DiceInfo::small);
+}
+
+int DiceDetection::getMode() const{
+	return modeFlag;
+}
+
+int DiceDetection::getModeKind() const{
+	return mode.kind;
+}
+
+int DiceDetection::getModeType() const{
+	return mode.type;
+}
 
 void DiceDetection::testRun(){
 	
@@ -3232,8 +3301,15 @@ void DiceDetection::outEncode(){
 	DiceInfo::dtype now_type;
 	bool flag = false;
 	vector<int> nums;
+
+	// ファイル名の決定パケット番号付与
+	// 小サイコロの1の目の数を取得
+	int packetNum = getNumDot1Points(DiceInfo::small);
 	std::ofstream ofs;
-	ofs.open("DiceToEncode.txt");
+	std::stringstream ss;
+	ss << "DiceToEncode_" << packetNum << ".txt";
+	ofs.open(ss.str());
+
 
 	// 検索開始枠を決める
 	int xmin=size.width,xmax=0,ymin=size.height,ymax=0;
@@ -3260,8 +3336,7 @@ void DiceDetection::outEncode(){
 		if(flag) break;
 	}
 
-	// 小サイコロの1の目の数を取得
-	ofs << getNumDot1Points(DiceInfo::small) << std::endl;
+	
 	
 	// 他の点を順番に並べる
 	if(leftUpType == DiceInfo::small){
