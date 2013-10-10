@@ -222,6 +222,8 @@ protected:
 		int size() const;
 		void setKind(int kind,int number);
 
+		void clear();
+
 		DotPoint operator[](int i) const;
 
 	};
@@ -268,6 +270,8 @@ protected:
 
 		void add(Dot3Point dot3,short flag,DiceInfo::dtype type,int kind,int dotNum1,int dotNum2,int dotNum3);
 		int size() const;
+
+		void clear();
 
 		Dot3Point operator[](int i);
 
@@ -566,7 +570,10 @@ private:
 	void eraseTypeDot6Points(DiceInfo::dtype type);
 
 	// clear
+	void clearAll();
+	void clearAllPoints();
 	void clearAllLines();
+	void clearAllDot3Points();
 	void clearAllDotCenters();
 	void clearDot1Points();
 	void clearDot2Points();
@@ -731,10 +738,11 @@ private:
 private:
 	
 	DiceInfo mode;
-	int modeFlag; // 0:T 1:K 2:C
+	int modeFlag; // 0:T 1:K 2:C 3:R
 	//DiceInfo now_mouse;
 	int centerNum;
 	Image types,kinds;
+
 
 	// イベント関連
 	void onMouse_impl(int event,int x,int y,int flag);
@@ -744,6 +752,15 @@ private:
 	void mouseCorrectType();
 	void mouseCorrectKind();
 	void mouseCreateKind();
+
+	// 回転処理
+	Image rotato;
+	double rotatoAngle;
+	cv::Point2f rCenter;
+
+	void rotationImage();
+	int rotatoKeyEvent(int key);
+	void mouseRotatoCenterPoint();
 		
 	// 設定ファイル関連
 	void defaultIniFileCreate();

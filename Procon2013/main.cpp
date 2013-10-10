@@ -1159,11 +1159,11 @@ void info(cv::Mat& img){
 /************************
  * DiceDecode Testing
  */
-int main(){
-	DiceDecode dd;
-	dd.init();
-	dd.drawing();
-}
+//int main(){
+//	DiceDecode dd;
+//	dd.init();
+//	dd.drawing();
+//}
 
 
 /************************
@@ -1176,4 +1176,16 @@ int main(){
 //	StringDecode sd;
 //	sd.slvDice("out_"+name);
 //	cout << StringCalc::fileStringMatching(name,"out_out_"+name) << endl;
+//}
+
+/************************
+ * Image Rotation Testing
+ */
+//int main(){
+//	Image src,dst;
+//	src.load("mCap69.jpg");
+//	src.imshow("src_");
+//	dst.rotation(src,cv::Point2f(src.size().width/2,src.size().height/2),13);
+//	dst.imshow("rotato");
+//	cv::waitKey(0);
 //}

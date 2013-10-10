@@ -103,6 +103,9 @@ void DiceDecode::keyEvent(){
 		if(now==num) now=num-1;
 		nowDisplay();
 		break;
+	case 'r':
+
+		break;
 	case 'o':
 		packetRegist();
 		packetMarge();

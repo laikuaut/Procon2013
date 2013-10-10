@@ -38,6 +38,7 @@ public:
 	void resize(const Image& src);
 	void resize(const Image& src,double fx,double fy);
 	void resize(const Image& src,cv::Size size);
+	void rotation(const Image& src,cv::Point2f center,double angle);
 	
 	void grayeScale(const Image& src);
 	void binarization(const Image& src);
@@ -50,7 +51,6 @@ public:
 	void bitwiseOr(const Image& src1,const Image& src2);
 	void bitwiseXor(const Image& src1,const Image& src2);
 	void bitwiseNot(const Image& src);
-
 
 	void reversal(const Image& src);
 

@@ -75,6 +75,14 @@ void DiceDetection::DotPoints::setKind(int kind,int number){
 		flags[number] = 1;
 }
 
+void DiceDetection::DotPoints::clear(){
+	points.clear();
+	flags.clear();
+	types.clear();
+	kinds.clear();
+	num=0;
+}
+
 DotPoint DiceDetection::DotPoints::operator[] (int i) const{
 	return points[i];
 }
@@ -136,6 +144,17 @@ void DiceDetection::AllDot3Points::add(Dot3Point dot3,short flag,DiceInfo::dtype
 
 int DiceDetection::AllDot3Points::size() const{
 	return num;
+}
+
+void DiceDetection::AllDot3Points::clear(){
+	dot3s.clear();
+	flags.clear();
+	types.clear();
+	kinds.clear();
+	dotNums[0].clear();
+	dotNums[1].clear();
+	dotNums[2].clear();
+	num=0;
 }
 
 Dot3Point DiceDetection::AllDot3Points::operator[](int i){
@@ -1507,8 +1526,29 @@ void DiceDetection::eraseTypeDot6Points(DiceInfo::dtype type){
  *   clear
  */
 
+void DiceDetection::clearAll(){
+	clearAllPoints();
+	clearAllLines();
+	clearAllDot3Points();
+	clearAllDotCenters();
+	clearDot1Points();
+	clearDot2Points();
+	clearDot3Points();
+	clearDot4Points();
+	clearDot5Points();
+	clearDot6Points();
+}
+
+void DiceDetection::clearAllPoints(){
+	allPoints.clear();
+}
+
 void DiceDetection::clearAllLines(){
 	allLines.clear();
+}
+
+void DiceDetection::clearAllDot3Points(){
+	allDot3Points.clear();
 }
 
 void DiceDetection::clearAllDotCenters(){
@@ -2199,6 +2239,8 @@ void DiceDetection::onMouse_impl(int event,int x,int y,int flag){
 		case 2:
 			mouseCreateKind();
 			break;
+		case 3:
+			mouseRotatoCenterPoint();
 		default:
 			break;
 		}
@@ -2260,6 +2302,10 @@ int DiceDetection::keyEvent(int key){
 		outEncode();
 		std::cout << std::endl;
 		std::cout << "Out Put Encode" << std::endl; 
+		break;
+	case 'r':
+		modeFlag = 3;
+		rotationImage();
 		break;
 	case 'q':
 		return 0;
@@ -2470,6 +2516,51 @@ void DiceDetection::mouseCreateKind(){
 //		this->y=y;
 //	}
 //}
+
+/******************
+ *   回転処理
+ */
+
+void DiceDetection::rotationImage(){
+	rotatoAngle = 0;
+	rCenter = cv::Point2f(src.size().width/2,src.size().height/2);
+	while(rotatoKeyEvent(cv::waitKey(30))){
+		rotato.rotation(src,rCenter,rotatoAngle);
+		rotato.circle(rCenter,30,cv::Scalar(0,255,255));
+		rotato.imshow("rotato");
+
+		cv::setMouseCallback("rotato", onMouse, this);
+
+	}
+}
+
+int DiceDetection::rotatoKeyEvent(int key){
+	switch(key){
+	case 2424832: // [←]
+		rotatoAngle -= 2;
+		break;
+	case 2555904: // [→]
+		rotatoAngle += 2;
+		break;
+	case 13:
+		src.rotation(src,rCenter,rotatoAngle);
+		clearAll();
+		run();
+		cv::destroyWindow("rotato");
+		modeFlag = 2;
+		return 0;
+		break;
+	case ' ':
+		return 0;
+		break;
+	}
+	return 1;
+}
+
+void DiceDetection::mouseRotatoCenterPoint(){
+	rCenter.x = this->x;
+	rCenter.y = this->y;
+}
 
 /******************
  *   パラメータ関連

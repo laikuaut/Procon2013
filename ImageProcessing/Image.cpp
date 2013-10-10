@@ -53,6 +53,13 @@ void Image::resize(const Image& src,cv::Size size){
 	w_h_reset();
 }
 
+void Image::rotation(const Image& src,cv::Point2f center,double angle){
+	// ˆÈã‚ÌğŒ‚©‚ç2ŸŒ³‚Ì‰ñ“]s—ñ‚ğŒvZ
+	float scale = 1.0;
+	const cv::Mat affine_matrix = cv::getRotationMatrix2D( center, angle, scale );
+	cv::warpAffine(src.img, img, affine_matrix, src.img.size());
+}
+
 void Image::grayeScale(const Image& src){
 	cv::cvtColor(src.img, img, CV_BGR2GRAY);
 	w_h_reset();
