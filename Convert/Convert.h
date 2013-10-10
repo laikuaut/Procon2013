@@ -12,3 +12,7 @@
 #include"InPaiMatch.h"
 #include"CharArrayNumeric.h"
 #include"Quinary.h"
+#include"DiceEncode.h"
+#include"DiceDecode.h"
+#include"StringDecode.h"
+#include"StringEncode.h"

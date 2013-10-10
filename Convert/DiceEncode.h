@@ -2,7 +2,7 @@
 
 #include"Procon2013\Core\Core.h"
 
-#include"DiceDraw.h"
+#include"Procon2013\Dice\DiceDraw.h"
 #include<fstream>
 
 namespace pro{

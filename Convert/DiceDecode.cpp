@@ -105,6 +105,7 @@ void DiceDecode::keyEvent(){
 		break;
 	case 'o':
 		packetRegist();
+		packetMarge();
 		break;
 	case 'q':
 		exit(1);
@@ -117,7 +118,24 @@ void DiceDecode::keyEvent(){
 
 void DiceDecode::packetRegist(){
 	outPacketNums[diceDetections[now].getPacket()] = now;
+	packetRegistDisplay();
 	packetDisplay();
+}
+
+void DiceDecode::packetRegistDisplay(){
+	const int linemax=50;
+	std::ifstream ifs;
+	std::stringstream ss;
+	ss << "DiceToDecode_" << diceDetections[now].getPacket() << ".txt" << std::flush;
+	ifs.open(dir.pwd(ss.str()));
+	char *str = new char[linemax];
+	//std::cout << std::endl;
+	std::cout<<"Packet"<< diceDetections[now].getPacket() << std::endl;
+	while(1){
+		ifs.getline(str,linemax);
+		if(ifs.eof()) break;
+		std::cout<<str<<std::endl;
+	}
 }
 
 void DiceDecode::packetDisplay(){
@@ -126,6 +144,54 @@ void DiceDecode::packetDisplay(){
 			std::cout<<"packet"<<i<<" : now"<<outPacketNums[i]<<std::endl;
 		}
 	}
+}
+
+void DiceDecode::packetMarge(){
+	vector<string> files = dir.getIntoPaths();
+	vector<string> decodeFiles;
+	string str = "DiceToDecode_";
+	string excection = ".txt";
+	vector<string> sort;
+	int num=1;
+	// ファイル名取得
+	for(int i=0;i<files.size();i++){
+		if(excection == Dir::getExtention(files[i]))
+			decodeFiles.push_back(Dir::getFileName(files[i]));
+	}
+
+	// 並べ直し
+	for(int i=0;i<decodeFiles.size();i++){
+		for(int j=1;j<100;j++){
+			std::stringstream ss;
+			ss << str << j << excection << std::flush;
+			if(decodeFiles[i]==ss.str()){
+				sort.push_back(decodeFiles[i]);
+			}
+		}
+	}
+
+	// ファイルの中身を取得
+	vector<int> diceKinds;
+	for(int i=0;i<sort.size();i++){
+		std::ifstream ifs;
+		ifs.open(dir.pwd(sort[i]));
+		while(1){
+			int kind;
+			ifs >> kind;
+			if(ifs.eof()) break;
+			diceKinds.push_back(kind);			
+		}
+		ifs.close();
+	}
+
+	// ファイルへ出力
+	std::ofstream ofs;
+	ofs.open(dir.pwd("DiceDecode.txt"));
+	for(int i=0;i<diceKinds.size();i++){
+		ofs << diceKinds[i] << " " << std::flush;
+	}
+	ofs.close();
+
 }
 
 void DiceDecode::nowDisplay(){

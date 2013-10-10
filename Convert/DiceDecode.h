@@ -1,7 +1,7 @@
 #pragma once
 
 #include"Procon2013\Core\Core.h"
-#include"DiceDetection.h"
+#include"Procon2013\Dice\DiceDetection.h"
 
 namespace pro{
 
@@ -23,7 +23,11 @@ private:
 
 	// Encode出力のパケット登録
 	void packetRegist();
+	void packetRegistDisplay();
 	void packetDisplay();
+
+	// デコードマージ
+	void packetMarge();
 
 	// モードや現在の番号表示
 	void nowDisplay();
@@ -38,5 +42,8 @@ public:
 	void draw();
 
 };
+
+// パケットテキストをコンソールに表示する。
+
 
 }

@@ -33,6 +33,7 @@ void DiceDetection::init(){
 void DiceDetection::init(Dir dir,string name){
 	this->iniFileName = "DiceDetection.ini";
 	readIniFile();
+	this->dir = dir;
 	src.path = dir;
 	src.load(name);
 	src.resize(src,cv::Size(1920,1080));
@@ -2257,6 +2258,7 @@ int DiceDetection::keyEvent(int key){
 		break;
 	case 'o':
 		outEncode();
+		std::cout << std::endl;
 		std::cout << "Out Put Encode" << std::endl; 
 		break;
 	case 'q':
@@ -3307,9 +3309,9 @@ void DiceDetection::outEncode(){
 	int packetNum = getNumDot1Points(DiceInfo::small);
 	std::ofstream ofs;
 	std::stringstream ss;
-	ss << "DiceToEncode_" << packetNum << ".txt";
-	ofs.open(ss.str());
-
+	ss << "DiceToDecode_" << packetNum << ".txt";
+	//std::cout<<dir.pwd(ss.str())<<std::endl;
+	ofs.open(dir.pwd(ss.str()));
 
 	// ŒŸõŠJŽn˜g‚ðŒˆ‚ß‚é
 	int xmin=size.width,xmax=0,ymin=size.height,ymax=0;

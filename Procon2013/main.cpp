@@ -1165,3 +1165,15 @@ int main(){
 	dd.drawing();
 }
 
+
+/************************
+ * StringDecode Testing
+ */
+//int main(){
+//	string name = "randStr76.txt";
+//	StringEncode se;
+//	se.loadDice(name);
+//	StringDecode sd;
+//	sd.slvDice("out_"+name);
+//	cout << StringCalc::fileStringMatching(name,"out_out_"+name) << endl;
+//}
