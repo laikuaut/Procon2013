@@ -16,3 +16,6 @@
 #include"DiceDecode.h"
 #include"StringDecode.h"
 #include"StringEncode.h"
+#include"StringMatching.h"
+#include"CharPositions.h"
+#include"StringPositions.h"

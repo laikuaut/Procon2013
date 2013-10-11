@@ -2551,6 +2551,8 @@ int DiceDetection::rotatoKeyEvent(int key){
 		return 0;
 		break;
 	case ' ':
+		cv::destroyWindow("rotato");
+		modeFlag = 2;
 		return 0;
 		break;
 	}

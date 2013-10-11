@@ -38,6 +38,7 @@
     <ClCompile Include="Bin.cpp" />
     <ClCompile Include="CharArray.cpp" />
     <ClCompile Include="CharArrayNumeric.cpp" />
+    <ClCompile Include="CharPositions.cpp" />
     <ClCompile Include="Decode.cpp" />
     <ClCompile Include="DiceDecode.cpp" />
     <ClCompile Include="DiceEncode.cpp" />
@@ -51,11 +52,14 @@
     <ClCompile Include="Quinary.cpp" />
     <ClCompile Include="StringDecode.cpp" />
     <ClCompile Include="StringEncode.cpp" />
+    <ClCompile Include="StringMatching.cpp" />
+    <ClCompile Include="StringPositions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin.h" />
     <ClInclude Include="CharArray.h" />
     <ClInclude Include="CharArrayNumeric.h" />
+    <ClInclude Include="CharPositions.h" />
     <ClInclude Include="Convert.h" />
     <ClInclude Include="Decode.h" />
     <ClInclude Include="DiceDecode.h" />
@@ -70,6 +74,8 @@
     <ClInclude Include="Quinary.h" />
     <ClInclude Include="StringDecode.h" />
     <ClInclude Include="StringEncode.h" />
+    <ClInclude Include="StringMatching.h" />
+    <ClInclude Include="StringPositions.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">

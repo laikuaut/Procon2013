@@ -1165,7 +1165,6 @@ void info(cv::Mat& img){
 //	dd.drawing();
 //}
 
-
 /************************
  * StringDecode Testing
  */
@@ -1189,3 +1188,9 @@ void info(cv::Mat& img){
 //	dst.imshow("rotato");
 //	cv::waitKey(0);
 //}
+
+int main(int argc,char** argv){
+	StringMatching sm;
+	sm.init("ans.txt");
+	sm.dips();
+}
