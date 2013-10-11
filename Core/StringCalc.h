@@ -28,7 +28,6 @@ public:
 	static void randomStringOutput(int length,string filename);
 	static int fileStringMatching(string ansfile,string file);
 
-
 };
 
 }

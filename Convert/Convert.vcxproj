@@ -54,6 +54,7 @@
     <ClCompile Include="StringEncode.cpp" />
     <ClCompile Include="StringMatching.cpp" />
     <ClCompile Include="StringPositions.cpp" />
+    <ClCompile Include="StringReverse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin.h" />
@@ -76,6 +77,7 @@
     <ClInclude Include="StringEncode.h" />
     <ClInclude Include="StringMatching.h" />
     <ClInclude Include="StringPositions.h" />
+    <ClInclude Include="StringReverse.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">

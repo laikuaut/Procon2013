@@ -19,3 +19,4 @@
 #include"StringMatching.h"
 #include"CharPositions.h"
 #include"StringPositions.h"
+#include"StringReverse.h"
