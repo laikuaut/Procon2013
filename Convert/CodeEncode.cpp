@@ -66,7 +66,7 @@ int CodeEncode::codeTable(char c){
 		case '=':return 29;break;
 		case '>':return 30;break;
 		case '?':return 31;break;
-		case '@':return 32;break;
+		case '@':return 110;break;
 		case 'A':return 123;break;//case 'A':return 33;break;
 		case 'B':return 34;break;
 		case 'C':return 35;break;

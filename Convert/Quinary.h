@@ -17,8 +17,12 @@ public:
 	~Quinary(void);
 
 	void init(int dec);
+	void initq(vector<short> quinary);
+
 	void display();
 	int getDec();
+
+	int size() const;
 
 	short operator[](int i);
 

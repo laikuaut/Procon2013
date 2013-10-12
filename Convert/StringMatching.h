@@ -3,7 +3,6 @@
 #include"Procon2013\Core\Core.h"
 #include"CharPositions.h"
 #include"StringPositions.h"
-#include"StringReverse.h"
 #include"Procon2013\Core\Timer.h"
 
 namespace pro{
@@ -36,6 +35,12 @@ private:
 	// nï∂éöèàóù
 	void lengthMatching(int n,int minsize);
 
+	// fileRead
+	void fileReadStr(string name);
+	void fileReadDice(string name);
+
+
+
 	// îΩì]ï∂éöåüèo
 	//void reverseLength2Matching(int minsize);
 	//void reverseLengthMatching(int n,int minsize);
@@ -44,12 +49,18 @@ public:
 	StringMatching(void);
 	~StringMatching(void);
 
-	void init(string name);
-
+	void init(string name,bool dice=false);
+	void setchar(int dice);
+	
 	void matching(int n);
 
-	void dips(int n);
+	void dipsStr(int n);
+	void dipsDice(int n);
 
+	vector<char> getStr() const;
+	vector<CharPositions> getCharPositions() const;
+	vector<vector<StringPositions>> getStrPositions() const;
+	vector<StringPositions> getContinuousStrs() const;
 };
 
 }

@@ -31,6 +31,11 @@ void Quinary::init(int dec){
 
 }
 
+void Quinary::initq(vector<short> quinary){
+	num = quinary;
+}
+
+
 void Quinary::display(){
 	for(int i=0;i<num.size();i++){
 		std::cout<<num[i]<<std::flush;
@@ -44,6 +49,10 @@ int Quinary::getDec(){
 		dec += pow(5,num.size()-1-i)*num[i];
 	}
 	return dec;
+}
+
+int Quinary::size() const{
+	return num.size();
 }
 
 short Quinary::operator[](int i){

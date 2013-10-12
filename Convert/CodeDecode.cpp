@@ -66,7 +66,7 @@ char CodeDecode::strTable(int code){
 		case 29:return '=';break;
 		case 30:return '>';break;
 		case 31:return '?';break;
-		case 32:return '@';break;
+		case 110:return '@';break;
 		case 123:return 'A';break;//case 33:return 'A';break;
 		case 34:return 'B';break;
 		case 35:return 'C';break;

@@ -1166,36 +1166,12 @@ void info(cv::Mat& img){
 //}
 
 /************************
- * StringDecode Testing
- */
-//int main(){
-//	string name = "randStr76.txt";
-//	StringEncode se;
-//	se.loadDice(name);
-//	StringDecode sd;
-//	sd.slvDice("out_"+name);
-//	cout << StringCalc::fileStringMatching(name,"out_out_"+name) << endl;
-//}
-
-/************************
- * Image Rotation Testing
- */
-//int main(){
-//	Image src,dst;
-//	src.load("mCap69.jpg");
-//	src.imshow("src_");
-//	dst.rotation(src,cv::Point2f(src.size().width/2,src.size().height/2),13);
-//	dst.imshow("rotato");
-//	cv::waitKey(0);
-//}
-
-/************************
  * StringMatching Testing
  */
 //int main(int argc,char** argv){
 //	StringMatching sm;
-//	sm.init("ans.txt");
-//	sm.dips(2000);
+//	sm.init("ans.txt",true);
+//	sm.dipsDice(2000);
 //}
 
 /************************
@@ -1222,7 +1198,8 @@ void info(cv::Mat& img){
 //int main(){
 //	DiceCodeEncode dce;
 //	dce.init("CodeEncode.txt");
-//	dce.output();
+//	//dce.output();
+//	dce.outputRunlength();
 //}
 
 /************************
@@ -1230,29 +1207,47 @@ void info(cv::Mat& img){
  */
 //int main(){
 //	DiceCodeDecode dcd;
-//	dcd.init("DiceDecode.txt");
-//	dcd.output();
+//	dcd.initRunlength("DiceDecode.txt");
+//	dcd.outputRunlength();
+////	dcd.init("DiceDecode.txt");
+////	dcd.output();
 //}
 
 /************************
  * Encode Testing
  */
-//int main(int argc,char** argv){
-//	Encode encode;
-//	encode.init(argv[1]);
-//	encode.run();
-//}
+int main(int argc,char** argv){
+	Encode encode;
+	encode.init(argv[1]);
+	encode.run();
+}
 
 /************************
  * Decode Testing
  */
-int main(int argc,char** argv){
-	Decode decode;
-	decode.init();
-	decode.run();
-}
+//int main(int argc,char** argv){
+//	Decode decode;
+//	decode.init();
+//	decode.run();
+//}
 
+/**
 
+ƒƒ‚
+Encode
+__.txt -> CodeEncode
+CodeEncode.txt -> DiceCodeEncode
+DiceCodeEncode -> RunLength
+DiceEncode.txt -> DiceEncode
+
+Decode
+‰æ‘œ.jpg -> DiceDecode
+DiceDecode.txt -> RunLength
+RunLength -> DiceCodeDecode
+CodeDecode.txt -> CodeDecode
+__.txt
+
+ */ 
 
 
 

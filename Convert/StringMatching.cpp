@@ -11,7 +11,15 @@ StringMatching::~StringMatching(void)
 {
 }
 
-void StringMatching::init(string name){
+void StringMatching::init(string name,bool dice){
+	if(!dice){
+		fileReadStr(name);
+	}else{
+		fileReadDice(name);
+	}
+}
+
+void StringMatching::fileReadStr(string name){
 	std::ifstream ifs;
 	ifs.open(name);
 	char *c_str = new char[4001];
@@ -19,6 +27,22 @@ void StringMatching::init(string name){
 	c_str[4000] = '\0';
 	for(int i=0;c_str[i]!='\0';i++)
 		str.push_back(c_str[i]);
+}
+
+void StringMatching::fileReadDice(string name){
+	std::ifstream ifs;
+	ifs.open(name);
+	int dice;
+	while(1){
+		ifs>>dice;
+		if(ifs.eof()) break;
+		str.push_back(dice);
+	}
+	ifs.close();
+}
+
+void StringMatching::setchar(int dice){
+	str.push_back(dice);
 }
 
 int StringMatching::getCharPositionsNumAtValue(char value){
@@ -102,22 +126,24 @@ void StringMatching::continuous1Matching(){
 				}
 			}
 			// ƒ‹[ƒv‚ğ”²‚¯‚Ä‚µ‚Ü‚Á‚½‚Æ‚«
-			if(flag){
-				StringPositions sp;
-				// ‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚é•¶š—ñ
-				for(int k=0;k<continuousStrs.size();k++){
-					if(continuousStrs[k].equal(str)){
-						continuousStrs[k].add(pos);
+			if(j==charPositions[i].size()-2){
+				if(flag){
+					StringPositions sp;
+					// ‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚é•¶š—ñ
+					for(int k=0;k<continuousStrs.size();k++){
+						if(continuousStrs[k].equal(str)){
+							continuousStrs[k].add(pos);
+							str.clear();
+							flag=false;
+						}
+					}
+					// ‰‚ß‚Ä“o˜^‚³‚ê‚é•¶š—ñ
+					if(flag){
+						sp.init(str,pos);
+						continuousStrs.push_back(sp);
 						str.clear();
 						flag=false;
 					}
-				}
-				// ‰‚ß‚Ä“o˜^‚³‚ê‚é•¶š—ñ
-				if(flag){
-					sp.init(str,pos);
-					continuousStrs.push_back(sp);
-					str.clear();
-					flag=false;
 				}
 			}
 		}
@@ -198,8 +224,6 @@ void StringMatching::lengthMatching(int n,int minsize){
 				}
 			}
 			for(int k=0;k<strPositions[n-3][i].size(true);k++){
-				//if(0<=strPositions[n-3][i][-(k+1)]-(n-1))
-					//std::cout<<strPositions[n-3][i][-(k+1)]-(n-1)<<":"<<m_str[n-1]<<"=="<<str[strPositions[n-3][i][-(k+1)]-(n-1)]<<std::endl;
 				if(0<=strPositions[n-3][i][-(k+1)]-(n-1)&&m_str[n-1]==str[strPositions[n-3][i][-(k+1)]-(n-1)]){
 					//if(j==k) continue;
 					sp.add(strPositions[n-3][i][-(k+1)],true);
@@ -225,7 +249,7 @@ void StringMatching::matching(int n){
 	}
 }
 
-void StringMatching::dips(int n){
+void StringMatching::dipsStr(int n){
 	for(int i=0;i<str.size();i++){
 		std::cout<<str[i]<<std::flush;
 	}
@@ -241,15 +265,20 @@ void StringMatching::dips(int n){
 	//length1SizeErase(2);
 	std::cout<<"length(1):"<<charPositions.size()<<std::endl;
 	//std::cout<<(double)timer.getNow()/1000.<<std::endl;
-	//for(int i=0;i<charPositions.size();i++){
-	//	std::cout<<charPositions[i].getValue()<<":"<<charPositions[i].size()<<std::endl;
-	//}
+	for(int i=0;i<charPositions.size();i++){
+		std::cout<<charPositions[i].getValue()<<":"<<charPositions[i].size()<<std::endl;
+	}
 
 	// 1•¶š˜A‘±
 	//continuous1Matching();
 	//continuous1LengthAndSizeErase(2,2);
 	std::cout<<"countinuous(1):"<<continuousStrs.size()<<std::endl;
-
+	for(int i=0;i<continuousStrs.size();i++){
+		for(int j=0;j<continuousStrs[i].length();j++){
+			std::cout<<continuousStrs[i].getValue()[j]<<std::flush;
+		}
+		std::cout<<":"<<continuousStrs[i].size()<<std::endl;
+	}
 
 	// 2•¶šˆ—
 	//length2Matching(2);
@@ -277,8 +306,73 @@ void StringMatching::dips(int n){
 			std::cout<<":"<<strPositions[k-2][i].size(true)<<std::endl;
 		}
 	}
+}
+
+void StringMatching::dipsDice(int n){
+	for(int i=0;i<str.size();i++){
+		std::cout<<(int)str[i]<<" "<<std::flush;
+	}
+	
+	Timer timer;
+	timer.start();
+
+	matching(n);
+
+	//// ˆê•¶šˆ—
+	//std::cout<<std::endl;
+	//std::cout<<"length(1):"<<charPositions.size()<<std::endl;
+	//for(int i=0;i<charPositions.size();i++){
+	//	std::cout<<(int)charPositions[i].getValue()<<":"<<charPositions[i].size()<<std::endl;
+	//}
+
+	// 1•¶š˜A‘±
+	std::cout<<"countinuous(1):"<<continuousStrs.size()<<std::endl;
+	for(int i=0;i<continuousStrs.size();i++){
+		for(int j=0;j<continuousStrs[i].length();j++){
+			std::cout<<(int)continuousStrs[i].getValue()[j]<<std::flush;
+		}
+		std::cout<<":"<<continuousStrs[i].size()<<std::endl;
+	}
+
+	//// 2•¶šˆ—
+	//std::cout<<"length(2):"<<strPositions[0].size()<<std::endl;
+	//for(int i=0;i<strPositions[0].size();i++){
+	//	for(int j=0;j<strPositions[0][i].length();j++){
+	//		std::cout<<(int)strPositions[0][i].getValue()[j]<<std::flush;
+	//	}
+	//	std::cout<<":"<<strPositions[0][i].size()<<std::flush;
+	//	std::cout<<":"<<strPositions[0][i].size(true)<<std::endl;
+	//}
+
+	//for(int k=3;k<n;k++){
+	//	// n•¶šˆ—
+	//	if(strPositions[k-2].size())
+	//		std::cout<<"length("<< k <<"):"<<strPositions[k-2].size()<<std::endl;
+	//	for(int i=0;i<strPositions[k-2].size();i++){
+	//		for(int j=0;j<strPositions[k-2][i].length();j++){
+	//			std::cout<<(int)strPositions[k-2][i].getValue()[j]<<std::flush;
+	//		}
+	//		std::cout<<":"<<strPositions[k-2][i].size()<<std::flush;
+	//		std::cout<<":"<<strPositions[k-2][i].size(true)<<std::endl;
+	//	}
+	//}
+}
 
 
+vector<char> StringMatching::getStr() const{
+	return str;
+}
+
+vector<CharPositions> StringMatching::getCharPositions() const{
+	return charPositions;
+}
+
+vector<vector<StringPositions>> StringMatching::getStrPositions() const{
+	return strPositions;
+}
+
+vector<StringPositions> StringMatching::getContinuousStrs() const{
+	return continuousStrs;
 }
 
 }

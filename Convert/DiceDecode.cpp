@@ -203,10 +203,12 @@ void DiceDecode::packetMarge(){
 }
 
 void DiceDecode::output(){
-	diceCodeDecode.init("DiceDecode.txt");
-	diceCodeDecode.output();
+	std::cout<<"Decode ..."<<std::endl;
+	diceCodeDecode.initRunlength("DiceDecode.txt");
+	diceCodeDecode.outputRunlength();
 	codeDecode.init("CodeDecode.txt");
 	codeDecode.output();
+	std::cout<<"End"<<std::endl;
 }
 
 void DiceDecode::nowDisplay(){

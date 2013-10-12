@@ -1,6 +1,7 @@
 #pragma once
 
 #include"Procon2013\Core\Core.h"
+#include"Quinary.h"
 
 namespace pro{
 
@@ -18,15 +19,19 @@ private:
 
 	void fileRead(string name);
 	void slvDice();
+	void slvDice(vector<int> dices);
 
+	vector<int> runlength();
 
 public:
 	DiceCodeDecode(void);
 	~DiceCodeDecode(void);
 
 	void init(string name);
+	void initRunlength(string name);
 
 	void output();
+	void outputRunlength();
 
 };
 

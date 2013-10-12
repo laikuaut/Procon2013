@@ -22,7 +22,7 @@ void Encode::init(string name){
 void Encode::run(){
 	codeEncode.output();
 	diceCodeEncode.init("CodeEncode.txt");
-	diceCodeEncode.output();
+	diceCodeEncode.outputRunlength();
 	diceEncode.init("DiceEncode.txt");
 	diceEncode.drawing();
 }

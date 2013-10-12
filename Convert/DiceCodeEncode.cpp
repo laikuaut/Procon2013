@@ -63,11 +63,69 @@ void DiceCodeEncode::loadDice(){
 
 }
 
+vector<int> DiceCodeEncode::runlength(){
+	int count=1;
+	int _count=1;
+	bool flag;
+	vector<int> dices;
+	int i;
+	for(i=1;dice[i-1+1] != 0;i++){
+		if(dice[i-1+1]==dice[i-1]){
+			count++; // ˜A‘±‚µ‚Ä‚¢‚é•¶Žš”
+		}else {
+			if(count>1){// ˜A‘±•¶Žš—ñ‚©‚ç”²‚¯‚é
+				flag = true;
+				_count=count;
+			}
+			count=1;// ‰Šú‰»
+		}
+		if(count==1){
+			if(flag){
+				if(_count>3){
+				// •ÏŠ·
+					dices.push_back(dice[i-1]);
+					dices.push_back(6);
+					Quinary q;
+					q.init(_count);
+					for(int j=0;j<q.size();j++){
+						dices.push_back(q[j]+1);
+					}
+					dices.push_back(6);
+					_count=1;
+				}else{
+				// ‚»‚Ì‚Ü‚Ü
+					for(int j=0;j<_count;j++)
+						dices.push_back(dice[i-1]);
+					_count=1;
+				}				
+			}else{
+				// ‚»‚Ì‚Ü‚Ü‘‚«‰Á‚¦‚é
+				dices.push_back(dice[i-1]);
+			}
+		}else{
+			// ‘‚«ž‚Ü‚È‚¢
+		}
+	}
+	// ÅŒã‚Ì•¶Žš
+	dices.push_back(dice[i-1]);
+	return dices;
+}
+
 void DiceCodeEncode::output(){
 	std::ofstream ofs;
 	ofs.open("DiceEncode.txt");
 	for(int i=1;dice[i-1] != 0;i++){
 		ofs << dice[i-1] << " " << std::flush;
+	}
+	ofs.close();
+}
+
+void DiceCodeEncode::outputRunlength(){
+	vector<int> dices = runlength();
+	std::ofstream ofs;
+	ofs.open("DiceEncode.txt");
+	for(int i=0;i<dices.size();i++){
+		ofs << dices[i] << " " << std::flush;
 	}
 	ofs.close();
 }

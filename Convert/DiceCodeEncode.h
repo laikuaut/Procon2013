@@ -1,6 +1,10 @@
 #pragma once
 
 #include"Procon2013\Core\Core.h"
+#include"StringMatching.h"
+#include"CharPositions.h"
+#include"Quinary.h"
+#include"StringPositions.h"
 
 namespace pro{
 
@@ -19,6 +23,9 @@ private:
 	void fileRead(string name);
 	
 	void loadDice();
+
+	vector<int> runlength();
+
 public:
 	DiceCodeEncode(void);
 	~DiceCodeEncode(void);
@@ -26,6 +33,7 @@ public:
 	void init(string name);
 
 	void output();
+	void outputRunlength();
 
 };
 
