@@ -1189,8 +1189,71 @@ void info(cv::Mat& img){
 //	cv::waitKey(0);
 //}
 
+/************************
+ * StringMatching Testing
+ */
+//int main(int argc,char** argv){
+//	StringMatching sm;
+//	sm.init("ans.txt");
+//	sm.dips(2000);
+//}
+
+/************************
+ * CodeEncode Testing
+ */
+//int main(int argc,char** argv){
+//	CodeEncode ce;
+//	ce.init(argv[1]);
+//	ce.output();
+//}
+
+/************************
+ * CodeDecode Testing
+ */
+//int main(){
+//	CodeDecode cd;
+//	cd.init("CodeDecode.txt");
+//	cd.output();
+//}
+
+/************************
+ * DiceCodeEncode Testing
+ */
+//int main(){
+//	DiceCodeEncode dce;
+//	dce.init("CodeEncode.txt");
+//	dce.output();
+//}
+
+/************************
+ * DiceCodeDecode Testing
+ */
+//int main(){
+//	DiceCodeDecode dcd;
+//	dcd.init("DiceDecode.txt");
+//	dcd.output();
+//}
+
+/************************
+ * Encode Testing
+ */
+//int main(int argc,char** argv){
+//	Encode encode;
+//	encode.init(argv[1]);
+//	encode.run();
+//}
+
+/************************
+ * Decode Testing
+ */
 int main(int argc,char** argv){
-	StringMatching sm;
-	sm.init("ans.txt");
-	sm.dips();
+	Decode decode;
+	decode.init();
+	decode.run();
 }
+
+
+
+
+
+

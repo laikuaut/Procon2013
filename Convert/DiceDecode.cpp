@@ -70,7 +70,7 @@ void DiceDecode::addFile(){
 	}
 }
 
-void DiceDecode::keyEvent(){
+int DiceDecode::keyEvent(){
 	int key=cv::waitKey(30);
 	diceDetections[now].setMode(key);
 	switch (key)
@@ -109,14 +109,19 @@ void DiceDecode::keyEvent(){
 	case 'o':
 		packetRegist();
 		packetMarge();
+		output();
+		break;
+	case 'd':
+		output();
 		break;
 	case 'q':
-		exit(1);
+		return 0;
 		break;
 	default:
 		//std::cout<<key<<std::endl;
 		break;
 	}
+	return 1;
 }
 
 void DiceDecode::packetRegist(){
@@ -197,6 +202,13 @@ void DiceDecode::packetMarge(){
 
 }
 
+void DiceDecode::output(){
+	diceCodeDecode.init("DiceDecode.txt");
+	diceCodeDecode.output();
+	codeDecode.init("CodeDecode.txt");
+	codeDecode.output();
+}
+
 void DiceDecode::nowDisplay(){
 	std::cout << "now:" << now << std::endl;
 	
@@ -241,7 +253,7 @@ void DiceDecode::nowDisplay(){
 void DiceDecode::drawing(){
 	while (true)
 	{
-		keyEvent();
+		if(!keyEvent()) break;
 		diceDetections[now].draw();
 	}
 }

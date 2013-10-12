@@ -15,8 +15,16 @@ Encode::~Encode(void)
 {
 }
 
-void Encode::display(){
-	cout << "Encode Didplay" << endl;
+void Encode::init(string name){
+	codeEncode.init(name);
+}
+
+void Encode::run(){
+	codeEncode.output();
+	diceCodeEncode.init("CodeEncode.txt");
+	diceCodeEncode.output();
+	diceEncode.init("DiceEncode.txt");
+	diceEncode.drawing();
 }
 
 }

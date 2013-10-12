@@ -2257,7 +2257,7 @@ void DiceDetection::onMouse_impl(int event,int x,int y,int flag){
 int DiceDetection::keyEvent(int key){
 	switch(key){
 	case '0':
-		mode.kind = 0;
+		//mode.kind = 0;
 		break;
 	case '1':
 		mode.kind = 1;
@@ -2301,7 +2301,7 @@ int DiceDetection::keyEvent(int key){
 	case 'o':
 		outEncode();
 		std::cout << std::endl;
-		std::cout << "Out Put Encode" << std::endl; 
+		std::cout << "Out Put Dncode" << std::endl; 
 		break;
 	case 'r':
 		modeFlag = 3;

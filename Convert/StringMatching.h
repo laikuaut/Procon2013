@@ -16,7 +16,8 @@ private:
 	vector<CharPositions> charPositions;
 	vector<vector<StringPositions>> strPositions;
 	vector<StringPositions> continuousStrs;
-//	vector<vector<StringReverse>> strReverses;
+
+	//	vector<vector<StringReverse>> strReverses;
 
 	int getCharPositionsNumAtValue(char value);
 
@@ -26,6 +27,7 @@ private:
 	
 	// 一文字連続検出
 	void continuous1Matching();
+	// length:文字列長さ minsize:文字列のポジション数
 	void continuous1LengthAndSizeErase(int length,int minSize);
 
 	// 2文字処理
@@ -44,7 +46,9 @@ public:
 
 	void init(string name);
 
-	void dips();
+	void matching(int n);
+
+	void dips(int n);
 
 };
 

@@ -743,7 +743,6 @@ private:
 	int centerNum;
 	Image types,kinds;
 
-
 	// イベント関連
 	void onMouse_impl(int event,int x,int y,int flag);
 	int keyEvent(int key);

@@ -2,6 +2,8 @@
 
 #include"Procon2013\Core\Core.h"
 #include"Procon2013\Dice\DiceDetection.h"
+#include"DiceCodeDecode.h"
+#include"CodeDecode.h"
 
 namespace pro{
 
@@ -16,10 +18,15 @@ private:
 	int num;
 	vector<int> outPacketNums;
 
+	DiceCodeDecode diceCodeDecode;
+	CodeDecode codeDecode;
+
+private:
+
 	void readIni();
 	void addFile();
 
-	void keyEvent();
+	int keyEvent();
 
 	// Encode出力のパケット登録
 	void packetRegist();
@@ -31,6 +38,10 @@ private:
 
 	// モードや現在の番号表示
 	void nowDisplay();
+
+
+	// 文字列出力
+	void output();
 
 public:
 	DiceDecode(void);

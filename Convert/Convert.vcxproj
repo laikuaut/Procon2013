@@ -39,6 +39,8 @@
     <ClCompile Include="CharArray.cpp" />
     <ClCompile Include="CharArrayNumeric.cpp" />
     <ClCompile Include="CharPositions.cpp" />
+    <ClCompile Include="CodeDecode.cpp" />
+    <ClCompile Include="CodeEncode.cpp" />
     <ClCompile Include="Decode.cpp" />
     <ClCompile Include="DiceDecode.cpp" />
     <ClCompile Include="DiceEncode.cpp" />
@@ -50,17 +52,18 @@
     <ClCompile Include="PaiMatch.cpp" />
     <ClCompile Include="PaiDivide.cpp" />
     <ClCompile Include="Quinary.cpp" />
-    <ClCompile Include="StringDecode.cpp" />
-    <ClCompile Include="StringEncode.cpp" />
+    <ClCompile Include="DiceCodeDecode.cpp" />
+    <ClCompile Include="DiceCodeEncode.cpp" />
     <ClCompile Include="StringMatching.cpp" />
     <ClCompile Include="StringPositions.cpp" />
-    <ClCompile Include="StringReverse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin.h" />
     <ClInclude Include="CharArray.h" />
     <ClInclude Include="CharArrayNumeric.h" />
     <ClInclude Include="CharPositions.h" />
+    <ClInclude Include="CodeDecode.h" />
+    <ClInclude Include="CodeEncode.h" />
     <ClInclude Include="Convert.h" />
     <ClInclude Include="Decode.h" />
     <ClInclude Include="DiceDecode.h" />
@@ -73,15 +76,17 @@
     <ClInclude Include="PaiMatch.h" />
     <ClInclude Include="PaiDivide.h" />
     <ClInclude Include="Quinary.h" />
-    <ClInclude Include="StringDecode.h" />
-    <ClInclude Include="StringEncode.h" />
+    <ClInclude Include="DiceCodeDecode.h" />
+    <ClInclude Include="DiceCodeEncode.h" />
     <ClInclude Include="StringMatching.h" />
     <ClInclude Include="StringPositions.h" />
-    <ClInclude Include="StringReverse.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{42a62d9b-1327-48ef-ab71-fccb8fc9e8db}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Dice\Dice.vcxproj">
+      <Project>{f068438c-73ba-4a86-b449-6295bfd0f5e9}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Exception\Exception.vcxproj">
       <Project>{6a6a563e-28b2-42e7-a17a-b3b9cd4d4545}</Project>
