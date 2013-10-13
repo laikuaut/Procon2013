@@ -4,6 +4,7 @@
 #include"CodeEncode.h"
 #include"DiceCodeEncode.h"
 #include"DiceEncode.h"
+#include"SenaryEncode.h"
 
 namespace pro{
 	
@@ -15,6 +16,7 @@ public:
 
 	CodeEncode codeEncode;
 	DiceCodeEncode diceCodeEncode;
+	SenaryEncode senaryEncode;
 	DiceEncode diceEncode;
 
 public:

@@ -879,6 +879,7 @@ void info(cv::Mat& img){
 //	Image img,draw,draw1,bin;
 //	
 //	dd.init();
+//	//dd.testRun();
 //	dd.drawing();
 //}
 
@@ -1060,6 +1061,41 @@ void info(cv::Mat& img){
 //	//}
 // }
 
+/************************
+ * Quinary Testing
+ */
+//int main(){
+//
+//	//const int N = 4001;
+//
+//	//char* path = new char[N];
+//	//char* qqq = new char[N];
+//
+//	//ifstream ifs_ini,ifs;
+//	//ifs_ini.open("Q_path.txt");
+//	//ifs_ini.getline(path,N);
+//
+//	//ifs.open(path);
+//	//ifs.getline(qqq,N);
+//
+//	//int count=0;
+//	//while(qqq[count++]!='\0');
+//
+//	//for(int i=0;i<count;i++){
+//	//	Quinary q;
+//	//	q.init(qqq[i]);
+//	//	q.display();
+//	//}
+//
+//	for(int i=0;i<216;i++){
+//		Senary s;
+//		s.init(i);
+//		//cout << i << " : " << flush;
+//		cout << s.getDec() << " : " << flush;
+//		s.display();
+//	}
+// }
+
 
 /************************
  * DiceEncode Testing
@@ -1214,22 +1250,40 @@ void info(cv::Mat& img){
 //}
 
 /************************
+ * SenaryEncode Testing
+ */
+//int main(){
+//	SenaryEncode se;
+//	se.init("CodeEncode.txt");
+//	se.output();
+//}
+
+/************************
+ * SenaryDecode Testing
+ */
+//int main(){
+//	SenaryDecode sd;
+//	sd.init("DiceDecode.txt");
+//	sd.output();
+//}
+
+/************************
  * Encode Testing
  */
-int main(int argc,char** argv){
-	Encode encode;
-	encode.init(argv[1]);
-	encode.run();
-}
+//int main(int argc,char** argv){
+//	Encode encode;
+//	encode.init(argv[1]);
+//	encode.run();
+//}
 
 /************************
  * Decode Testing
  */
-//int main(int argc,char** argv){
-//	Decode decode;
-//	decode.init();
-//	decode.run();
-//}
+int main(int argc,char** argv){
+	Decode decode;
+	decode.init();
+	decode.run();
+}
 
 /**
 

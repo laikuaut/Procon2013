@@ -81,9 +81,10 @@ void DiceCodeDecode::slvDice(vector<int> dices){
 	for(i=j;i<STRMAX*8;i++)
 		binary[i] = -1;
 
-	for(i = 0; binary[i*8] != -1; ++i)
+	for(i = 0; binary[i*8] != -1; ++i){
+		//if(binary[i*8+1] + binary[i*8+2] * 2 + binary[i*8+3] * 4 + binary[i*8+4] * 8 + binary[i*8+5] * 16 + binary[i*8+6]*32 + binary[i*8+7]*64<0) break;
 		codes.push_back(binary[i*8+1] + binary[i*8+2] * 2 + binary[i*8+3] * 4 + binary[i*8+4] * 8 + binary[i*8+5] * 16 + binary[i*8+6]*32 + binary[i*8+7]*64);
-
+	}
 }
 
 vector<int> DiceCodeDecode::runlength(){
@@ -99,8 +100,10 @@ vector<int> DiceCodeDecode::runlength(){
 			_dice = dice[i-1];
 //			count.push_back(dice[i]-1);
 			while(dice[++i]!=6){
+				if(dice[i]=='\0') break;
 				count.push_back(dice[i]-1);
 			}
+			if(dice[i]=='\0') break;
 			q.initq(count);
 			for(int j=0;j<q.getDec()-1;j++){
 				dices.push_back(_dice);
@@ -120,6 +123,7 @@ void DiceCodeDecode::output(){
 		ofs<<codes[i]<<" "<<std::flush;
 	}
 	ofs.close();
+	codes.clear();
 }
 
 void DiceCodeDecode::outputRunlength(){

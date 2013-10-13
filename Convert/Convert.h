@@ -22,3 +22,6 @@
 #include"StringReverse.h"
 #include"CodeDecode.h"
 #include"CodeEncode.h"
+#include"Senary.h"
+#include"SenaryEncode.h"
+#include"SenaryDecode.h"

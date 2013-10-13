@@ -4,6 +4,7 @@
 #include"Procon2013\Dice\DiceDetection.h"
 #include"DiceCodeDecode.h"
 #include"CodeDecode.h"
+#include"SenaryDecode.h"
 
 namespace pro{
 
@@ -20,6 +21,7 @@ private:
 
 	DiceCodeDecode diceCodeDecode;
 	CodeDecode codeDecode;
+	SenaryDecode senaryDecode;
 
 private:
 

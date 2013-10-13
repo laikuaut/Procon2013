@@ -666,7 +666,24 @@ void DiceDetection::getAllPoints(){
 	LabelingCenter lc;
 	lc.init(bin);
 	lc.setCenter(bin);
-	
+	//
+	//Image draw;
+	//draw.clone(src);
+	//lc.circleFilter(dotCircleFilterPer,2);
+	//lc.sizeFilter(dotNoneMinSize,3000);
+	//// 円表示
+	//for(int i=0;i<lc.num;i++){
+	//	if(lc.flags[i]){
+	//		draw.circle(lc(i),(int)sqrt(lc.sizes[i]/CV_PI),cv::Scalar(255,0,0));
+	//		//cout << "OK:" << labelCenter.sizes[i] << endl;
+	//	}else{
+	//		if(lc.sizes[i]<2000)
+	//			draw.circle(lc(i),(int)sqrt(lc.sizes[i]/CV_PI),cv::Scalar(0,255,0));
+	//		//cout << "NG:" << labelCenter.sizes[i] << endl;
+	//	}
+	//}
+	//draw.imshow("test");
+
 	DotPoint dot;
 
 	// 黒点
@@ -856,6 +873,33 @@ void DiceDetection::getDot1Points(){
 	lc.circleFilter(dot1CircleFilterPer,dot1CircleFilterRadiusPer);
 	lc.sizeFilter(dot1MinSize,dot1MaxSize);
 
+
+	//Image draw;
+	//draw.clone(src);
+	////lc.circleFilter(dotCircleFilterPer,2);
+	////lc.sizeFilter(dotNoneMinSize,3000);
+	//// 円表示
+	//for(int i=0;i<lc.num;i++){
+	//	if(lc.flags[i]){
+	//		draw.circle(lc(i),(int)sqrt(lc.sizes[i]/CV_PI),cv::Scalar(255,0,0));
+	//		//cout << "OK:" << labelCenter.sizes[i] << endl;
+	//	}else{
+	//		if(lc.sizes[i]<2000)
+	//			draw.circle(lc(i),(int)sqrt(lc.sizes[i]/CV_PI),cv::Scalar(0,255,0));
+	//		//cout << "NG:" << labelCenter.sizes[i] << endl;
+	//	}
+	//}
+	//draw.imshow("test");
+
+	//	Image draw;
+	//draw.clone(src);
+	//drawTypePoints(draw,DiceInfo::none,cv::Scalar(255,0,0));
+	//drawTypePoints(draw,DiceInfo::small,cv::Scalar(0,255,0));
+	//drawTypePoints(draw,DiceInfo::middle,cv::Scalar(255,255,0));
+	//drawTypePoints(draw,DiceInfo::large,cv::Scalar(255,0,255));
+	//draw.imshow("test");
+	//cv::waitKey(0);
+
 	Dot1Point dot1;
 	vector<int> dot1Num;
 
@@ -873,7 +917,8 @@ void DiceDetection::getDot1Points(){
 
 	// 点群から1の目の削除
 	for(int j=0;j<dot1Points.size();j++){
-		if(allPoints.types[dot1Points.pointNums[j]] == DiceInfo::large){
+		if(allPoints.types[dot1Points.pointNums[j]] == DiceInfo::large || 
+			allPoints.types[dot1Points.pointNums[j]] == DiceInfo::middle){
 			allPoints.types[dot1Points.pointNums[j]] = DiceInfo::small;
 			dot1Points.dot1s[j].type = DiceInfo::small;
 		}
@@ -906,13 +951,11 @@ void DiceDetection::getDot1Points(){
 	//Image draw;
 	//draw.clone(src);
 	//drawTypePoints(draw,DiceInfo::none,cv::Scalar(255,0,0));
-	////drawTypePoints(draw,DiceInfo::small,red);
-	////drawTypePoints(draw,DiceInfo::middle,green);
-	////drawTypePoints(draw,DiceInfo::large,white);
+	//drawTypePoints(draw,DiceInfo::small,cv::Scalar(0,255,0));
+	//drawTypePoints(draw,DiceInfo::middle,cv::Scalar(255,255,0));
+	//drawTypePoints(draw,DiceInfo::large,cv::Scalar(255,0,255));
 	//draw.imshow("test");
 	//cv::waitKey(0);
-
-
 
 
 	// さらに大サイコロと誤認した中サイコロの修正
@@ -1412,6 +1455,8 @@ void DiceDetection::getOddPoints(){
 	getDot6Points();
 	getDot4Points();
 }
+
+
 
 /******************
  *   erase
@@ -2537,10 +2582,10 @@ void DiceDetection::rotationImage(){
 int DiceDetection::rotatoKeyEvent(int key){
 	switch(key){
 	case 2424832: // [←]
-		rotatoAngle -= 2;
+		rotatoAngle -= 1;
 		break;
 	case 2555904: // [→]
-		rotatoAngle += 2;
+		rotatoAngle += 1;
 		break;
 	case 13:
 		src.rotation(src,rCenter,rotatoAngle);
@@ -3102,7 +3147,7 @@ void DiceDetection::run(){
 	_getDot4Points();
 
 	std::cout << "余り点検出" << std::endl;
-	getOddPoints();
+	//getOddPoints();
 
 	std::cout << "中心点検出" << std::endl;
 	getAllDotCenters();
@@ -3172,6 +3217,7 @@ void DiceDetection::testRun(){
 	Image alldot,allline,alldot3,correct;
 	Image types,kinds;
 	Timer timer;
+	Image draw;
 
 	std::cout << "開始 : " << std::flush;
 	std::cout << 0 << std::endl;
@@ -3195,8 +3241,13 @@ void DiceDetection::testRun(){
 	std::cout << (double)timer.getDiff()/Timer::PER_SEC << std::endl;
 	timer.lap();
 
-	drawAllPoints(alldot,cv::Scalar(0,255,0));
-	alldot.imshow("alldot");
+	
+	draw.clone(src);
+	drawTypePoints(draw,DiceInfo::none,cv::Scalar(255,0,0));
+	drawTypePoints(draw,DiceInfo::small,cv::Scalar(0,0,255));
+	drawTypePoints(draw,DiceInfo::middle,cv::Scalar(0,255,0));
+	drawTypePoints(draw,DiceInfo::large,cv::Scalar(255,255,255));
+	draw.imshow("allDots");
 	
 	std::cout << "1の目検出 : " << std::flush;
 	getDot1Points();
@@ -3212,9 +3263,19 @@ void DiceDetection::testRun(){
 	correctPointType();
 	std::cout << (double)timer.getDiff()/Timer::PER_SEC << std::endl;
 	timer.lap();
+
+	draw.clone(src);
+	drawTypePoints(draw,DiceInfo::none,cv::Scalar(255,0,0));
+	drawTypePoints(draw,DiceInfo::small,cv::Scalar(0,0,255));
+	drawTypePoints(draw,DiceInfo::middle,cv::Scalar(0,255,0));
+	drawTypePoints(draw,DiceInfo::large,cv::Scalar(255,255,255));
+	draw.imshow("correct");
 	
 	std::cout << "線分検出 : " << std::flush;
 	getAllLines();
+	alldot.clone(src);
+	drawAllLine(alldot,cv::Scalar(0,255,0),cv::Scalar(255,0,0));
+	alldot.imshow("allline");
 	std::cout << (double)timer.getDiff()/Timer::PER_SEC << std::endl;
 	timer.lap();
 
@@ -3223,10 +3284,18 @@ void DiceDetection::testRun(){
 	std::cout << (double)timer.getDiff()/Timer::PER_SEC << std::endl;
 	timer.lap();
 
+	draw.clone(src);
+	drawDot2Points(draw,cv::Scalar(0,0,255),cv::Scalar(0,0,255));
+	drawDot2Center(draw,cv::Scalar(255,0,0));
+	draw.imshow("dot2");
+
+
 	std::cout << "3点検出 : " << std::flush;
 	getAllDot3Points();
 	std::cout << (double)timer.getDiff()/Timer::PER_SEC << std::endl;
 	timer.lap();
+
+
 
 	std::cout << "5の目検出 : " << std::flush;
 	getDot5Points();
@@ -3260,7 +3329,6 @@ void DiceDetection::testRun(){
 
 
 	// 描写
-	Image draw;
 	draw.clone(src);
 
 	// 余り点の描写
@@ -3350,12 +3418,12 @@ void DiceDetection::drawRun(){
 	drawTypeDot5Points(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
 	drawTypeDot6Points(kinds,DiceInfo::middle,cv::Scalar(100,200,0));
 	
-	drawTypeDot1Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
-	drawTypeDot2Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
-	drawTypeDot3Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
-	drawTypeDot4Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
-	drawTypeDot5Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
-	drawTypeDot6Points(kinds,DiceInfo::large,cv::Scalar(255,0,0));
+	drawTypeDot1Points(kinds,DiceInfo::large,cv::Scalar(255,0,255));
+	drawTypeDot2Points(kinds,DiceInfo::large,cv::Scalar(255,0,255));
+	drawTypeDot3Points(kinds,DiceInfo::large,cv::Scalar(255,0,255));
+	drawTypeDot4Points(kinds,DiceInfo::large,cv::Scalar(255,0,255));
+	drawTypeDot5Points(kinds,DiceInfo::large,cv::Scalar(255,0,255));
+	drawTypeDot6Points(kinds,DiceInfo::large,cv::Scalar(255,0,255));
 
 
 }
@@ -3446,7 +3514,7 @@ void DiceDetection::outEncode(){
 					if(!flag) continue;
 					if(allDotCenters.types[i]==DiceInfo::small) dotSize = 50;
 					else if(allDotCenters.types[i]==DiceInfo::middle) dotSize = 1000;
-					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 800;
+					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 2000;
 					else dotSize = 0;
 					if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
 						if(allDotCenters.types[i] != DiceInfo::small &&
@@ -3486,7 +3554,7 @@ void DiceDetection::outEncode(){
 					if(!flag) continue;
 					if(allDotCenters.types[i]==DiceInfo::small) dotSize = 50;
 					else if(allDotCenters.types[i]==DiceInfo::middle) dotSize = 1000;
-					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 800;
+					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 2000;
 					else dotSize = 0;
 					if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
 						if(allDotCenters.types[i] != DiceInfo::small &&

@@ -54,6 +54,9 @@
     <ClCompile Include="Quinary.cpp" />
     <ClCompile Include="DiceCodeDecode.cpp" />
     <ClCompile Include="DiceCodeEncode.cpp" />
+    <ClCompile Include="Senary.cpp" />
+    <ClCompile Include="SenaryDecode.cpp" />
+    <ClCompile Include="SenaryEncode.cpp" />
     <ClCompile Include="StringMatching.cpp" />
     <ClCompile Include="StringPositions.cpp" />
   </ItemGroup>
@@ -78,6 +81,9 @@
     <ClInclude Include="Quinary.h" />
     <ClInclude Include="DiceCodeDecode.h" />
     <ClInclude Include="DiceCodeEncode.h" />
+    <ClInclude Include="Senary.h" />
+    <ClInclude Include="SenaryDecode.h" />
+    <ClInclude Include="SenaryEncode.h" />
     <ClInclude Include="StringMatching.h" />
     <ClInclude Include="StringPositions.h" />
   </ItemGroup>

@@ -18,6 +18,7 @@ void CodeDecode::init(string name){
 void CodeDecode::fileRead(string name){
 	std::ifstream ifs;
 	ifs.open(name);
+	codes.clear();
 	int code;
 	while(1){
 		ifs>>code;
@@ -132,6 +133,7 @@ void CodeDecode::output(){
 		ofs << str[i] << std::flush;
 	}
 	ofs.close();
+	str.clear();
 }
 
 
