@@ -22,7 +22,7 @@ void DiceDetection::init(){
 	src.resize(src,cv::Size(1920,1080));
 
 	// イベント系
-	mode.init(cv::Point(0,0),0,DiceInfo::middle,1);
+	mode.init(cv::Point(0,0),0,DiceInfo::large,1);
 	modeFlag = 2;
 	centerNum = -1;
 
@@ -39,7 +39,7 @@ void DiceDetection::init(Dir dir,string name){
 	src.resize(src,cv::Size(1920,1080));
 
 	// イベント系
-	mode.init(cv::Point(0,0),0,DiceInfo::middle,1);
+	mode.init(cv::Point(0,0),0,DiceInfo::large,1);
 	modeFlag = 2;
 	centerNum = -1;
 
@@ -2326,19 +2326,19 @@ int DiceDetection::keyEvent(int key){
 		mode.type = DiceInfo::large;
 		break;
 	case 'm':
-		mode.type = DiceInfo::middle;
+		//mode.type = DiceInfo::middle;
 		break;
 	case 's':
 		mode.type = DiceInfo::small;
 		break;
 	case 'n':
-		mode.type = DiceInfo::none;
+		//mode.type = DiceInfo::none;
 		break;
 	case 't':
-		modeFlag = 0;
+		//modeFlag = 0;
 		break;
 	case 'k':
-		modeFlag = 1;
+		//modeFlag = 1;
 		break;
 	case 'c':
 		modeFlag = 2;
@@ -3514,7 +3514,7 @@ void DiceDetection::outEncode(){
 					if(!flag) continue;
 					if(allDotCenters.types[i]==DiceInfo::small) dotSize = 50;
 					else if(allDotCenters.types[i]==DiceInfo::middle) dotSize = 1000;
-					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 2000;
+					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 3000;
 					else dotSize = 0;
 					if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
 						if(allDotCenters.types[i] != DiceInfo::small &&
@@ -3554,7 +3554,7 @@ void DiceDetection::outEncode(){
 					if(!flag) continue;
 					if(allDotCenters.types[i]==DiceInfo::small) dotSize = 50;
 					else if(allDotCenters.types[i]==DiceInfo::middle) dotSize = 1000;
-					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 2000;
+					else if(allDotCenters.types[i]==DiceInfo::large) dotSize = 3000;
 					else dotSize = 0;
 					if(Calc::getDistance2(allDotCenters[i],cv::Point2f(x,y))<dotSize/CV_PI){
 						if(allDotCenters.types[i] != DiceInfo::small &&

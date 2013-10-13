@@ -242,11 +242,11 @@ void StringMatching::lengthMatching(int n,int minsize){
 void StringMatching::matching(int n){
 	length1Matching();
 	length1SizeErase(2);
-	continuous1Matching();
-	length2Matching(2);
-	for(int k=3;k<n;k++){
-		lengthMatching(k,2);
-	}
+	//continuous1Matching();
+	//length2Matching(2);
+	//for(int k=3;k<n;k++){
+	//	lengthMatching(k,2);
+	//}
 }
 
 void StringMatching::dipsStr(int n){
@@ -269,43 +269,43 @@ void StringMatching::dipsStr(int n){
 		std::cout<<charPositions[i].getValue()<<":"<<charPositions[i].size()<<std::endl;
 	}
 
-	// 1•¶Žš˜A‘±
-	//continuous1Matching();
-	//continuous1LengthAndSizeErase(2,2);
-	std::cout<<"countinuous(1):"<<continuousStrs.size()<<std::endl;
-	for(int i=0;i<continuousStrs.size();i++){
-		for(int j=0;j<continuousStrs[i].length();j++){
-			std::cout<<continuousStrs[i].getValue()[j]<<std::flush;
-		}
-		std::cout<<":"<<continuousStrs[i].size()<<std::endl;
-	}
+	//// 1•¶Žš˜A‘±
+	////continuous1Matching();
+	////continuous1LengthAndSizeErase(2,2);
+	//std::cout<<"countinuous(1):"<<continuousStrs.size()<<std::endl;
+	//for(int i=0;i<continuousStrs.size();i++){
+	//	for(int j=0;j<continuousStrs[i].length();j++){
+	//		std::cout<<continuousStrs[i].getValue()[j]<<std::flush;
+	//	}
+	//	std::cout<<":"<<continuousStrs[i].size()<<std::endl;
+	//}
 
-	// 2•¶Žšˆ—
-	//length2Matching(2);
-	std::cout<<"length(2):"<<strPositions[0].size()<<std::endl;
-	//std::cout<<(double)timer.getNow()/1000.<<std::endl;
-	for(int i=0;i<strPositions[0].size();i++){
-		for(int j=0;j<strPositions[0][i].length();j++){
-			std::cout<<strPositions[0][i].getValue()[j]<<std::flush;
-		}
-		std::cout<<":"<<strPositions[0][i].size()<<std::flush;
-		std::cout<<":"<<strPositions[0][i].size(true)<<std::endl;
-	}
+	//// 2•¶Žšˆ—
+	////length2Matching(2);
+	//std::cout<<"length(2):"<<strPositions[0].size()<<std::endl;
+	////std::cout<<(double)timer.getNow()/1000.<<std::endl;
+	//for(int i=0;i<strPositions[0].size();i++){
+	//	for(int j=0;j<strPositions[0][i].length();j++){
+	//		std::cout<<strPositions[0][i].getValue()[j]<<std::flush;
+	//	}
+	//	std::cout<<":"<<strPositions[0][i].size()<<std::flush;
+	//	std::cout<<":"<<strPositions[0][i].size(true)<<std::endl;
+	//}
 
-	for(int k=3;k<n;k++){
-		// n•¶Žšˆ—
-		//lengthMatching(k,2);
-		if(strPositions[k-2].size())
-			std::cout<<"length("<< k <<"):"<<strPositions[k-2].size()<<std::endl;
-		//std::cout<<(double)timer.getNow()/1000.<<std::endl;
-		for(int i=0;i<strPositions[k-2].size();i++){
-			for(int j=0;j<strPositions[k-2][i].length();j++){
-				std::cout<<strPositions[k-2][i].getValue()[j]<<std::flush;
-			}
-			std::cout<<":"<<strPositions[k-2][i].size()<<std::flush;
-			std::cout<<":"<<strPositions[k-2][i].size(true)<<std::endl;
-		}
-	}
+	//for(int k=3;k<n;k++){
+	//	// n•¶Žšˆ—
+	//	//lengthMatching(k,2);
+	//	if(strPositions[k-2].size())
+	//		std::cout<<"length("<< k <<"):"<<strPositions[k-2].size()<<std::endl;
+	//	//std::cout<<(double)timer.getNow()/1000.<<std::endl;
+	//	for(int i=0;i<strPositions[k-2].size();i++){
+	//		for(int j=0;j<strPositions[k-2][i].length();j++){
+	//			std::cout<<strPositions[k-2][i].getValue()[j]<<std::flush;
+	//		}
+	//		std::cout<<":"<<strPositions[k-2][i].size()<<std::flush;
+	//		std::cout<<":"<<strPositions[k-2][i].size(true)<<std::endl;
+	//	}
+	//}
 }
 
 void StringMatching::dipsDice(int n){

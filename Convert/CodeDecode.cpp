@@ -15,6 +15,10 @@ void CodeDecode::init(string name){
 	setStr();
 }
 
+void CodeDecode::initRunlength(string name){
+	fileRead(name);
+}
+
 void CodeDecode::fileRead(string name){
 	std::ifstream ifs;
 	ifs.open(name);
@@ -29,6 +33,12 @@ void CodeDecode::fileRead(string name){
 }
 
 void CodeDecode::setStr(){
+	for(int i=0;i<codes.size();i++){
+		str.push_back(strTable(codes[i]));
+	}
+}
+
+void CodeDecode::setStr(vector<int> codes){
 	for(int i=0;i<codes.size();i++){
 		str.push_back(strTable(codes[i]));
 	}
@@ -126,6 +136,44 @@ char CodeDecode::strTable(int code){
 	}
 }
 
+vector<int> CodeDecode::runlength(){
+	int count;
+	int code;
+	vector<int> _codes;
+	bool flag;
+	for(int i=0;i<codes.size();i++){
+		if(codes[i]==0){
+			flag = true;
+			// •ÏŠ·
+		//	vector<short> count;
+			
+			code = codes[i-1];
+//			count.push_back(dice[i]-1);
+			//while(codes[++i]!=0){
+			//	if(i>=codes.size()) break;
+			if(i+1<codes.size()){;
+			count = codes[++i];
+			//}
+			//if(codes[i]=='\0') break;
+			//q.initq(count);
+			for(int j=0;j<count-1;j++){
+				_codes.push_back(code);
+			}
+			}
+		}else{
+			flag = false;
+			// ‚»‚Ì‚Ü‚Ü
+			_codes.push_back(codes[i]);
+		}
+	}
+	if(flag){
+		for(int j=0;j<count-1;j++){
+			_codes.push_back(code);
+		}
+	}
+	return _codes;
+}
+
 void CodeDecode::output(){
 	std::ofstream ofs;
 	ofs.open("str.txt");
@@ -134,6 +182,12 @@ void CodeDecode::output(){
 	}
 	ofs.close();
 	str.clear();
+}
+
+void CodeDecode::outputRunlength(){
+	vector<int> _codes = runlength();
+	setStr(_codes);
+	output();
 }
 
 

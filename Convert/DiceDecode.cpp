@@ -34,7 +34,7 @@ void DiceDecode::readIni(){
 	if(!dir.isExist(iniFileName)){
 		std::cout << iniFileName << "‚ðì¬‚µ‚Ü‚·B" << std::endl;
 		pt.put("File.dir",Dir().pwd());
-		pt.put("Timer.interval",20);
+		pt.put("Timer.interval",2);
 		write_ini(iniFileName,pt);
 		exit(1);
 	}
@@ -121,8 +121,10 @@ int DiceDecode::keyEvent(){
 		packetRegist();
 		packetMarge();
 		output();
+		send();
 		break;
 	case 'd':
+		packetDisplay();
 		output();
 		break;
 	case 'q':
@@ -214,6 +216,7 @@ void DiceDecode::packetMarge(){
 
 }
 
+
 void DiceDecode::output(){
 	std::cout<<"Decode ..."<<std::endl;
 	
@@ -225,8 +228,12 @@ void DiceDecode::output(){
 	//diceCodeDecode.initRunlength("DiceDecode.txt");
 	//diceCodeDecode.outputRunlength();
 	
-	codeDecode.init("CodeDecode.txt");
-	codeDecode.output();
+	// CodeDecode
+	//codeDecode.init("CodeDecode.txt");
+	//codeDecode.output();
+	codeDecode.initRunlength("CodeDecode.txt");
+	codeDecode.outputRunlength();
+
 	std::cout<<"End"<<std::endl;
 }
 

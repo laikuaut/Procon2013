@@ -20,7 +20,9 @@ void Encode::init(string name){
 }
 
 void Encode::run(){
-	codeEncode.output();
+	// CodeEncode
+	//codeEncode.output();
+	codeEncode.outputRunlength();
 
 	// SenaryEncode
 	senaryEncode.init("CodeEncode.txt");

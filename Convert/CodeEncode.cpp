@@ -33,6 +33,57 @@ void CodeEncode::setCode(){
 	}
 }
 
+vector<int> CodeEncode::runlength(){
+	int count=1;
+	int _count=1;
+	bool flag;
+	vector<int> _codes;
+	int i;
+	for(i=0;i<codes.size()-1;i++){
+		if(codes[i]==codes[i+1]){
+			count++; // ˜A‘±‚µ‚Ä‚¢‚é•¶Žš”
+		}else {
+			if(count>1){// ˜A‘±•¶Žš—ñ‚©‚ç”²‚¯‚é
+				flag = true;
+				_count=count;
+			}
+			count=1;// ‰Šú‰»
+		}
+		if(count==1){
+			if(flag){
+				if(_count>3){
+				// •ÏŠ·
+					_codes.push_back(codes[i]);
+					_codes.push_back(_runlength);
+					_codes.push_back(_count);
+				//	_codes.push_back(_runlength);
+					_count=1;
+				}else{
+				// ‚»‚Ì‚Ü‚Ü
+					for(int j=0;j<_count;j++)
+						_codes.push_back(codes[i]);
+					_count=1;
+				}				
+			}else{
+				// ‚»‚Ì‚Ü‚Ü‘‚«‰Á‚¦‚é
+				_codes.push_back(codes[i]);
+			}
+		}else{
+			// ‘‚«ž‚Ü‚È‚¢
+		}
+	}
+	// ÅŒã‚Ì•¶Žš
+	if(count>1){
+		_codes.push_back(codes[i]);
+		_codes.push_back(_runlength);
+		_codes.push_back(count);
+		_codes.push_back(_runlength);
+	}else{
+		_codes.push_back(codes[i]);
+	}
+	return _codes;
+}
+
 int CodeEncode::codeTable(char c){
 	switch(c){
 		case '!':return 116;break;//case '!':return 1;break;
@@ -130,6 +181,16 @@ void CodeEncode::output(){
 	ofs.open("CodeEncode.txt");
 	for(int i=0;i<codes.size();i++){
 		ofs << codes[i] << " " << std::flush;
+	}
+	ofs.close();
+}
+
+void CodeEncode::outputRunlength(){
+	vector<int> _codes = runlength();
+	std::ofstream ofs;
+	ofs.open("CodeEncode.txt");
+	for(int i=0;i<_codes.size();i++){
+		ofs << _codes[i] << " " << std::flush;
 	}
 	ofs.close();
 }

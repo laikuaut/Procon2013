@@ -15,7 +15,10 @@ public:
 
 	void fileRead(string name);
 	void setStr();
+	void setStr(vector<int> codes);
 	char strTable(int code);
+
+	vector<int> runlength();
 
 public:
 	CodeDecode(void);
@@ -23,6 +26,9 @@ public:
 
 	void init(string name);
 	void output();
+
+	void initRunlength(string name);
+	void outputRunlength();
 
 };
 

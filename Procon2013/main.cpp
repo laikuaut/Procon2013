@@ -1206,8 +1206,8 @@ void info(cv::Mat& img){
  */
 //int main(int argc,char** argv){
 //	StringMatching sm;
-//	sm.init("ans.txt",true);
-//	sm.dipsDice(2000);
+//	sm.init("input_11.txt");
+//	sm.dipsStr(2000);
 //}
 
 /************************
@@ -1217,6 +1217,7 @@ void info(cv::Mat& img){
 //	CodeEncode ce;
 //	ce.init(argv[1]);
 //	ce.output();
+//	ce.outputRunlength();
 //}
 
 /************************
@@ -1224,8 +1225,10 @@ void info(cv::Mat& img){
  */
 //int main(){
 //	CodeDecode cd;
-//	cd.init("CodeDecode.txt");
-//	cd.output();
+//	//cd.init("CodeDecode.txt");
+//	//cd.output();
+//	cd.initRunlength("CodeDecode.txt");
+//	cd.outputRunlength();
 //}
 
 /************************
@@ -1267,12 +1270,15 @@ void info(cv::Mat& img){
 //	sd.output();
 //}
 
+
+
 /************************
  * Encode Testing
  */
 int main(int argc,char** argv){
 	Encode encode;
 	encode.init(argv[1]);
+	//encode.init("test.txt");
 	encode.run();
 }
 

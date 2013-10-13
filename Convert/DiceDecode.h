@@ -5,6 +5,7 @@
 #include"DiceCodeDecode.h"
 #include"CodeDecode.h"
 #include"SenaryDecode.h"
+//#include<Windows.h>
 
 namespace pro{
 
@@ -47,6 +48,8 @@ private:
 
 	// •¶š—ño—Í
 	void output();
+
+	void send();
 
 public:
 	DiceDecode(void);

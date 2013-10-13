@@ -15,12 +15,19 @@ private:
 	void setCode();
 	int codeTable(char c);
 
+	static int const _runlength = 0;
+	vector<int> runlength();
+
 public:
 	CodeEncode(void);
 	~CodeEncode(void);
 
 	void init(string name);
 	void output();
+
+	void outputRunlength();
+
+
 
 };
 
