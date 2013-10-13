@@ -772,7 +772,6 @@ private:
 	void drawRun();
 	void drawMousePoint(Image& src,string winName);
 	void outRun();
-	void outEncode();
 
 	// 実行処理関連
 	void run();
@@ -789,6 +788,7 @@ public:
 	// 描写操作処理
 	void drawing();
 	void draw();
+	void outEncode();
 
 	// 外部からのキー操作
 	void setMode(int key);

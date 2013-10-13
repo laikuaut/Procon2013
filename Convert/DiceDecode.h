@@ -23,6 +23,9 @@ private:
 	CodeDecode codeDecode;
 	SenaryDecode senaryDecode;
 
+	// タイマー機能
+	int interval;
+
 private:
 
 	void readIni();

@@ -1270,20 +1270,20 @@ void info(cv::Mat& img){
 /************************
  * Encode Testing
  */
-//int main(int argc,char** argv){
-//	Encode encode;
-//	encode.init(argv[1]);
-//	encode.run();
-//}
+int main(int argc,char** argv){
+	Encode encode;
+	encode.init(argv[1]);
+	encode.run();
+}
 
 /************************
  * Decode Testing
  */
-int main(int argc,char** argv){
-	Decode decode;
-	decode.init();
-	decode.run();
-}
+//int main(int argc,char** argv){
+//	Decode decode;
+//	decode.init();
+//	decode.run();
+//}
 
 /**
 

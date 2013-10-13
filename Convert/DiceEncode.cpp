@@ -253,7 +253,7 @@ void DiceEncode::drawing(){
 		base.imshow("drawing");
 
 		dst.clone(base);
-		draw(dst);
+		drawRect(dst);
 		dst.imshow("drawing");
 
 		if(diceDraws.size()>0)

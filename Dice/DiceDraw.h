@@ -31,6 +31,7 @@ protected:
 	void onMouse_impl(int event,int x,int y,int flag);
 	
 	void draw(Image& src = Image(), bool clear = false);
+	void drawRect(Image& src=Image(), bool clear = false);
 	void keyEvent();
 
 	void setPoint(int x,int y);

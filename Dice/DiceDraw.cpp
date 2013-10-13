@@ -123,6 +123,7 @@ void DiceDraw::draw(Image& src, bool clear){
 
 	case DiceInfo::middle: // 中サイコロの描写処理
 		src.rectangle(n_dice.center,dm,dm,n_dice.angle,black,2);
+
 		radius = rate/5*4;
 		switch (n_dice.kind)
 		{
@@ -214,6 +215,58 @@ void DiceDraw::draw(Image& src, bool clear){
 
 
 }
+
+void DiceDraw::drawRect(Image& src, bool clear){
+	if(src.empty()) src = base;
+	int ds,dm,dl;
+	int radius;
+	int rate;
+	rate = this->rate;
+	cv::Scalar red(0,0,255),black(0,0,0);
+	ds = DiceInfo::DICE_S*rate;
+	dm = DiceInfo::DICE_M*rate;
+	dl = DiceInfo::DICE_L*rate;
+
+	DiceInfo n_dice;
+	n_dice = dice;
+
+	// サイコロ削除処理
+	if(clear){
+		if(label == -1) return;
+		red = cv::Scalar::all(255);
+		black = cv::Scalar::all(255);
+		n_dice = dices[label];
+		vector<DiceInfo>::iterator it = dices.begin();
+		for(it = dices.begin(); it != dices.end(); ++it){
+			if(it->equal(n_dice)){
+				dices.erase(it);
+				break;
+			}
+		}
+		dice_num--;
+		label = -1;
+		rate*=1.5;
+	}
+
+	// 描写処理
+	switch (n_dice.type)
+	{
+	case DiceInfo::small: // 小サイコロの描写処理
+		src.rectangle(n_dice.center,ds,ds,n_dice.angle,black,1);
+	case DiceInfo::middle: // 中サイコロの描写処理
+		src.rectangle(n_dice.center,dm,dm,n_dice.angle,black,2);
+	case DiceInfo::large: // 大サイコロの描写処理
+		src.rectangle(n_dice.center,dl,dl,n_dice.angle,black,2);
+	default:
+		break;
+	}
+
+
+
+}
+
+
+
 
 void DiceDraw::drawing(){
 

@@ -14,8 +14,6 @@ DiceDecode::~DiceDecode(void)
 void DiceDecode::init(){
 	num=0;
 	now=0;
-	readIni();
-	addFile();
 
 	// 最大送信数だけパケット数を確保
 	outPacketNums.resize(100);
@@ -23,6 +21,9 @@ void DiceDecode::init(){
 	for(int i=0;i<outPacketNums.size();i++){
 		outPacketNums[i]=-1;
 	}
+
+	readIni();
+	addFile();
 }
 
 void DiceDecode::readIni(){
@@ -33,6 +34,7 @@ void DiceDecode::readIni(){
 	if(!dir.isExist(iniFileName)){
 		std::cout << iniFileName << "を作成します。" << std::endl;
 		pt.put("File.dir",Dir().pwd());
+		pt.put("Timer.interval",20);
 		write_ini(iniFileName,pt);
 		exit(1);
 	}
@@ -42,7 +44,10 @@ void DiceDecode::readIni(){
 		this->dir.cd(value.get());
 		//std::cout << "file.dir : " << dir.pwd() << std::endl;
     }
-
+	if (boost::optional<int> value = pt.get_optional<int>("Timer.interval")) {
+		interval=value.get()*1000;
+		//std::cout << "file.dir : " << dir.pwd() << std::endl;
+    }
 }
 
 void DiceDecode::addFile(){
@@ -65,6 +70,12 @@ void DiceDecode::addFile(){
 				diceDetections.push_back(dd);
 				num++;
 				now=num-1;
+				
+				// oキー
+				diceDetections[now].outEncode();
+				packetRegist();
+				packetMarge();
+				output();
 			}
 		}
 	}
@@ -136,6 +147,7 @@ void DiceDecode::packetRegistDisplay(){
 	std::stringstream ss;
 	ss << "DiceToDecode_" << diceDetections[now].getPacket() << ".txt" << std::flush;
 	ifs.open(dir.pwd(ss.str()));
+	if(ifs.fail()) return;
 	char *str = new char[linemax];
 	//std::cout << std::endl;
 	std::cout<<"Packet"<< diceDetections[now].getPacket() << std::endl;
@@ -260,11 +272,19 @@ void DiceDecode::nowDisplay(){
 }
 
 void DiceDecode::drawing(){
+//	int interval;
+	Timer timer;
+	timer.start();
 	while (true)
 	{
+		if(timer.getDiff()>interval){
+			timer.lap(interval);
+			addFile();
+		}
 		if(!keyEvent()) break;
 		diceDetections[now].draw();
 	}
+
 }
 
 }
