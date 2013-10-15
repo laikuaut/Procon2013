@@ -319,20 +319,20 @@ void StringMatching::dipsDice(int n){
 	matching(n);
 
 	//// ˆê•¶šˆ—
-	//std::cout<<std::endl;
-	//std::cout<<"length(1):"<<charPositions.size()<<std::endl;
-	//for(int i=0;i<charPositions.size();i++){
-	//	std::cout<<(int)charPositions[i].getValue()<<":"<<charPositions[i].size()<<std::endl;
-	//}
+	std::cout<<std::endl;
+	std::cout<<"length(1):"<<charPositions.size()<<std::endl;
+	for(int i=0;i<charPositions.size();i++){
+		std::cout<<(int)charPositions[i].getValue()<<":"<<charPositions[i].size()<<std::endl;
+	}
 
 	// 1•¶š˜A‘±
-	std::cout<<"countinuous(1):"<<continuousStrs.size()<<std::endl;
-	for(int i=0;i<continuousStrs.size();i++){
-		for(int j=0;j<continuousStrs[i].length();j++){
-			std::cout<<(int)continuousStrs[i].getValue()[j]<<std::flush;
-		}
-		std::cout<<":"<<continuousStrs[i].size()<<std::endl;
-	}
+	//std::cout<<"countinuous(1):"<<continuousstrs.size()<<std::endl;
+	//for(int i=0;i<continuousstrs.size();i++){
+	//	for(int j=0;j<continuousstrs[i].length();j++){
+	//		std::cout<<(int)continuousstrs[i].getvalue()[j]<<std::flush;
+	//	}
+	//	std::cout<<":"<<continuousstrs[i].size()<<std::endl;
+	//}
 
 	//// 2•¶šˆ—
 	//std::cout<<"length(2):"<<strPositions[0].size()<<std::endl;
@@ -356,6 +356,18 @@ void StringMatching::dipsDice(int n){
 	//		std::cout<<":"<<strPositions[k-2][i].size(true)<<std::endl;
 	//	}
 	//}
+}
+
+int StringMatching::getMax1LengthNums(){
+	int max=0;
+	int max_num;
+	for(int i=0;i<charPositions.size();i++){
+		if(max<charPositions[i].size()){
+			max=charPositions[i].size();
+			max_num = charPositions[i].getValue();
+		}
+	}
+	return max_num;
 }
 
 

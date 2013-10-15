@@ -25,8 +25,12 @@ void Encode::run(){
 	codeEncode.outputRunlength();
 
 	// SenaryEncode
-	senaryEncode.init("CodeEncode.txt");
-	senaryEncode.output();
+	//senaryEncode.init("CodeEncode.txt");
+	//senaryEncode.output();
+
+	// QuinaryEncode	
+	quinaryEncode.init("CodeEncode.txt");
+	quinaryEncode.output();
 
 	// DiceCodeEncode
 	//diceCodeEncode.init("CodeEncode.txt");

@@ -57,6 +57,8 @@ public:
 	void dipsStr(int n);
 	void dipsDice(int n);
 
+	int getMax1LengthNums();
+
 	vector<char> getStr() const;
 	vector<CharPositions> getCharPositions() const;
 	vector<vector<StringPositions>> getStrPositions() const;

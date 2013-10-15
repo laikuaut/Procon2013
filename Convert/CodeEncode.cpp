@@ -150,7 +150,8 @@ int CodeEncode::codeTable(char c){
 		case 'b':return 62;break;
 		case 'c':return 63;break;
 		case 'd':return 120;break;//case 'd':return 64;break;
-		case 'e':return 125;break;//case 'e':return 65;break;
+		//case 'e':return 125;break;//case 'e':return 65;break;
+		case 'e':return 2;break;//case 'e':return 65;break;
 		case 'f':return 122;break;//case 'f':return 66;break;
 		case 'g':return 124;break;//case 'g':return 67;break;
 		case 'h':return 68;break;

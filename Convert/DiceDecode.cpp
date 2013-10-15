@@ -24,6 +24,8 @@ void DiceDecode::init(){
 
 	readIni();
 	addFile();
+
+	final_flag = false;
 }
 
 void DiceDecode::readIni(){
@@ -76,6 +78,8 @@ void DiceDecode::addFile(){
 				packetRegist();
 				packetMarge();
 				output();
+				if(final_flag)
+					send();
 			}
 		}
 	}
@@ -115,17 +119,21 @@ int DiceDecode::keyEvent(){
 		nowDisplay();
 		break;
 	case 'r':
-
+		break;
+	case 'f':
+		std::cout<<"final ON"<<std::endl;
+		//final_flag = true;
 		break;
 	case 'o':
 		packetRegist();
 		packetMarge();
 		output();
-		send();
+		//send();
 		break;
 	case 'd':
 		packetDisplay();
 		output();
+		//send();
 		break;
 	case 'q':
 		return 0;
@@ -221,8 +229,12 @@ void DiceDecode::output(){
 	std::cout<<"Decode ..."<<std::endl;
 	
 	// SenaryDecode
-	senaryDecode.init("DiceDecode.txt");
-	senaryDecode.output();
+	//senaryDecode.init("DiceDecode.txt");
+	//senaryDecode.output();
+
+	// QuinaryDecode
+	quinaryDecode.init("DiceDecode.txt");
+	quinaryDecode.output();
 
 	// DiceCodeDecode
 	//diceCodeDecode.initRunlength("DiceDecode.txt");

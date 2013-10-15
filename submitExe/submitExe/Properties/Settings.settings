@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ProCon2013.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SERVER_URL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.2.2</Value>
+    </Setting>
+    <Setting Name="PLAYER_ID" Type="System.String" Scope="User">
+      <Value Profile="(Default)">822474795</Value>
+    </Setting>
+    <Setting Name="TEXTURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">str.txt</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

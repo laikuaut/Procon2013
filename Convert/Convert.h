@@ -25,3 +25,5 @@
 #include"Senary.h"
 #include"SenaryEncode.h"
 #include"SenaryDecode.h"
+#include"QuinaryEncode.h"
+#include"QuinaryDecode.h"

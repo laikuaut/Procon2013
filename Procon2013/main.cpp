@@ -1206,8 +1206,8 @@ void info(cv::Mat& img){
  */
 //int main(int argc,char** argv){
 //	StringMatching sm;
-//	sm.init("input_11.txt");
-//	sm.dipsStr(2000);
+//	sm.init("CodeEncode.txt",true);
+//	sm.dipsDice(1);
 //}
 
 /************************
@@ -1270,26 +1270,42 @@ void info(cv::Mat& img){
 //	sd.output();
 //}
 
+/************************
+ * QuinaryEncode Testing
+ */
+//int main(){
+//	QuinaryEncode se;
+//	se.init("CodeEncode.txt");
+//	se.output();
+//}
 
+/************************
+ * QuinaryDecode Testing
+ */
+//int main(){
+//	QuinaryDecode sd;
+//	sd.init("DiceDecode.txt");
+//	sd.output();
+//}
 
 /************************
  * Encode Testing
  */
-int main(int argc,char** argv){
-	Encode encode;
-	encode.init(argv[1]);
-	//encode.init("test.txt");
-	encode.run();
-}
+//int main(int argc,char** argv){
+//	Encode encode;
+//	encode.init(argv[1]);
+//	//encode.init("test.txt");
+//	encode.run();
+//}
 
 /************************
  * Decode Testing
  */
-//int main(int argc,char** argv){
-//	Decode decode;
-//	decode.init();
-//	decode.run();
-//}
+int main(int argc,char** argv){
+	Decode decode;
+	decode.init();
+	decode.run();
+}
 
 /**
 

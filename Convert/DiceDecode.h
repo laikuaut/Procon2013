@@ -5,6 +5,7 @@
 #include"DiceCodeDecode.h"
 #include"CodeDecode.h"
 #include"SenaryDecode.h"
+#include"QuinaryDecode.h"
 //#include<Windows.h>
 
 namespace pro{
@@ -18,11 +19,14 @@ private:
 	Dir dir;
 	int now;
 	int num;
+	bool final_flag;
 	vector<int> outPacketNums;
 
 	DiceCodeDecode diceCodeDecode;
 	CodeDecode codeDecode;
-	SenaryDecode senaryDecode;
+	//SenaryDecode senaryDecode;
+	QuinaryDecode quinaryDecode;
+
 
 	// タイマー機能
 	int interval;

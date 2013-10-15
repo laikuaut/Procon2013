@@ -110,7 +110,8 @@ char CodeDecode::strTable(int code){
 		case 62:return 'b';break;
 		case 63:return 'c';break;
 		case 120:return 'd';break;//case 64:return 'd';break;
-		case 125:return 'e';break;//case 65:return 'e';break;
+		//case 125:return 'e';break;//case 65:return 'e';break;
+		case 2:return 'e';break;//case 65:return 'e';break;
 		case 122:return 'f';break;//case 66:return 'f';break;
 		case 124:return 'g';break;//case 67:return 'g';break;
 		case 68:return 'h';break;
