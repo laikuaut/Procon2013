@@ -228,23 +228,25 @@ void DiceDecode::packetMarge(){
 void DiceDecode::output(){
 	std::cout<<"Decode ..."<<std::endl;
 	
-	// SenaryDecode
-	//senaryDecode.init("DiceDecode.txt");
-	//senaryDecode.output();
+	// first step
+		// SenaryDecode
+		senaryDecode.init("DiceDecode.txt");
+		senaryDecode.output();
 
-	// QuinaryDecode
-	quinaryDecode.init("DiceDecode.txt");
-	quinaryDecode.output();
+		// QuinaryDecode
+		//quinaryDecode.init("DiceDecode.txt");
+		//quinaryDecode.output();
 
-	// DiceCodeDecode
-	//diceCodeDecode.initRunlength("DiceDecode.txt");
-	//diceCodeDecode.outputRunlength();
+		// DiceCodeDecode
+		//diceCodeDecode.initRunlength("DiceDecode.txt");
+		//diceCodeDecode.outputRunlength();
 	
-	// CodeDecode
-	//codeDecode.init("CodeDecode.txt");
-	//codeDecode.output();
-	codeDecode.initRunlength("CodeDecode.txt");
-	codeDecode.outputRunlength();
+	// second step
+		// CodeDecode
+		//codeDecode.init("CodeDecode.txt");
+		//codeDecode.output();
+		codeDecode.initRunlength("CodeDecode.txt");
+		codeDecode.outputRunlength();
 
 	std::cout<<"End"<<std::endl;
 }

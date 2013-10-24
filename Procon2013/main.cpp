@@ -1301,11 +1301,11 @@ void info(cv::Mat& img){
 /************************
  * Decode Testing
  */
-int main(int argc,char** argv){
-	Decode decode;
-	decode.init();
-	decode.run();
-}
+//int main(int argc,char** argv){
+//	Decode decode;
+//	decode.init();
+//	decode.run();
+//}
 
 /**
 

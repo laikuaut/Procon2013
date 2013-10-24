@@ -20,21 +20,24 @@ void Encode::init(string name){
 }
 
 void Encode::run(){
-	// CodeEncode
-	//codeEncode.output();
-	codeEncode.outputRunlength();
 
-	// SenaryEncode
-	//senaryEncode.init("CodeEncode.txt");
-	//senaryEncode.output();
+	// first step
+		// CodeEncode
+		//codeEncode.output();
+		codeEncode.outputRunlength();
 
-	// QuinaryEncode	
-	quinaryEncode.init("CodeEncode.txt");
-	quinaryEncode.output();
+	// second step
+		// SenaryEncode
+		senaryEncode.init("CodeEncode.txt");
+		senaryEncode.output();
 
-	// DiceCodeEncode
-	//diceCodeEncode.init("CodeEncode.txt");
-	//diceCodeEncode.outputRunlength();
+		// QuinaryEncode	
+		//quinaryEncode.init("CodeEncode.txt");
+		//quinaryEncode.output();
+
+		// DiceCodeEncode
+		//diceCodeEncode.init("CodeEncode.txt");
+		//diceCodeEncode.outputRunlength();
 
 	diceEncode.init("DiceEncode.txt");
 	diceEncode.drawing();

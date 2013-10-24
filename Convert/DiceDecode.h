@@ -24,7 +24,7 @@ private:
 
 	DiceCodeDecode diceCodeDecode;
 	CodeDecode codeDecode;
-	//SenaryDecode senaryDecode;
+	SenaryDecode senaryDecode;
 	QuinaryDecode quinaryDecode;
 
 
