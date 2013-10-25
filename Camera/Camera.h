@@ -158,12 +158,19 @@ public:
 	void setManualDirectoryPath(string path);
 	string getManualDirectoryPath() const;
 
+
 	/*************************
 	 *   ディレクトリ作成
 	 */
 
 	bool createAutoDirectory();
 	bool createManualDirectory();
+
+	/*************************
+	 *   ファイル検索
+	 */
+	void searchAutoFiles();
+	void searchManualFiles();
 
 	/*************************
 	 *   設定メソッド

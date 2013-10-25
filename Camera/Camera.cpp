@@ -89,6 +89,9 @@ void Camera::initCap(f_kind aFk,
 	a_dir_created = false;
 	m_dir_created = false;
 
+	a_cap_num=0;
+	m_cap_num=0;
+
 	setCounter(5);
 
 	setDirCreateFlag(Dir::ANOTHER_CREATE|Dir::CREATE_DIRS);
@@ -340,6 +343,33 @@ bool Camera::createManualDirectory(){
 	return false;
 }
 
+void Camera::searchAutoFiles(){
+	vector<string> names;
+	names = a_dir.getDirectoryFileNames();
+	for(vector<string>::iterator it=names.begin();it!=names.end();it++){
+		stringstream ss;
+		ss << a_cap_num;
+		if((a_name + ss.str() + ".jpg") == *it){
+			a_cap_num++;
+			cout << a_cap_num << endl;
+			it=names.begin();
+		}
+	}
+}
+
+void Camera::searchManualFiles(){
+	vector<string> names;
+	names = m_dir.getDirectoryFileNames();
+	for(vector<string>::iterator it=names.begin();it!=names.end();it++){
+		stringstream ss;
+		ss << m_cap_num;
+		if(m_name + ss.str() + ".jpg" == *it){
+			m_cap_num++;
+			it=names.begin();
+		}
+	}
+}
+
 void Camera::Set(){
 	// 様々な設定...
 	cap.set(CV_CAP_PROP_FRAME_WIDTH, width);
@@ -351,6 +381,8 @@ void Camera::manualCapture(){
 	Set();
 
 	createManualDirectory();
+
+	searchManualFiles();
 
 	printCaptureInfo();
 
@@ -389,6 +421,8 @@ void Camera::autoCapture(long interval,long time){
 	createAutoDirectory();
 	//createManualDirectory();
 
+	searchAutoFiles();
+
 	pro::Timer timer;
 	
 	// 撮影カウンター用
@@ -419,7 +453,7 @@ void Camera::autoCapture(long interval,long time){
 		switch(cv::waitKey(fps)){
 		case 's':  // タイマ開始
 			timer.start();
-			a_cap_num=0;
+			//a_cap_num=0;
 			cout << "start" << endl;
 			break;
 		case ' ':  // 停止/再開
@@ -467,6 +501,8 @@ void Camera::autoCapture(long interval,long time){
 		// 撮影カウンタ
 		}else if((Timer::m_sec(interval) - timer.getDiff())/Timer::PER_SEC < counter){
 			cout << counter-- << " " << flush;
+		}else if(timer.getState() == Timer::START){
+			cout << (double)interval-(double)timer.getDiff()/Timer::PER_SEC << "\t\t\t\r" << flush;
 		}
 
 		// 撮影終了

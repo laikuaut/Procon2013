@@ -54,7 +54,7 @@ void DiceDecode::readIni(){
 
 void DiceDecode::addFile(){
 	vector<string> paths;
-	paths = dir.getIntoPaths();
+	paths = dir.getDirectoryFilePaths();
 	for(int i=0;i<paths.size();i++){
 		if(Dir::getExtention(paths[i]) == ".jpg"){
 			bool flag = true;
@@ -177,7 +177,7 @@ void DiceDecode::packetDisplay(){
 }
 
 void DiceDecode::packetMarge(){
-	vector<string> files = dir.getIntoPaths();
+	vector<string> files = dir.getDirectoryFilePaths();
 	vector<string> decodeFiles;
 	string str = "DiceToDecode_";
 	string excection = ".txt";
