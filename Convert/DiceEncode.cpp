@@ -28,7 +28,7 @@ void DiceEncode::init(string name){
 	now = 0;
 	packetNum=1;
 	watch_num=0;
-	pattern=1;
+	pattern=2;
 	
 	createPacket();
 
@@ -196,13 +196,13 @@ void DiceEncode::keyEvent(){
 	switch (key)
 	{
 	case '1':
-		reCreatePacket(1);
+		//reCreatePacket(1);
 		break;
 	case '2':
 		reCreatePacket(2);
 		break;
 	case '3':
-		reCreatePacket(3);
+		//reCreatePacket(3);
 		break;
 	case '4':
 		break;

@@ -87,7 +87,7 @@ void DiceDecode::addFile(){
 
 void DiceDecode::delFile(){
 	if(diceDetections.size()==1) return;
-	diceDetections[now].clearAll();
+	//diceDetections[now].clearAll();
 	diceDetections.erase(diceDetections.begin()+now);
 	if(diceDetections.size()==now)
 		now--;

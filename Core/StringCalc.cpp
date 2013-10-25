@@ -61,11 +61,11 @@ int StringCalc::fileStringMatching(string ansfile,string file,bool disp){
 
 	// •\¦ˆ—
 	if(disp){
-		std::cout<<"³‰ğ•¶š—ñ"<<std::endl;
+		std::cout<<"³‰ğ•¶š—ñ("<< Dir::getFileName(ansfile) <<")"<<std::endl;
 		std::cout<<ans_str<<std::endl;
 		std::cout<<std::endl;
 
-		std::cout<<"o—Í•¶š—ñ"<<std::endl;
+		std::cout<<"o—Í•¶š—ñ("<< Dir::getFileName(file) <<")"<<std::endl;
 		std::cout<<str<<std::endl;
 		std::cout<<std::endl;
 
