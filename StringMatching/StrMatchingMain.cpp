@@ -11,6 +11,7 @@ int main(){
 
 	string ans,src;
 	Dir dir = Dir();
+	boost::posix_time::ptime ptime;
 	ptree pt;
 	if(!dir.isExist("StringMatching.ini")){
 		cout << "StringMatching.ini‚ðì¬‚µ‚Ü‚·B" << endl;
@@ -34,6 +35,15 @@ int main(){
 	else if(!dir.isExist(src)){
 		cout << src << "‚ª‚ ‚è‚Ü‚¹‚ñB" <<endl;
 	}else{
-		cout << StringCalc::fileStringMatching(ans,src) << endl;
+		cv::namedWindow("stringmatchi");
+		ptime = dir.getLastWriteTime(src);
+		StringCalc::fileStringMatching(ans,src,true);
+		while(cv::waitKey(30)!='q'){
+			if(dir.getLastWriteTime(src)!=ptime){
+				system("cls");
+				ptime = dir.getLastWriteTime(src);
+				StringCalc::fileStringMatching(ans,src,true);
+			}
+		}
 	}
 }

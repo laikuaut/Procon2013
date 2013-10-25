@@ -570,7 +570,6 @@ private:
 	void eraseTypeDot6Points(DiceInfo::dtype type);
 
 	// clear
-	void clearAll();
 	void clearAllPoints();
 	void clearAllLines();
 	void clearAllDot3Points();
@@ -790,6 +789,9 @@ public:
 	void draw();
 	void outEncode();
 
+	// 削除
+	void clearAll();
+
 	// 外部からのキー操作
 	void setMode(int key);
 
@@ -805,30 +807,5 @@ public:
 	// テスト用
 	void testRun();
 };
-
-/**
- 
- DiceDetection メモ
- 作業手順
- １．全点取得:getAllPoints()
-	1.1. 小中大の順番でサイズ指定（2段目に置かれた中サイコロと大サイコロの判別困難）
-	1.2. 1の目の小サイコロはlargeに設定
-	1.3. 1の目の中大サイコロはlargeに設定
- ２．１の目のサイコロ検出:getDot1Points()
-	2.1. 赤色抽出から1の目座標取得
-	2.2. 全点と座標比較、重なった点を全点においてfalse指定
-	2.3. 小サイコロの1の目をlargeからsmallへ直す
-	2.4. 周辺との座標の交わりから大中の1の目判別
- ３．サイズ判定修正:correctPointType()
-	3.1. 2段目に置いた中サイコロを大サイコロのサイズと誤判定
-	3.2. 周辺にあるサイズの点の数を比べることで修正
- ４．全線分取得:getAllLines()
-	4.1. サイコロのサイズごとに線分を描く
-	4.2. 独立した点を削除(none)
- ５．2の目の認識
-	5.1. 線分のサイズから2の目を含まない線分を抽出
-	5.2. 先に抽出した線分に使用されていない点を2の目の点候補とする
-	5.3. 角度と距離から2の目を決定
- */
 
 }

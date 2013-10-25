@@ -6,7 +6,6 @@ StringCalc::StringCalc(void)
 {
 }
 
-
 StringCalc::~StringCalc(void)
 {
 }
@@ -39,7 +38,7 @@ void StringCalc::randomStringOutput(int length,string filename){
 }
 
 
-int StringCalc::fileStringMatching(string ansfile,string file){
+int StringCalc::fileStringMatching(string ansfile,string file,bool disp){
 
 	// マッチング処理
 	int count=0;
@@ -58,6 +57,23 @@ int StringCalc::fileStringMatching(string ansfile,string file){
 	while(ans_str[count]==str[count]){
 		if(ans_str[count]=='\0') break;
 		count++;
+	}
+
+	// 表示処理
+	if(disp){
+		std::cout<<"正解文字列"<<std::endl;
+		std::cout<<ans_str<<std::endl;
+		std::cout<<std::endl;
+
+		std::cout<<"出力文字列"<<std::endl;
+		std::cout<<str<<std::endl;
+		std::cout<<std::endl;
+
+		std::cout<<"一致文字数 > "<<count<<std::endl;
+		for(int i=0;i<count;i++){
+			std::cout<<ans_str[i]<<std::flush;
+		}
+		std::cout<<std::endl;
 	}
 
 	ans_ifs.close();

@@ -85,6 +85,15 @@ void DiceDecode::addFile(){
 	}
 }
 
+void DiceDecode::delFile(){
+	if(diceDetections.size()==1) return;
+	diceDetections[now].clearAll();
+	diceDetections.erase(diceDetections.begin()+now);
+	if(diceDetections.size()==now)
+		now--;
+	num--;
+}
+
 int DiceDecode::keyEvent(){
 	int key=cv::waitKey(30);
 	diceDetections[now].setMode(key);
@@ -131,8 +140,9 @@ int DiceDecode::keyEvent(){
 		//send();
 		break;
 	case 'd':
-		packetDisplay();
-		output();
+		delFile();
+		//packetDisplay();
+		//output();
 		//send();
 		break;
 	case 'q':
@@ -252,7 +262,7 @@ void DiceDecode::output(){
 }
 
 void DiceDecode::nowDisplay(){
-	std::cout << "now:" << now << std::endl;
+	std::cout << "now:" << now <<"("<< names[now] <<")"<< std::endl;
 	
 	switch (diceDetections[now].getMode())
 	{
